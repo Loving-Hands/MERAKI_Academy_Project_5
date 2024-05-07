@@ -3,13 +3,13 @@ const clinkRouter = express.Router();
 const {
   createClinic,
   getAllClinic,
-  getClinicById,
-  getDoctorsBySpecialization,
+  getAllClinicsBySpecializationId,
 } = require("../controllers/clinic");
+const authentication=require('../middleware/authentication')
 
-clinkRouter.post("/create", createClinic);
+clinkRouter.post("/create",authentication, createClinic);
 clinkRouter.get("/", getAllClinic);
-clinkRouter.get("/:id", getClinicById);
-clinkRouter.get("/doctors/:id", getDoctorsBySpecialization);
+//clinkRouter.get("/:id", );
+clinkRouter.get("/:id", getAllClinicsBySpecializationId);
 
 module.exports = clinkRouter;
