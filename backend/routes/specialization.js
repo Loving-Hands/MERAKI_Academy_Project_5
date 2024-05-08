@@ -1,15 +1,13 @@
 const express = require("express");
 const specializationRouter = express.Router();
-
 const specializationController = require("../controllers/specialization.js");
-
 specializationRouter.post(
   "/",
   specializationController.createNewSpecialization
 );
 specializationRouter.get("/", specializationController.getAllSpecialization);
-specializationRouter.get(
+specializationRouter.put(
   "/:id",
-  specializationController.getAllClinicSpecializationByID
+  specializationController.editSpecializationById
 );
 module.exports = specializationRouter;
