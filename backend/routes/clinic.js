@@ -15,3 +15,4 @@ clinkRouter.get("/:id", getAllClinicsBySpecializationId);
 module.exports = clinkRouter;
 
 //test
+//test2
