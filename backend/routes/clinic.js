@@ -5,11 +5,13 @@ const {
   getAllClinic,
   getAllClinicsBySpecializationId,
 } = require("../controllers/clinic");
-const authentication=require('../middleware/authentication')
+const authentication = require("../middleware/authentication");
 
-clinkRouter.post("/create",authentication, createClinic);
+clinkRouter.post("/create", authentication, createClinic);
 clinkRouter.get("/", getAllClinic);
 //clinkRouter.get("/:id", );
 clinkRouter.get("/:id", getAllClinicsBySpecializationId);
 
 module.exports = clinkRouter;
+
+//test
