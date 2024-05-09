@@ -12,7 +12,7 @@ const createClinic = (req, res) => {
     RETURNING *
   `;
   
-  const values = [name, location, image_clinic, description, time_open, time_close, specialization, open_days, doctorId]; // إضافة doctorId إلى قائمة القيم
+  const values = [name, location, image_clinic, description, time_open, time_close, specialization, open_days, doctorId]; 
 
   pool
     .query(query, values)
@@ -62,7 +62,7 @@ console.log(specializationId)
 
   pool.query(query, values)
     .then((result) => {
-      res.status(200).json(result.rows); // إرجاع العيادات المستردة كاستجابة
+      res.status(200).json(result.rows);
     })
     .catch((error) => {
       console.error("Error fetching clinics:", error);

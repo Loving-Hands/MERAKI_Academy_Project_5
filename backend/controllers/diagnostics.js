@@ -1,22 +1,24 @@
 const {pool}=require('../models/db')
 
 
-const createDiginstoics=(req,res)=>{
-    const {diagnostics,image_diagnostics,user_id,doctor_id}=req.body;
-    const query=`INSERT INTO diagnostics (diagnostics,image_diagnostics,user_id,doctor_id) VALUES ($1,$2,$3,$4) RETURNING *`
-    const values=[diagnostics,image_diagnostics,user_id,doctor_id]
-pool.query(query,values)
-.then((result)=>{
-    res.status(201).json({ message: "created diagnostics" });
+const createDiginstoics = (req, res) => {
+    const { diagnostics, image_diagnostics } = req.body;
+    const doctorId = req.token.doctorId;
+    const clinicId = req.params.clinicId;
+    const userId = req.params.userId;
+    const query = `INSERT INTO diagnostics (diagnostics, image_diagnostics, user_id, doctor_id, clinic_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const values = [diagnostics, image_diagnostics, userId, doctorId, clinicId];
 
-})
-.catch((err)=>{
-    res.status(500).send("an error occurred while adding the clinic");
+    pool.query(query, values)
+        .then((result) => {
+            res.status(201).json({ message: "created diagnostics" });
+        })
+        .catch((err) => {
+            console.error("Error creating diagnostics:", err);
+            res.status(500).send("An error occurred while adding the diagnostics");
+        });
+};
 
-})
-
-
-}
 const getAllDiagnosticsWithDoctorNames = (req, res) => {
     const userId = req.token.userId;
     console.log(req.token)   
@@ -35,7 +37,17 @@ const getAllDiagnosticsWithDoctorNames = (req, res) => {
         });
 };
 
+/*const sendDiagnosticToUser = (req, res) => {
+    const { diagnostics, image_diagnostics } = req.body;
+    const doctorId = req.token.doctorId;
+    const clinicId = pool.query(`SELECT FROM clinics WHERE doctor_id=${doctorId}`)
+    pool.query(`INSERT INTOW (diagnostics,image_diagnostics) VALUES ($1,$2)`)
+};*/
+
+
+
 module.exports={
     createDiginstoics,
-    getAllDiagnosticsWithDoctorNames
+    getAllDiagnosticsWithDoctorNames,
+    
 }

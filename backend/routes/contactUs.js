@@ -1,8 +1,11 @@
 const express = require("express");
 const contactUsRouter = express.Router();
 
-const contactUsController = require("../controllers/contactUs.js");
+const {createCountactUs,getAllContactUsForRoleAdmin}=require('../controllers/contactUs')
+const authentication = require("../middleware/authentication");
+const authorization=require('../middleware/authorization')
 
-contactUsRouter.post("/", contactUsController.createContactUsForm);
+contactUsRouter.post('/create',createCountactUs)
+contactUsRouter.get('/',authentication,authorization("admin"),getAllContactUsForRoleAdmin)
 
 module.exports = contactUsRouter;
