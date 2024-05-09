@@ -4,18 +4,19 @@ const { pool } = require("../models/db");
 const createRatingByUserIdForClinic = (req, res) => {
   const { comment, rating } = req.body;
   const userId = req.token.userId;
-  const clinicId = req.params.clinicId; 
-  const ratingDate = new Date(); 
+  const clinicId = req.params.clinicId;
+  const ratingDate = new Date();
 
-  pool.query('SELECT * FROM clinics WHERE id = $1', [clinicId])
+  pool
+    .query("SELECT * FROM clinics WHERE id = $1", [clinicId])
     .then((clinicResult) => {
       if (clinicResult.rows.length === 0) {
-        throw new Error('Clinic not found');
+        throw new Error("Clinic not found");
       }
 
       const query = `INSERT INTO ratings (comment, rating, rating_date, clinic_id, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
       const values = [comment, rating, ratingDate, clinicId, userId];
-      
+
       return pool.query(query, values);
     })
     .then((result) => {
@@ -27,7 +28,7 @@ const createRatingByUserIdForClinic = (req, res) => {
     })
     .catch((err) => {
       console.error("Error executing SQL query:", err);
-      if (err.message === 'Clinic not found') {
+      if (err.message === "Clinic not found") {
         res.status(404).json({
           success: false,
           message: "Clinic not found",
@@ -42,18 +43,20 @@ const createRatingByUserIdForClinic = (req, res) => {
 };
 
 // بدنا نجيب معدل التقييم لكل عيادة عن طريق (الاي دي) الخاص بالعيادة
-const getAllRatingByClinicId = (req, res) => {
+const getAverageRatingByClinicId = (req, res) => {
   const clinicId = req.params.clinicId;
-  const query = 'SELECT AVG(rating) AS average_rating FROM ratings WHERE clinic_id = $1';
+  const query =
+    "SELECT AVG(rating) AS average_rating FROM ratings WHERE clinic_id = $1";
   const values = [clinicId];
 
-  pool.query(query, values)
+  pool
+    .query(query, values)
     .then((result) => {
       if (result.rows[0].average_rating === null) {
         return res.status(404).json({
           success: false,
           message: `No ratings found for clinic with ID ${clinicId}`,
-          result: null
+          result: null,
         });
       }
       const averageRating = result.rows[0].average_rating;
@@ -62,21 +65,55 @@ const getAllRatingByClinicId = (req, res) => {
         message: `Average Rating Of Clinic_ID =  ${clinicId}`,
         result: {
           clinic_id: clinicId,
-          average_rating: averageRating
-        }
+          average_rating: averageRating,
+        },
       });
     })
     .catch((error) => {
-      console.error('Error executing SQL query:', error);
+      console.error("Error executing SQL query:", error);
       res.status(500).json({
         success: false,
-        message: 'Internal Server Error',
-        result: null
+        message: "Internal Server Error",
+        result: null,
+      });
+    });
+};
+// بدنا نجيب العيادات من الاعلى تقييم إلى الاقل تقييم ضمن الاختصاص الواحد
+const getClinicsByTopRating = (req, res) => {
+  const specializationId = req.params.specializationId;
+  const query = `
+  SELECT clinics.specialization, specialization. name_specialization ,ratings.* FROM ratings
+   full outer join clinics On ratings.clinic_id= clinics.id full outer join specialization On clinics. specialization =  specialization. id where specialization. id = $1 ORDER BY rating desc
+  `;
+  pool.query(query, [specializationId])
+    .then((result) => {
+      // console.log(result.rows[4].id);
+      if (result.rows.specialization === null) {
+        res.status(404).json({
+          success: false,
+          message: `No ratings found for clinic with ID ${specializationId}`,
+          result: null
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `Clinics From Higher Rating To Lower Rating`,
+          result: result.rows
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error executing SQL query:", error);
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+        result: null,
       });
     });
 };
 
 module.exports = {
   createRatingByUserIdForClinic,
-  getAllRatingByClinicId,
+  getAverageRatingByClinicId,
+  getClinicsByTopRating,
 };
