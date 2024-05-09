@@ -1,8 +1,10 @@
 const express = require("express");
 const rateRouter = express.Router();
-const { Create_Comment } = require("../controllers/ratings");
+const { createRatingByUserIdForClinic } = require("../controllers/ratings");
 // Import users controllers
+const authentication=require('../middleware/authentication')
 
-rateRouter.post("/creatComment", Create_Comment);
+rateRouter.post("/:clinicId/",authentication,createRatingByUserIdForClinic);
 
 module.exports = rateRouter;
+
