@@ -1,6 +1,7 @@
 const express = require("express");
 const specializationRouter = express.Router();
 const specializationController = require("../controllers/specialization.js");
+const authentication = require("../middleware/authentication");
 specializationRouter.post(
   "/",
   specializationController.createNewSpecialization
@@ -8,6 +9,7 @@ specializationRouter.post(
 specializationRouter.get("/", specializationController.getAllSpecialization);
 specializationRouter.put(
   "/:id",
+  authentication,
   specializationController.editSpecializationById
 );
 module.exports = specializationRouter;

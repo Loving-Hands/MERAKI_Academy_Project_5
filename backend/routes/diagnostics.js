@@ -1,11 +1,17 @@
-const express=require('express')
-const routerDignostics=express.Router();
+const express = require("express");
+const routerDignostics = express.Router();
 
-const {createDiginstoics,getAllDiagnosticsWithDoctorNames,sendDiagnosticToUser}=require('../controllers/diagnostics')
-const authentication=require('../middleware/authentication')
+const {
+  createDiginstoics,
+  getAllDiagnosticsWithDoctorNames,
+} = require("../controllers/diagnostics");
+const authentication = require("../middleware/authentication");
 
-routerDignostics.post('/create/:clinicId/:userId',authentication,createDiginstoics)
-routerDignostics.get('/',authentication,getAllDiagnosticsWithDoctorNames)
-//routerDignostics.post('/send/:clinicId',authentication,sendDiagnosticToUser)
+routerDignostics.post(
+  "/create/:clinicId/:userId",
+  authentication,
+  createDiginstoics
+);
+routerDignostics.get("/", authentication, getAllDiagnosticsWithDoctorNames);
 
-module.exports=routerDignostics
+module.exports = routerDignostics;

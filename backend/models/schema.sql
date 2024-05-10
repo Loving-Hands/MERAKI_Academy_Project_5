@@ -88,12 +88,12 @@ CREATE TABLE ratings (
     FOREIGN KEY (clinic_id) REFERENCES clinics(id)
 );
 
-CREATE TABLE ContactUs (
+CREATE TABLE contactus (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     phone_number VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    Comments VARCHAR(255) NOT NULL
+    comment VARCHAR(255) NOT NULL
 );
 
 -----------
