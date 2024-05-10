@@ -59,12 +59,13 @@ exports.getAllAppointmentByClinicId = (req, res) => {
           message: `No Appointment For this Clinic`,
           result: result.rows,
         });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `All Appointment for this clinic is`,
+          result: result.rows,
+        });
       }
-      return res.status(200).json({
-        success: true,
-        message: `All Appointment for this clinic is`,
-        result: result.rows,
-      });
     })
     .catch((err) => {
       res.status(500).json({
@@ -119,4 +120,55 @@ exports.getAppointmentByUserId = (req, res) => {
       });
     });
 };
-exports.deleteAppointmentByClinicId = (req, res) => {};
+exports.deleteAppointmentByClinicId = (req, res) => {
+  const { appointmentId } = req.params;
+  const { doctorId } = req.token;
+  console.log("🚀 ~ exports.deleteAppointmentByClinicId ~ doctorId:", doctorId)
+  // const clinicId = pool
+  //   .query(`SELECT FROM clinics WHERE doctor_id = $1`, [doctorId])
+  //   .then((result) => {
+  //     console.log(result);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+
+  pool
+    .query("DELETE FROM appointment WHERE id = $1 RETURNING id, user_id", [
+      appointmentId,
+    ])
+    .then((result) => {
+      if (result.rowCount > 0) {
+        const deletedAppointment = result.rows[0];
+        const { user_id } = deletedAppointment;
+        pool
+          .query("SELECT full_name FROM users WHERE id = $1", [user_id])
+          .then((userResult) => {
+            const { full_name } = userResult.rows[0];
+            res.status(200).json({
+              success: true,
+              message: `Appointment ${full_name} has been successfully deleted.`,
+            });
+          })
+          .catch((userError) => {
+            res.status(500).json({
+              success: false,
+              message: "Failed to fetch user's full name.",
+              error: userError.message,
+            });
+          });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `No User For Deleted Appointment `,
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error.",
+        error: error.message,
+      });
+    });
+};

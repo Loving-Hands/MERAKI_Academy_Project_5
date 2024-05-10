@@ -15,10 +15,14 @@ appointmentRouter.get(
 );
 
 appointmentRouter.get(
-  "/user/:userId", 
+  "/user/:userId",
   authentication,
   appointmentController.getAppointmentByUserId
 );
-appointmentRouter.delete("/:clinicId/:appointmentId", appointmentController.deleteAppointmentByClinicId);
+appointmentRouter.delete(
+  "/:clinicId/:appointmentId",
+  authentication,
+  appointmentController.deleteAppointmentByClinicId
+);
 
 module.exports = appointmentRouter;
