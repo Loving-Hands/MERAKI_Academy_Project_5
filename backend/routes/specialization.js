@@ -4,6 +4,7 @@ const specializationController = require("../controllers/specialization.js");
 const authentication = require("../middleware/authentication");
 specializationRouter.post(
   "/",
+  authentication,
   specializationController.createNewSpecialization
 );
 specializationRouter.get("/", specializationController.getAllSpecialization);

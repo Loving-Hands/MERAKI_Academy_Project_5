@@ -1,6 +1,7 @@
 const { pool } = require("../models/db.js");
 exports.createAppointmentClinicIdByUserId = (req, res) => {
-  const { clinicId, userId } = req.params;
+  const { userId } = req.token;
+  const { clinicId } = req.params;
   const { date_time } = req.body;
   const clinicQuery = "SELECT * FROM clinics WHERE id = $1";
   pool
@@ -123,15 +124,15 @@ exports.getAppointmentByUserId = (req, res) => {
 exports.deleteAppointmentByClinicId = (req, res) => {
   const { appointmentId } = req.params;
   const { doctorId } = req.token;
-  console.log("🚀 ~ exports.deleteAppointmentByClinicId ~ doctorId:", doctorId)
-  // const clinicId = pool
-  //   .query(`SELECT FROM clinics WHERE doctor_id = $1`, [doctorId])
-  //   .then((result) => {
-  //     console.log(result);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  console.log("🚀 ~ exports.deleteAppointmentByClinicId ~ doctorId:", doctorId);
+  const clinicId = pool
+    .query(`SELECT * FROM clinics WHERE doctor_id = $1`, [doctorId])
+    .then((result) => {
+      console.log(result.rows);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   pool
     .query("DELETE FROM appointment WHERE id = $1 RETURNING id, user_id", [
@@ -171,4 +172,28 @@ exports.deleteAppointmentByClinicId = (req, res) => {
         error: error.message,
       });
     });
+};
+exports.deleteAppointmentByUserId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query("DELETE FROM appointment WHERE id = $1", [
+      id,
+    ]);
+
+    if (result.rowCount > 0) {
+      return res
+        .status(200)
+        .json({ success: true, message: "Appointment deleted successfully" });
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting appointment:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to delete appointment" });
+  }
 };

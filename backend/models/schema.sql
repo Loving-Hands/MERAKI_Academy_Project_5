@@ -95,6 +95,14 @@ CREATE TABLE contactus (
     email VARCHAR(255) NOT NULL,
     comment VARCHAR(255) NOT NULL
 );
+CREATE TABLE admins (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    role_id INT,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+);
 
 -----------
 -- <form id="workingDaysForm">

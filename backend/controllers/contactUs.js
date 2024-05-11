@@ -8,7 +8,9 @@ const createCountactUs = (req, res) => {
       [full_name, phone_number, email, comment]
     )
     .then((result) => {
-      res.status(201).json({ success: true, message: "Thank You" });
+      res
+        .status(201)
+        .json({ success: true, message: "Thank You We Contact You Soon" });
     })
     .catch((err) => {
       res.status(500).json({ message: err });
@@ -16,7 +18,6 @@ const createCountactUs = (req, res) => {
 };
 
 const getAllContactUsForRoleAdmin = (req, res) => {
-  const { role_id } = req.body.role_id;
   pool
     .query(`SELECT * FROM contactus `)
     .then((result) => {

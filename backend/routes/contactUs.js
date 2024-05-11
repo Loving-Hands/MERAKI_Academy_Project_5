@@ -6,9 +6,8 @@ const {
   getAllContactUsForRoleAdmin,
 } = require("../controllers/contactUs");
 const authentication = require("../middleware/authentication");
-const authorization = require("../middleware/authorization");
 
 contactUsRouter.post("/create", createCountactUs);
-contactUsRouter.get("/", authentication, getAllContactUsForRoleAdmin);
+contactUsRouter.get("/", getAllContactUsForRoleAdmin);
 
 module.exports = contactUsRouter;
