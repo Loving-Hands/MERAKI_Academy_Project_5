@@ -1,50 +1,18 @@
 const bcryptjs = require("bcryptjs");
 const { pool } = require("../models/db.js");
 const jwt = require("jsonwebtoken");
-exports.registerDoctor = async (req, res) => {
-  const {
-    full_name,
-    phone_number,
-    password,
-    email,
-    gender,
-    image_doctor,
-    specialization_doctor,
-  } = req.body;
-  const role_id = 2;
-  if (
-    !full_name ||
-    !phone_number ||
-    !password ||
-    !email ||
-    !gender ||
-    !image_doctor ||
-    !specialization_doctor
-  ) {
+exports.registerAdmin = async (req, res) => {
+  const { full_name, password, email } = req.body;
+  const role_id = 3;
+  if (!full_name || !password || !email) {
     return res.status(400).json({
       success: false,
-      message:
-        "All fields (full_name, phone_number, password, email, gender ,image_doctor , specialization_doctor ) are required",
+      message: "All fields (full_name, password, email ) are required",
     });
   }
   const encryptedPassword = await bcryptjs.hash(password, 9);
-  const query = `INSERT INTO doctors (full_name, phone_number, password, email, gender ,role_id , image_doctor ,specialization_doctor) VALUES ($1,$2,$3,$4,$5,$6 ,$7,$8) RETURNING *`;
-  const data = [
-    full_name,
-    phone_number,
-    encryptedPassword,
-    email.toLowerCase(),
-    gender,
-    role_id,
-    image_doctor,
-    specialization_doctor,
-  ];
-  if (phone_number.length <= 10) {
-    return res.status(400).json({
-      success: false,
-      message: "Phone number must be between 10",
-    });
-  }
+  const query = `INSERT INTO admins (full_name, password, email ,role_id ) VALUES ($1,$2,$3,$4) RETURNING *`;
+  const data = [full_name, encryptedPassword, email.toLowerCase(), role_id];
   pool
     .query(query, data)
     .then((result) => {
@@ -63,10 +31,10 @@ exports.registerDoctor = async (req, res) => {
     });
 };
 
-exports.loginDoctor = (req, res) => {
+exports.loginAdmin = (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
-  const query = `SELECT * FROM doctors WHERE email = $1`;
+  const query = `SELECT * FROM admins WHERE email = $1`;
   const data = [email.toLowerCase()];
   pool
     .query(query, data)
@@ -76,8 +44,7 @@ exports.loginDoctor = (req, res) => {
           if (err) res.json(err);
           if (response) {
             const payload = {
-              doctorId: result.rows[0].id,
-              country: result.rows[0].country,
+              adminId: result.rows[0].id,
               role: result.rows[0].role_id,
             };
             const options = { expiresIn: "1d" };

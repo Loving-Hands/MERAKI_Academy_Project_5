@@ -24,5 +24,10 @@ appointmentRouter.delete(
   authentication,
   appointmentController.deleteAppointmentByClinicId
 );
+appointmentRouter.delete(
+  "/:id",
+  authentication,
+  appointmentController.deleteAppointmentByUserId
+);
 
 module.exports = appointmentRouter;

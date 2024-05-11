@@ -2,8 +2,17 @@ const modalClinic = require("../routes/clinic");
 const { pool } = require("../models/db");
 
 const createClinic = (req, res) => {
-  const { name, location, image_clinic, description, time_open, time_close, specialization, open_days } = req.body;
-  const doctorId = req.token.doctorId; 
+  const {
+    name,
+    location,
+    image_clinic,
+    description,
+    time_open,
+    time_close,
+    specialization,
+    open_days,
+  } = req.body;
+  const doctorId = req.token.doctorId;
   console.log(req.token);
 
   const query = `
@@ -11,8 +20,18 @@ const createClinic = (req, res) => {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *
   `;
-  
-  const values = [name, location, image_clinic, description, time_open, time_close, specialization, open_days, doctorId]; 
+
+  const values = [
+    name,
+    location,
+    image_clinic,
+    description,
+    time_open,
+    time_close,
+    specialization,
+    open_days,
+    doctorId,
+  ];
 
   pool
     .query(query, values)
@@ -36,7 +55,7 @@ const getAllClinic = (req, res) => {
 };
 
 const getClinicById = (req, res) => {
-  const clinicId = req.params.id;
+  const { clinicId } = req.params;
   pool
     .query("SELECT * FROM clinics WHERE id = $1", [clinicId])
     .then((result) => {
@@ -52,15 +71,16 @@ const getClinicById = (req, res) => {
 };
 
 const getAllClinicsBySpecializationId = (req, res) => {
-  const specializationId = req.params.id
-console.log(specializationId)
+  const specializationId = req.params.id;
+  console.log(specializationId);
   const query = `
     SELECT * FROM clinics
     WHERE specialization = $1
   `;
   const values = [specializationId];
 
-  pool.query(query, values)
+  pool
+    .query(query, values)
     .then((result) => {
       res.status(200).json(result.rows);
     })
