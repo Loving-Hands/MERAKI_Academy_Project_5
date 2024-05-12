@@ -1,0 +1,12 @@
+.image-container {
+    height: 100vh; /* 100% من ارتفاع النافذة */
+    display: flex;
+    justify-content: center; /* توسيط الصورة عموديًا */
+    align-items: center; /* توسيط الصورة أفقيًا */
+}
+
+.image-container img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* يحافظ على نسبة الصورة ويوسعها/يضيقها حسب الحاجة */
+}
