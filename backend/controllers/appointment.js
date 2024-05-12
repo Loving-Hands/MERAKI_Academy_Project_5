@@ -1,4 +1,6 @@
 const { pool } = require("../models/db.js");
+// note
+// احيب الدكتور والعياده بعدها اعمل الحجز
 exports.createAppointmentClinicIdByUserId = (req, res) => {
   const { userId } = req.token;
   const { clinicId } = req.params;
