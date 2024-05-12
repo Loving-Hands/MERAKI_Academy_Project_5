@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function clinics() {
-  return (
-    <div>clinics</div>
-  )
+  return <div>clinics</div>;
 }
 
-export default clinics
+export default clinics;
