@@ -1,8 +1,10 @@
 import React from 'react'
-
+import Sptiolazation from "../components/Sptilization/index"
 function home() {
   return (
-    <div></div>
+    <div>
+      <Sptiolazation/>
+    </div>
   )
 }
 
