@@ -1,7 +1,12 @@
 import React from "react";
+import ClinicSpecialization from "../components/clinics/ClinicSpecialization.jsx";
 
 function clinics() {
-  return <div>clinics</div>;
+  return (
+    <>
+      <ClinicSpecialization />
+    </>
+  );
 }
 
 export default clinics;
