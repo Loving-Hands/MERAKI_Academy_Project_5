@@ -30,6 +30,12 @@ const register = async (req, res) => {
     gender,
     role_id,
   ];
+  if (phone_number.length <= 10) {
+    return res.status(400).json({
+      success: false,
+      message: "Phone number must be between 10",
+    });
+  }
   pool
     .query(
       `INSERT INTO users (full_name, age, phone_number, email, password, gender, role_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
