@@ -1,19 +1,22 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
+// import "./login.css";
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin, setUserId } from "../../service/redux/reducers/auth/authSlice";
+import {
+  setLogin,
+  setUserId,
+} from "../../service/redux/reducers/auth/authSlice";
 
 //====================================================================
 
 const login = () => {
   const dispatch = useDispatch();
-  const {isLoggedIn}= useSelector((state) => {
+  const { isLoggedIn } = useSelector((state) => {
     return {
       // token : state.auth.token,
-      isLoggedIn :state.auth.isLoggedIn,
+      isLoggedIn: state.auth.isLoggedIn,
       // userId : state.auth.userId
     };
   });
@@ -36,8 +39,8 @@ const login = () => {
       if (result.data) {
         console.log(result.data);
         setMessage("");
-        dispatch(setLogin(result.data.token))
-        dispatch(setUserId(result.data.userId))
+        dispatch(setLogin(result.data.token));
+        dispatch(setUserId(result.data.userId));
       } else throw Error;
     } catch (error) {
       console.log(error);
@@ -90,5 +93,5 @@ const login = () => {
       </div>
     </>
   );
-}
+};
 export default login;
