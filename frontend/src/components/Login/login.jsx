@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import "./style.css";
+import "./Login.css";
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import { setLogin, setUserId } from "../../service/redux/reducers/auth/authSlice
 
 //====================================================================
 
-function login() {
+const login = () => {
   const dispatch = useDispatch();
   const {isLoggedIn}= useSelector((state) => {
     return {
@@ -91,4 +91,4 @@ function login() {
     </>
   );
 }
-export default login
+export default login;
