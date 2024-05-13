@@ -1,12 +1,21 @@
-.image-container {
-    height: 100vh; /* 100% من ارتفاع النافذة */
+
+.text-container
+{
+ color: rgb(102, 102, 102);
+}
+.additional-info {
     display: flex;
-    justify-content: center; /* توسيط الصورة عموديًا */
-    align-items: center; /* توسيط الصورة أفقيًا */
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-.image-container img {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain; /* يحافظ على نسبة الصورة ويوسعها/يضيقها حسب الحاجة */
+.info-item {
+    flex-basis: 48%; /* Adjust the width as needed */
+    margin-bottom: 10px;
 }
+
+.info-icon {
+    margin-right: 10px;
+}
+
+
