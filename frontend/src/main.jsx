@@ -4,7 +4,7 @@ import App from './App.jsx';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
-import store from '../src/service/redux/store.jsx';
+import store from './Service/redux/store.jsx'; // Adjust the path to your Redux store
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -12,4 +12,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <App />
     </Provider>
   </React.StrictMode>
-)
+);
