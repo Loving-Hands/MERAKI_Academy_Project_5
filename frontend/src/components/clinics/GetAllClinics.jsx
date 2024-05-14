@@ -1,19 +1,37 @@
-import React, { useState } from "react";
-import { Routes, Route, useNavigate, Link, useParams } from "react-router-dom";
-import { IoLocation } from "react-icons/io5";
-import { FaUserMd } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setAllClinic } from "../../service/redux/reducers/clinics/clinicSlice.jsx";
+import axios from "axios";
 import { Rating } from "react-simple-star-rating";
+import { FaUserMd } from "react-icons/fa";
+import { IoLocation } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import backgroundImage from "./top-clinic.png";
 import testImageDoctor from "./testImageDoctor.jpg";
+
 import "./clinic.css";
 
 export default function ClinicSpecialization() {
+  const dispatch = useDispatch();
+  const clinics = useSelector((state) => state.clinic.allClinic);
+
   const [rating, setRating] = useState(1);
 
   const handleRating = (rating) => {
     setRating(rating);
-    console.log(rating);
   };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/clinic/`)
+      .then((result) => {
+        dispatch(setAllClinic(result.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dispatch]);
 
   return (
     <>
@@ -31,71 +49,69 @@ export default function ClinicSpecialization() {
           </div>
         </div>
       </section>
-      <Link to="/page-doctor">
-        <section className="doctor container">
-          <div className="card bg-light-subtle mt-4">
-            <img src={testImageDoctor} className="card-img-top" alt="Doctor" />
+
+      <section className="doctor container">
+        {clinics.map((clinic, index) => (
+          <div className="card bg-light-subtle mt-4" key={index}>
+            <img
+              src={clinic.image_clinic}
+              className="card-img-top"
+              alt="Doctor"
+            />
             <div className="card-body">
               <div className="text-section">
                 <h5 className="card-title fw-bold text-capitalize">
-                  <span>Doctor</span> <a href="#">Jamal Khalil</a>
+                  <span>Clinic</span> <a href="#">{clinic.name}</a>
                 </h5>
-                <p className="card-text">Dentist</p>
+                <p className="card-text">Doctor {clinic.doctor_name}</p>
                 <div className="star">
-                  <Rating onClick={handleRating} />
+                  <Rating initialValue={clinic.average_rating.split(":")[0]} />
                 </div>
                 <div className="more-details">
-                  <span>Joined Recently</span>
+                  <span>Specialization {clinic.specialization_name}</span>
                   <ul>
                     <li>
                       <FaUserMd />
-                      <span>Dentist Specialized in Cosmetic Dentistry</span>
+                      <span>
+                        {clinic.specialization_name + "," + clinic.description}
+                      </span>
                     </li>
                     <li>
                       <IoLocation />
-                      <span>Khaldi Street, Ibn Khaldon</span>
+                      <span>{clinic.location}</span>
                     </li>
                   </ul>
                 </div>
               </div>
               <div className="cta-section">
                 <div className="row">
-                  <div className="col-4">
+                  <div className="col-6">
                     <div className="appointment-box">
                       <h6 className="text-center">Today</h6>
                       <div className="time-info text-center">
-                        <strong>From:</strong> 9:00 AM
+                        <strong>From:</strong> {clinic.time_open.split(":")[0]}
+                        :00
                         <br />
-                        <strong>To:</strong> 6:00 PM
+                        <strong>To:</strong> {clinic.time_close.split(":")[0]}
+                        :00
                       </div>
                       <div className="footer">
                         <button className="book-button">Book</button>
                       </div>
                     </div>
                   </div>
-                  <div className="col-4">
+                  <div className="col-6">
                     <div className="appointment-box">
                       <h6 className="text-center">Tomorrow</h6>
                       <div className="time-info text-center">
-                        <strong>From:</strong> 9:00 AM
+                        <strong>From:</strong> {clinic.time_open.split(":")[0]}
+                        :00
                         <br />
-                        <strong>To:</strong> 6:00 PM
+                        <strong>To:</strong> {clinic.time_close.split(":")[0]}
+                        :00
                       </div>
                       <div className="footer">
                         <button className="book-button">Book</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div className="appointment-box">
-                      <h6 className="text-center">Date</h6>
-                      <div className="time-info text-center">
-                        <strong>From:</strong> 9:00 AM
-                        <br />
-                        <strong>To:</strong> 6:00 PM
-                      </div>
-                      <div className="footer">
-                        <button className="book-button ">Book</button>
                       </div>
                     </div>
                   </div>
@@ -103,8 +119,8 @@ export default function ClinicSpecialization() {
               </div>
             </div>
           </div>
-        </section>
-      </Link>
+        ))}
+      </section>
     </>
   );
 }

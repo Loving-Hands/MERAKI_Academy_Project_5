@@ -1,5 +1,5 @@
 import React from "react";
-import ClinicSpecialization from "../components/clinics/ClinicSpecialization.jsx";
+import ClinicSpecialization from "../components/clinics/GetAllClinics.jsx";
 
 function clinics() {
   return (

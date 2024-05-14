@@ -45,7 +45,25 @@ const createClinic = (req, res) => {
 
 const getAllClinic = (req, res) => {
   pool
-    .query(`SELECT * FROM clinics `)
+    .query(
+      `
+      SELECT 
+        clinics.*,
+        doctors.full_name AS doctor_name,
+        specialization.name_specialization AS specialization_name,
+        COALESCE(AVG(ratings.rating), 0) AS average_rating
+      FROM 
+        clinics
+      LEFT JOIN 
+        doctors ON clinics.doctor_id = doctors.id
+      LEFT JOIN 
+        ratings ON clinics.id = ratings.clinic_id
+      LEFT JOIN 
+        specialization ON clinics.specialization = specialization.id
+      GROUP BY 
+        clinics.id, doctors.full_name, specialization.name_specialization
+    `
+    )
     .then((result) => {
       res.status(201).json(result.rows);
     })
