@@ -84,7 +84,7 @@ const login = () => {
                       >
                         <input
                           type="email"
-                          value=""
+                          value={email}
                           name="email"
                           id="formik-input__input--email"
                           className="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
@@ -105,7 +105,7 @@ const login = () => {
                       >
                         <input
                           type="password"
-                          value=""
+                          value={password}
                           name="password"
                           id="formik-input__input--password"
                           className="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"

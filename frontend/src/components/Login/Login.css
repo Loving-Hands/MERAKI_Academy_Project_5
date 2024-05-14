@@ -21,7 +21,7 @@ div {
 .bvCdCw {
   width: 95%;
   max-width: 1170px;
-  margin: auto;
+  margin: 30px auto;
   direction: ltr;
 }
 @media only screen and (max-width: 767px) {
