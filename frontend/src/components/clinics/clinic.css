@@ -1,4 +1,4 @@
-a {
+/* a {
   text-decoration: none !important;
 }
 .all-title-box {
@@ -33,7 +33,7 @@ a {
   z-index: 2;
 }
 
-/* PreviewCard.css */
+/* PreviewCard.css 
 .card {
   max-width: 100%;
   flex-direction: row;
@@ -54,12 +54,12 @@ a {
   color: var(--sup-main-color);
   font-weight: inherit;
 }
-/* ------star started ---- */
+/* ------star started ---- 
 .doctor .star svg {
   height: 25px;
   width: 25px;
 }
-/* ------star End  ---- */
+/* ------star End  ---- 
 
 .card img {
   max-width: 20%;
@@ -81,7 +81,7 @@ a {
   align-items: flex-end;
   justify-content: space-between;
 }
-
+/*  
 @media screen and (max-width: 475px) {
   .card {
     font-size: 0.9em;
@@ -108,7 +108,7 @@ a {
   color: var(--main-color);
 }
 
-/* -----appointment-box---- */
+/* -----appointment-box---- 
 .appointment-box {
   border: 1px solid rgba(102, 102, 102, 0.158);
   border-radius: 4px;
