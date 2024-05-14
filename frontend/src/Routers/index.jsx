@@ -23,7 +23,7 @@ export const router =createBrowserRouter([
                 element:<Login/>
             },
             {
-                path:"regester",
+                path:"register",
                 element:<Regester/>
             },
             {

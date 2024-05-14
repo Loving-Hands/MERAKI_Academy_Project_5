@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setSpatlization } from "../../service/redux/reducers/specialization/clinicSpecialization";
+import  {setSpatlization}  from "../../service/redux/reducers/specialization/clinicSpecialization";
 import { Carousel } from "react-bootstrap";
 import "../Sptilization/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PiHandshakeThin } from "react-icons/pi";
+import { IoPersonSharp } from "react-icons/io5";
+import { SlCalender } from "react-icons/sl";
+import { RiSecurePaymentLine } from "react-icons/ri";
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 import {
   faSearch,
@@ -20,7 +25,7 @@ function Index() {
   );
   const [currentImage, setCurrentImage] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerSlide] = useState(5);
+  const [itemsPerSlide] = useState(4);
 
   const images = [
     "https://media.post.rvohealth.io/wp-content/uploads/2020/08/Doctors_For_Men-732x549-thumbnail.jpg",
@@ -107,47 +112,105 @@ function Index() {
           )}
         </Carousel>
       </div>
-      {/* Additional div with desired text and icons */}
-      <div className="additional-info-container">
-        <div
-          className="additional-info"
-          style={{ textAlign: "right", color: "#333" }}
-        >
-          <div className="info-item">
-            <FontAwesomeIcon icon={faSearch} className="info-icon" />
-            <span>ابحث و احجز كشف مع دكتور في عيادة أو مستشفى.</span>
-          </div>
-          <div className="info-item">
-            <FontAwesomeIcon icon={faStar} className="info-icon" />
-            <span>تقييمات حقيقية من المرضى</span>
-          </div>
-          <div className="info-item">
-            <FontAwesomeIcon icon={faStar} className="info-icon" />
-            <span>
-              تقييمات الدكاترة من مرضى حجزوا على فيزيتا و زاروا الدكتور بالفعل.
-            </span>
-          </div>
-          <div className="info-item">
-            <FontAwesomeIcon icon={faCheckCircle} className="info-icon" />
-            <span>حجزك مؤكد مع الدكتور</span>
-          </div>
-          <div className="info-item">
-            <FontAwesomeIcon icon={faCheckCircle} className="info-icon" />
-            <span>حجزك مؤكد بمجرد اختيارك من المواعيد المتاحة للدكتور.</span>
-          </div>
-          <div className="info-item">
-            <FontAwesomeIcon icon={faMoneyBill} className="info-icon" />
-            <span>احجز مجاناً، و ادفع في العيادة</span>
-          </div>
-          <div className="info-item">
-            <FontAwesomeIcon icon={faMoneyBill} className="info-icon" />
-            <span>
-              سعر الكشف على فيزيتا نفس سعر الكشف في العيادة، بدون أي مصاريف
-              إضافية.
-            </span>
-          </div>
+      
+      <div className="rating">
+       <div className="container">
+       <div className="row pt-5 pb-5">
+            <div className="col-3">
+<div className="text-center"><PiHandshakeThin size={64}/></div>
+<h3>كل احتياجاتك على فيزيتا</h3>
+<h5>ابحث و احجز كشف مع دكتور في عيادة أو مستشفى.</h5>
+            </div>
+            <div className="col-3">
+<div className="text-center" ><IoPersonSharp size={64} /></div>
+<h3>تقييمات حقيقية من المرضى</h3>
+<h5>تقييمات الدكاترة من مرضى حجزوا على فيزيتا و زاروا الدكتور بالفعل.</h5>
+            </div>
+            <div className="col-3">
+<div className="text-center"><SlCalender size={64}/></div>
+<h3>حجزك مؤكد مع الدكتور</h3>
+<h5> حجزك مؤكد بمجرد اختيارك من المواعيد المتاحة للدكتور. </h5>
+            </div>
+            <div className="col-3">
+<div className="text-center"><RiSecurePaymentLine size={64}/></div>
+<h3>كل احتياجاتك على فيزيتا</h3>
+<h5>ابحث و احجز كشف مع دكتور في عيادة أو مستشفى.</h5>
+            </div>
+        </div>
+       </div>
+      </div>
+      <div className="rating ra">
+  <div className="container">
+    <div className="row pt-5 pb-5">
+      <div className="col-lg-6 col-md-12">
+        <div className="text-center">
+          <h3>إختار التخصص وإحجز كشف دكتور</h3>
+          <a href="#">دكتور جلدية</a>
+          <a href="#" style={{ marginRight: "10px" }}>دكتور اسنان</a>
+          <a href="#" style={{ marginRight: "10px" }}>دكتور نفسي</a>
+          <a href="#" style={{ marginRight: "10px" }}>دكتور اطفال وحديثي الولادة</a>
         </div>
       </div>
+      <div className="col-lg-6 col-md-12">
+        <div className="text-center">
+          <h3> المدينة وإحجز كشف دكتور</h3>
+          <a href="#">عمان</a>
+          <a href="#" style={{ marginRight: "10px" }}>اربد</a>
+          <a href="#" style={{ marginRight: "10px" }}>الزرقا</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer className="footer mt-auto py-3 bg-primary text-white">
+  <div className="container">
+    <div className="row">
+      <div className="col-md-3">
+        <h5 className="text-white">vezeeta-logo</h5>
+        <div>          <FaFacebook style={{ marginRight: '10px' }} />
+             <FaInstagram style={{ marginRight: '10px' }} />
+              <FaTwitter />
+                                        </div>  </div>
+      <div className="col-md-3">
+        <h5 className="text-white">من نحن</h5>
+        <ul className="list-unstyled text-white">
+          <li><a href="#" className="text-white">فريق فيزيتا</a></li>
+          <li><a href="#" className="text-white">وظائف</a></li>
+          <li><a href="#" className="text-white">الصحافة</a></li>
+        </ul>
+      </div>
+      <div className="col-md-3">
+        <h5 className="text-white">ابحث عن طريق</h5>
+        <ul className="list-unstyled text-white">
+          <li><a href="#" className="text-white">التخصص</a></li>
+          <li><a href="#" className="text-white">المنطقة</a></li>
+          <li><a href="#" className="text-white">التأمين</a></li>
+          <li><a href="#" className="text-white">المستشفى</a></li>
+          <li><a href="#" className="text-white">المركز</a></li>
+        </ul>
+      </div>
+      <div className="col-md-3">
+        <h5 className="text-white">هل أنت طبيب ؟</h5>
+        <ul className="list-unstyled">
+          <li><a href="#" className="text-white">انضم الى أطباء فيزيتا</a></li>
+        </ul>
+        <h5 className="text-white">تحتاج للمساعدة ؟</h5>
+        <ul className="list-unstyled">
+          <li><a href="#" className="text-white">مكتبة طبية</a></li>
+          <li><a href="#" className="text-white">اتصل بنا</a></li>
+          <li><a href="#" className="text-white">شروط الاستخدام</a></li>
+          <li><a href="#" className="text-white">اتفاقية الخصوصية</a></li>
+          <li><a href="#" className="text-white">اتفاقية الخصوصية للأطباء</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr />
+    <div className="text-center">
+      <p>&copy; {new Date().getFullYear()} LovingHands</p>
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 }
