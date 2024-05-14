@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setLogin,
-  setUserId,
-} from "../../service/redux/reducers/auth/authSlice";
+import {setLogin,setUserId} from "../../service/redux/reducers/auth/authSlice";
 
 //====================================================================
 

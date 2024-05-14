@@ -17,5 +17,35 @@
 .info-icon {
     margin-right: 10px;
 }
+.rating{
+    background: rgb(238, 240, 242);
 
+}
+.ra{
+    background-color: white;
+}
+
+.container {
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 992px) {
+    .container {
+      max-width: 960px; /* Adjust as needed */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      max-width: 720px; /* Adjust as needed */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .container {
+      max-width: 540px; /* Adjust as needed */
+    }
+  }
+  
 

@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    window.location.reload();  
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
       <div className="container d-flex justify-content-between align-items-center">
@@ -15,21 +23,23 @@ function Navbar() {
         <div className="ml-auto">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink exact to="/" className="nav-link">Home</NavLink>
+              <NavLink to="/login" className="nav-link">{t('تسجيل الدخول')}</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/login" className="nav-link">Login</NavLink>
+              <NavLink to="/register" className="nav-link">{t('التسجيل')}</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/register" className="nav-link">Register</NavLink>
+              <NavLink to="/contactus" className="nav-link">{t('اتصل بنا')}</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/contactus" className="nav-link">Contact Us</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/allClinics" className="nav-link">Clinics</NavLink>
+              <NavLink to="/allClinics" className="nav-link">{t('العيادات')}</NavLink>
             </li>
           </ul>
+        </div>
+        <h1>{t("Welcome to React")}</h1>
+        <div>
+          <button onClick={() => changeLanguage('en')}>en</button>
+          <button onClick={() => changeLanguage('ar')}>ar</button>
         </div>
       </div>
     </nav>
