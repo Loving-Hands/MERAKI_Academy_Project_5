@@ -2,10 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts/Main";
 import Home from "../pages/home";
 import Login from "../pages/login";
-import Regester from "../pages/regester";
+import Register from "../pages/register";
 import ContactUs from "../pages/contactUs";
 import Clinics from "../pages/clinics";
 import InfoClinic from "../pages/infoClinic.jsx";
+import Specialization from "../pages/specialization";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Regester />,
+        element: <Register />,
       },
       {
         path: "contactus",
@@ -35,7 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "infoClinic/:id",
         element: <InfoClinic />,
-
+      },
+      {
+        path: "specialization/:id",
+        element: <Specialization />,
       },
     ],
   },

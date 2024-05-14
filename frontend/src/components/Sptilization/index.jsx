@@ -10,23 +10,25 @@ import { IoPersonSharp } from "react-icons/io5";
 import { SlCalender } from "react-icons/sl";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
-
 import {
   faSearch,
   faStar,
   faCheckCircle,
   faMoneyBill,
 } from "@fortawesome/free-solid-svg-icons";
+import { setSpatlizationById } from "../../service/redux/reducers/specialization/clinicSptlizationById";
+import { useNavigate } from "react-router-dom";
 
 function Index() {
   const dispatch = useDispatch();
   const clinic = useSelector(
     (state) => state.clinicSpecialization.spatlization
   );
+  const clinicSptlization=useSelector(state=> state.clinicSptlizationById.setSpatlizationById)
   const [currentImage, setCurrentImage] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerSlide] = useState(4);
-
+  const navigate=useNavigate();
   const images = [
     "https://media.post.rvohealth.io/wp-content/uploads/2020/08/Doctors_For_Men-732x549-thumbnail.jpg",
     "https://wp.globaluniversitysystems.com/mua/wp-content/uploads/sites/10/2023/02/istock-482499394.webp",
@@ -59,6 +61,11 @@ function Index() {
   const handleSelect = (selectedIndex, e) => {
     setCurrentIndex(selectedIndex);
   };
+  const handleSpecializationClick = (id) => {
+    navigate(`/specialization/${id}`);
+  };
+
+  
 
   return (
     <div>
@@ -87,7 +94,8 @@ function Index() {
                         key={subIndex}
                         className="text-center"
                         style={{ width: "30%" }}
-                      >
+                        onClick={() => handleSpecializationClick(specialization.id)}
+                        >
                         <div
                           className="card"
                           style={{ width: "90%", margin: "auto" }}

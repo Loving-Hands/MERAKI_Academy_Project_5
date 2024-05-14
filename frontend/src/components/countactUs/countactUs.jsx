@@ -1,105 +1,108 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
-import '../countactUs/index.css'
+import { Alert } from 'react-bootstrap';
+import '../countactUs/index.css';
+
 function ContactUs() {
-    const [contactMessage, setContactMessage] = useState("");
     const [fullName, setFullName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
     const [comment, setComment] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [countact, setCountact] = useState("")
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post("http://localhost:5000/contactUs/create", { fullName, phoneNumber, email, comment })
             .then((res) => {
-                setContactMessage("Message sent successfully!");
+                setCountact(res.data)
+                setErrorMessage("");
+                setSuccessMessage("Message sent successfully!");
                 setFullName("");
                 setPhoneNumber("");
                 setEmail("");
                 setComment("");
             })
             .catch((error) => {
-                setContactMessage("Error sending message. Please try again.");
+                setSuccessMessage("");
+                setErrorMessage("Error sending message. Please try again.");
             });
     };
 
     return (
-        <Container>
-            <Row className="justify-content-center">
-                <Col md={8}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>اتصل بنا</Card.Title>
-                            <Card.Text>نحن سعداء لتلقي استفساراتكم واقتراحاتكم.</Card.Text>
-                            <Row>
-                                <Col>
-                                    <Form onSubmit={handleSubmit}>
-                                        <Form.Group controlId="fullName">
-                                            <Form.Label>الاسم الكامل</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="الرجاء إدخال الاسم الكامل"
-                                                value={fullName}
-                                                onChange={(e) => setFullName(e.target.value)}
-                                            />
-                                        </Form.Group>
-
-                                        <Form.Group controlId="phoneNumber">
-                                            <Form.Label>رقم الموبايل</Form.Label>
-                                            <Form.Control
-                                                type="tel"
-                                                placeholder="الرجاء إدخال رقم الموبايل"
-                                                value={phoneNumber}
-                                                onChange={(e) => setPhoneNumber(e.target.value)}
-                                            />
-                                        </Form.Group>
-
-                                        <Form.Group controlId="email">
-                                            <Form.Label>البريد الإلكتروني</Form.Label>
-                                            <Form.Control
-                                                type="email"
-                                                placeholder="example@domain.com"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                        </Form.Group>
-
-                                        <Form.Group controlId="comment">
-                                            <Form.Label>التعليقات</Form.Label>
-                                            <Form.Control
-                                                as="textarea"
-                                                rows={3}
-                                                placeholder="الرجاء إدخال تعليقاتك"
-                                                value={comment}
-                                                onChange={(e) => setComment(e.target.value)}
-                                            />
-                                        </Form.Group>
-
-                                        <Button variant="primary" type="submit" onClick={handleSubmit}>
-                                            إرسال
-                                        </Button>
-                                    </Form>
-                                    {contactMessage && <p>{contactMessage}</p>}
-                                </Col>
-                                <Col md="auto">
-                                    <div className="text-center">
-                                        <p className='coo'>راسلنا على</p><br/>
-                                        <a href="mailto:customercare.jo@vezeeta.com">customercare.jo@vezeeta.com</a>
-                                        <div>
-                                            <FaFacebook style={{ marginRight: '10px' }} />
-                                            <FaInstagram style={{ marginRight: '10px' }} />
-                                            <FaTwitter />
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+        <section className="contact-sec sec-pad">
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="contact-detail">
+                            <h1 className="section-title">Contact us</h1>
+                            <ul className="contact-ul">
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <form className="contFrm">
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <input
+                                        type="text"
+                                        placeholder="Your Name"
+                                        className="inptFld"
+                                        required=""
+                                        value={fullName}
+                                        onChange={(e) => setFullName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                                    <input
+                                        type="email"
+                                        placeholder="Email Address"
+                                        className="inptFld"
+                                        required=""
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                                    <input
+                                        type="tel"
+                                        placeholder="Phone Number"
+                                        className="inptFld"
+                                        required=""
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-12">
+                                    <textarea
+                                        className="inptFld"
+                                        placeholder="Your Message..."
+                                        required=""
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-12">
+                                    <button
+                                        type="submit"
+                                        className="inptBtn"
+                                        onClick={handleSubmit}
+                                    >
+                                        SUBMIT
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        {successMessage && <Alert variant="success">{successMessage}</Alert>}
+                        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+                    </div>
+                </div>
+                <div style={{ textAlign: "center", marginTop: 20 }}>
+                    <p>Copyright © All rights reserved | Ajeet</p>
+                </div>
+            </div>
+        </section>
     );
 }
 
