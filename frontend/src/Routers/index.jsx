@@ -5,7 +5,7 @@ import Login from "../pages/login"
 import Regester from "../pages/regester"
 import ContactUs from "../pages/contactUs"
 import Clinics from "../pages/clinics"
-
+import Specialization from "../pages/specialization"
 
 
 
@@ -34,6 +34,10 @@ export const router =createBrowserRouter([
                 path:"allClinics",
                 element:<Clinics/>
             },
+            {
+                path:"/specialization/:id",
+            element:<Specialization/>
+            }
         ]
     }
 ])
