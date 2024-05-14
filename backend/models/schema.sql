@@ -25,7 +25,7 @@ CREATE TABLE doctors (
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
-CREATE TABLE roles (
+ CREATE TABLE roles (
 id SERIAL PRIMARY KEY,
 name_role VARCHAR(255) NOT NULL
 );
@@ -35,8 +35,6 @@ CREATE TABLE specialization (
     name_specialization VARCHAR(255) NOT NULL,
     image_specialization VARCHAR(255) NOT NULL
 );
-
-
 
 
 CREATE TABLE clinics (
