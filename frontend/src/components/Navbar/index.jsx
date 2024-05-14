@@ -8,7 +8,7 @@ function Navbar() {
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
-    window.location.reload();  
+   //window.location.reload();  
   };
 
   return (
