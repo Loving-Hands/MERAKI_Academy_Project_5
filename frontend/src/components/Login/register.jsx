@@ -50,15 +50,17 @@ const Register = () => {
   // =================================================================
 
   return (
-        <>
-        {!isLoggedIn ? (
-          <div class="MainContainerstyle__Container-sc-jzlwim-1 knppsE">
-            <div class="LimitWidthstyle__LimitWidthStyle-sc-heoo9k-0 bvCdCw">
-              <div class="Commonstyle__FormContainer-sc-1vgucvm-4 Commonstyle__CenteredFormContainer-sc-1vgucvm-5 euyaqY jGqWLg">
-                <div class="Commonstyle__FormTitle-sc-1vgucvm-6 kMaTNa">
-                  Sign Up
-                </div>
-                <div class="OrDividerstyle__DividerWrapper-sc-bewh18-0 hIpefi"></div>
+    <>
+      {!isLoggedIn ? (
+        <div class="MainContainerstyle__Container-sc-jzlwim-1 knppsE">
+          <div class="LimitWidthstyle__LimitWidthStyle-sc-heoo9k-0 bvCdCw">
+            <div class="Commonstyle__FormContainer-sc-1vgucvm-4 Commonstyle__CenteredFormContainer-sc-1vgucvm-5 euyaqY jGqWLg">
+              <div class="Commonstyle__FormTitle-sc-1vgucvm-6 kMaTNa">
+                Sign Up
+              </div>
+
+              <div class="OrDividerstyle__DividerWrapper-sc-bewh18-0 hIpefi"></div>
+              <form onSubmit={addNewUser}>
                 <div class="Commonstyle__FormBody-sc-1vgucvm-7 dGDvmy">
                   <form id="signup__form" method="POST" autocomplete="nope">
                     <fieldset class="Commonstyle__StylessFieldSet-sc-1vgucvm-13 gWyIEP">
@@ -83,7 +85,7 @@ const Register = () => {
                         >
                           <input
                             type="text"
-                            value=""
+                            value={full_name}
                             name="fullName"
                             id="formik-input__input--fullName"
                             data-testid="formik-input__input--fullName"
@@ -91,24 +93,44 @@ const Register = () => {
                             placeholder="First name and Last name"
                             autocomplete="nope"
                             class="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
+                            onChange={(e) => setFullName(e.target.value)}
                           />
                         </div>
                       </div>
                       <div class="Commonstyle__InputContainer-sc-1vgucvm-1 gcymtg">
                         <label
-                          id="telephone-input__label"
+                          id="formik-input__label--fullName"
+                          for="formik-input__input--fullName"
+                          data-testid="formik-input__label"
                           class="Commonstyle__Label-sc-1vgucvm-2 bfFgOv"
                         >
-                          Mobile Number
+                          Mobile Phone
                           <sup
-                            data-testid="telephone-input__required-asterisk"
+                            data-testid="formik-input__required-asterisk"
                             class="Commonstyle__RedStar-sc-1vgucvm-3 dHsDLj"
                           >
                             *
                           </sup>
                         </label>
-                        <div class="IntlTelInputStylestyle__IntlTellInputWrapper-sc-1orsn1f-0 iXpWfv"></div>
+                        <div
+                          id="formik-input__input-wrapper--fullName"
+                          class="FormikInputstyle__InputWrapper-sc-1sbuvhq-0 hhRUNF"
+                        >
+                          <input
+                            type="text"
+                            value={phone_number}
+                            name="phone_number"
+                            id="formik-input__input--phone_number"
+                            data-testid="formik-input__input--phone_number"
+                            accept=""
+                            placeholder="Mobile Number"
+                            autocomplete="nope"
+                            class="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                          />
+                        </div>
                       </div>
+
                       <div class="Commonstyle__InputContainer-sc-1vgucvm-1 gcymtg">
                         <label
                           id="formik-input__label--email"
@@ -130,7 +152,7 @@ const Register = () => {
                         >
                           <input
                             type="text"
-                            value=""
+                            value={email}
                             name="email"
                             id="formik-input__input--email"
                             data-testid="formik-input__input--email"
@@ -138,105 +160,69 @@ const Register = () => {
                             placeholder="example@domain.com"
                             autocomplete="nope"
                             class="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
                       </div>
                       <div class="Commonstyle__InputContainer-sc-1vgucvm-1 gcymtg">
                         <label
-                          id="radio-input__label"
+                          id="formik-input__label--gender"
+                          for="formik-input__input--gender"
+                          data-testid="formik-input__label"
                           class="Commonstyle__Label-sc-1vgucvm-2 bfFgOv"
                         >
                           Gender
-                          <sup class="Commonstyle__RedStar-sc-1vgucvm-3 dHsDLj">
+                          <sup
+                            data-testid="formik-input__required-asterisk"
+                            class="Commonstyle__RedStar-sc-1vgucvm-3 dHsDLj"
+                          >
                             *
                           </sup>
                         </label>
                         <div
-                          id="radio-input__input-wrapper"
-                          class="RadioInputstyle__InputWrapper-sc-1p78yw8-0 gHKMvo"
-                        >
-                          <div class="RadioButtonsGroupstyle__RadioButtonGroupContainer-sc-x0i629-0 dTnZbM">
-                            <div class="RadioButtonstyle__RadioButtonConatiner-sc-6zm6tw-0 jYAEzh">
-                              <input
-                                type="radio"
-                                id="formik-form__radio-button--female--input"
-                                readonly=""
-                                aria-label="radio button for Female"
-                                class="RadioButtonstyle__RadioButtonInput-sc-6zm6tw-1 fGspaX"
-                              />
-                              <label
-                                for="formik-form__radio-button--female--input"
-                                class="RadioButtonstyle__HiddenLabel-sc-6zm6tw-5 euFvTt"
-                              >
-                                Female
-                              </label>
-                              <span
-                                id="formik-form__radio-button--female--selector"
-                                class="RadioButtonstyle__Selector-sc-6zm6tw-2 bKTuZe"
-                              ></span>
-                              <span
-                                for="formik-form__radio-button--female--input"
-                                id="formik-form__radio-button--female--label"
-                                class="RadioButtonstyle__RadioButtonLabel-sc-6zm6tw-3 bhUxiy"
-                              >
-                                Female
-                              </span>
-                            </div>
-                            <div class="RadioButtonstyle__RadioButtonConatiner-sc-6zm6tw-0 jYAEzh">
-                              <input
-                                type="radio"
-                                id="formik-form__radio-button--male--input"
-                                readonly=""
-                                aria-label="radio button for Male"
-                                class="RadioButtonstyle__RadioButtonInput-sc-6zm6tw-1 fGspaX"
-                              />
-                              <label
-                                for="formik-form__radio-button--male--input"
-                                class="RadioButtonstyle__HiddenLabel-sc-6zm6tw-5 euFvTt"
-                              >
-                                Male
-                              </label>
-                              <span
-                                id="formik-form__radio-button--male--selector"
-                                class="RadioButtonstyle__Selector-sc-6zm6tw-2 bKTuZe"
-                              ></span>
-                              <span
-                                for="formik-form__radio-button--male--input"
-                                id="formik-form__radio-button--male--label"
-                                class="RadioButtonstyle__RadioButtonLabel-sc-6zm6tw-3 bhUxiy"
-                              >
-                                Male
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="Commonstyle__InputContainer-sc-1vgucvm-1 gcymtg">
-                        <label
-                          id="date-input__label"
-                          data-testid="date-input__label"
-                          class="Commonstyle__Label-sc-1vgucvm-2 bfFgOv"
-                        >
-                          Birth Date
-                        </label>
-                        <div
-                          id="date-input__input-wrapper"
+                          id="formik-input__input-wrapper--gender"
                           class="FormikInputstyle__InputWrapper-sc-1sbuvhq-0 hhRUNF"
                         >
                           <input
                             type="text"
-                            value=""
-                            name="birthDate"
-                            id="date-input__input"
-                            readonly=""
+                            value={gender}
+                            name="gender"
+                            id="formik-input__input--gender"
+                            data-testid="formik-input__input--gender"
+                            accept=""
+                            placeholder="Female Or Male"
+                            autocomplete="nope"
                             class="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
+                            onChange={(e) => setgender(e.target.value)}
                           />
                         </div>
                       </div>
-                      <div class="Commonstyle__InputContainer-sc-1vgucvm-1 ijOsQf">
+                      <div class="Commonstyle__InputContainer-sc-1vgucvm-1 gcymtg">
                         <label
-                          id="formik-input__label--password"
-                          for="formik-input__input--password"
+                          id="number-input__label"
+                          data-testid="number-input__label"
+                          class="Commonstyle__Label-sc-1vgucvm-2 bfFgOv"
+                        >
+                          Age
+                        </label>
+                        <div
+                          id="number-input__input-wrapper"
+                          class="FormikInputstyle__InputWrapper-sc-1sbuvhq-0 hhRUNF"
+                        >
+                          <input
+                            type="number"
+                            value={age}
+                            name="age"
+                            id="number-input__input"
+                            class="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
+                            onChange={(e) => setAge(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div class="Commonstyle__InputContainer-sc-1vgucvm-1 gcymtg">
+                        <label
+                          id="formik-input__label--passsword"
+                          for="formik-input__input--passsword"
                           data-testid="formik-input__label"
                           class="Commonstyle__Label-sc-1vgucvm-2 bfFgOv"
                         >
@@ -249,19 +235,20 @@ const Register = () => {
                           </sup>
                         </label>
                         <div
-                          id="formik-input__input-wrapper--password"
+                          id="formik-input__input-wrapper--passsword"
                           class="FormikInputstyle__InputWrapper-sc-1sbuvhq-0 hhRUNF"
                         >
                           <input
-                            type="password"
-                            value=""
-                            name="password"
-                            id="formik-input__input--password"
-                            data-testid="formik-input__input--password"
+                            type="text"
+                            value={password}
+                            name="passsword"
+                            id="formik-input__input--passsword"
+                            data-testid="formik-input__input--passsword"
                             accept=""
-                            placeholder=""
-                            autocomplete="new-password"
+                            placeholder="Your password"
+                            autocomplete="nope"
                             class="FormikInputstyle__InputField-sc-1sbuvhq-1 btSUkZ"
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </div>
                       </div>
@@ -277,8 +264,9 @@ const Register = () => {
                     </fieldset>
                   </form>
                 </div>
+                <hr class="Signupstyle__Divider-sc-3rlplb-2 jtOvKs"></hr>
                 <div class="Commonstyle__GreyText-sc-1vgucvm-9 fpovVe">
-                  Already Registered in Vezeeta ?
+                  Already Registered in Loving Hands ?
                   <a
                     href="/en/Account/SignIn"
                     class="Commonstyle__AWithRedLine-sc-1vgucvm-10 fpGHyl"
@@ -286,11 +274,12 @@ const Register = () => {
                     Login
                   </a>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
-           ):null}
-        </>
+        </div>
+      ) : null}
+    </>
   );
 };
 
