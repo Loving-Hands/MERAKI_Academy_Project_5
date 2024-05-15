@@ -20,6 +20,8 @@ import { setSpatlizationById } from "../../service/redux/reducers/specialization
 import { useNavigate } from "react-router-dom";
 
 function Index() {
+  const [searchItem, setSearchItem] = useState('')
+
   const dispatch = useDispatch();
   const clinic = useSelector(
     (state) => state.clinicSpecialization.spatlization
@@ -30,9 +32,9 @@ function Index() {
   const [itemsPerSlide] = useState(4);
   const navigate=useNavigate();
   const images = [
-    "https://media.post.rvohealth.io/wp-content/uploads/2020/08/Doctors_For_Men-732x549-thumbnail.jpg",
-    "https://wp.globaluniversitysystems.com/mua/wp-content/uploads/sites/10/2023/02/istock-482499394.webp",
-    "https://hms.harvard.edu/sites/default/files/media/800-Doctors-Talking-GettyImages-1421919753.jpg",
+    "https://media.istockphoto.com/id/1473559425/photo/female-medical-practitioner-reassuring-a-patient.jpg?s=612x612&w=0&k=20&c=kGbm-TE5qdppyyiteyip7_CzKLktyPrRuWD4Zz2EcqE=",
+    "https://www.shutterstock.com/image-photo/indian-male-doctor-consulting-senior-600nw-2036186195.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-RoQzESk-kGfKXS7eClXsPOJQ7kOyFeTYgw&s",
     "https://www.verywellhealth.com/thmb/Iiq1w0oRU3M7cWuewQq0-L3-fCw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1255592872-6dc47a1d2f4d4bcaba072aeac7b2118d.jpeg",
     "https://www.proteethguard.com/product_images/uploaded_images/doctor-or-dentist-for-tmj-20220319.jpg",
   ];
@@ -64,6 +66,10 @@ function Index() {
   const handleSpecializationClick = (id) => {
     navigate(`/specialization/${id}`);
   };
+
+  
+  
+  
 
   
 
@@ -125,22 +131,22 @@ function Index() {
        <div className="container">
        <div className="row pt-5 pb-5">
             <div className="col-3">
-<div className="text-center"><PiHandshakeThin size={64}/></div>
+<div className="text-center"><img src="https://d1aovdz1i2nnak.cloudfront.net/vezeeta-web-reactjs/58776/_next/static/images/medical-care-icon.svg"></img></div>
 <h3>كل احتياجاتك على فيزيتا</h3>
 <h5>ابحث و احجز كشف مع دكتور في عيادة أو مستشفى.</h5>
             </div>
             <div className="col-3">
-<div className="text-center" ><IoPersonSharp size={64} /></div>
+<div className="text-center" ><img src="https://d1aovdz1i2nnak.cloudfront.net/vezeeta-web-reactjs/58776/_next/static/images/doctor-icon.svg"/></div>
 <h3>تقييمات حقيقية من المرضى</h3>
 <h5>تقييمات الدكاترة من مرضى حجزوا على فيزيتا و زاروا الدكتور بالفعل.</h5>
             </div>
             <div className="col-3">
-<div className="text-center"><SlCalender size={64}/></div>
+<div className="text-center"><img src="https://d1aovdz1i2nnak.cloudfront.net/vezeeta-web-reactjs/58776/_next/static/images/booking-icon.svg"/></div>
 <h3>حجزك مؤكد مع الدكتور</h3>
 <h5> حجزك مؤكد بمجرد اختيارك من المواعيد المتاحة للدكتور. </h5>
             </div>
             <div className="col-3">
-<div className="text-center"><RiSecurePaymentLine size={64}/></div>
+<div className="text-center"><img src="https://d1aovdz1i2nnak.cloudfront.net/vezeeta-web-reactjs/58776/_next/static/images/security-icon.svg"></img></div>
 <h3>كل احتياجاتك على فيزيتا</h3>
 <h5>ابحث و احجز كشف مع دكتور في عيادة أو مستشفى.</h5>
             </div>
