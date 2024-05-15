@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./RegisterDoc.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 const registerDoc = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => {
     return {
@@ -23,6 +25,16 @@ const registerDoc = () => {
   const [status, setStatus] = useState(false);
 
   // =================================================================
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/specialization/")
+      .then((result) => {
+        setSpecializations(result.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching specializations:", error);
+      });
+  }, []);
 
   const addNewUser = async (e) => {
     e.preventDefault();
@@ -52,15 +64,6 @@ const registerDoc = () => {
     setImageDoctor(e.target.files[0]);
   };
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/specialization/")
-      .then(result => {
-        setSpecializations(result.data);
-      })
-      .catch(error => {
-        console.error("Error fetching specializations:", error);
-      });
-  }, []);
   // =================================================================
 
   return (
@@ -68,31 +71,62 @@ const registerDoc = () => {
       {!isLoggedIn ? (
         <div className="wrapper">
           <div className="title">Sign Up</div>
-          <div className="form">
+          <div className="form" onSubmit={addNewUser}>
             <div className="inputfield">
               <label>Full Name</label>
-              <input type="text" className="input" />
+              <input
+                type="text"
+                className="input"
+                value={full_name}
+                onChange={(e) =>setFullName(e.target.value)}
+              />
             </div>
             <div className="inputfield">
               <label>Phone_Number</label>
-              <input type="number" className="input" />
+              <input
+                type="text"
+                className="input"
+                value={phone_number}
+                onChange={(e) =>setPhoneNumber(e.target.value)}
+              />
             </div>
             <div className="inputfield">
               <label>Email</label>
-              <input type="email" className="input" />
+              <input
+                type="email"
+                className="input"
+                value={email}
+                onChange={(e) =>setEmail(e.target.value)}
+              />
             </div>
             <div className="inputfield">
               <label>Password</label>
-              <input type="password" className="input" />
+              <input
+                type="password"
+                className="input"
+                value={password}
+                onChange={(e) =>setPassword(e.target.value)}
+              />
             </div>
             <div className="inputfield">
               <label>Gender</label>
-              <input type="text" className="input" />
+              <input
+                type="text"
+                className="input"
+                value={gender}
+                onChange={(e) =>setGender(e.target.value)}
+              />
             </div>
             <div className="inputfield">
               <label>Your_Image</label>
               <form>
-                <input type="file" id="myFile" name="filename" onChange={handleFileChange} />
+                <input
+                  type="file"
+                  id="myFile"
+                  name="filename"
+                  value={image_doctor}
+                  onChange={(e) =>handleFileChange(e.target.value)}
+                />
               </form>
             </div>
             <div className="inputfield">
@@ -110,6 +144,11 @@ const registerDoc = () => {
             </div>
             <div className="inputfield">
               <input type="submit" defaultValue="Register" className="btn" />
+            </div>
+            <div className="inputfield">
+              <button type="button" className="login-with-google-btn">
+                Continue with Google
+              </button>
             </div>
           </div>
         </div>
