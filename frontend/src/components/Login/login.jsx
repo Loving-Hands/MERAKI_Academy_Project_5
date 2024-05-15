@@ -153,8 +153,10 @@ const login = () => {
               <div className="Commonstyle__GreyText-sc-1vgucvm-9 fpovVe">
                 New User ?
                 <a
-                  href="/en/Account/SignUp"
                   className="Commonstyle__AWithRedLine-sc-1vgucvm-10 fpGHyl"
+                  onClick={()=>{
+                    history("/register")
+                  }}
                 >
                   Sign Up
                 </a>

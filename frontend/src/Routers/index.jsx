@@ -5,8 +5,8 @@ import Login from "../pages/login"
 import Regester from "../pages/regester"
 import ContactUs from "../pages/contactUs"
 import Clinics from "../pages/clinics"
-
-
+import RegisterDoc from "../pages/doctorRegister"
+import LoginDoc from "../pages/doctorLogin"
 
 
 export const router =createBrowserRouter([
@@ -33,6 +33,14 @@ export const router =createBrowserRouter([
             {
                 path:"allClinics",
                 element:<Clinics/>
+            },
+            {
+                path:"registerDoc",
+                element:<RegisterDoc/>
+            },
+            {
+                path:"loginDoc",
+                element:<LoginDoc/>
             },
         ]
     }
