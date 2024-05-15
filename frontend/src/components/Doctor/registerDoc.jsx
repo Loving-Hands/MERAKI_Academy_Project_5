@@ -78,7 +78,7 @@ const registerDoc = () => {
                 type="text"
                 className="input"
                 value={full_name}
-                onChange={(e) =>setFullName(e.target.value)}
+                onChange={(e) => setFullName(e.target.value)}
               />
             </div>
             <div className="inputfield">
@@ -87,7 +87,7 @@ const registerDoc = () => {
                 type="text"
                 className="input"
                 value={phone_number}
-                onChange={(e) =>setPhoneNumber(e.target.value)}
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
             <div className="inputfield">
@@ -96,7 +96,7 @@ const registerDoc = () => {
                 type="email"
                 className="input"
                 value={email}
-                onChange={(e) =>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="inputfield">
@@ -105,7 +105,7 @@ const registerDoc = () => {
                 type="password"
                 className="input"
                 value={password}
-                onChange={(e) =>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="inputfield">
@@ -114,7 +114,7 @@ const registerDoc = () => {
                 type="text"
                 className="input"
                 value={gender}
-                onChange={(e) =>setGender(e.target.value)}
+                onChange={(e) => setGender(e.target.value)}
               />
             </div>
             <div className="inputfield">
@@ -125,7 +125,7 @@ const registerDoc = () => {
                   id="myFile"
                   name="filename"
                   value={image_doctor}
-                  onChange={(e) =>handleFileChange(e.target.value)}
+                  onChange={(e) => handleFileChange(e.target.value)}
                 />
               </form>
             </div>
@@ -143,7 +143,12 @@ const registerDoc = () => {
               </select>
             </div>
             <div className="inputfield">
-              <input type="submit" defaultValue="Register" className="btn" onClick={navigate("/loginDoc")}/>
+              <input
+                type="submit"
+                defaultValue="Register"
+                className="btn"
+                // onClick={navigate("/loginDoc")}
+              />
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
