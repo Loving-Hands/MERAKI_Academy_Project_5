@@ -143,7 +143,7 @@ const registerDoc = () => {
               </select>
             </div>
             <div className="inputfield">
-              <input type="submit" defaultValue="Register" className="btn" />
+              <input type="submit" defaultValue="Register" className="btn" onClick={navigate("/loginDoc")}/>
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
