@@ -14,11 +14,11 @@ const login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useSelector((state) => {
+  const { isLoggedIn,userId } = useSelector((state) => {
     return {
       // token : state.auth.token,
       isLoggedIn: state.auth.isLoggedIn,
-      // userId : state.auth.userId
+      userId : state.auth.userId
     };
   });
 
@@ -52,11 +52,11 @@ const login = () => {
   };
 
   //===============================================================
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate("/");
-  //   }
-  // },[]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  },[isLoggedIn,userId]);
 
   //===============================================================
   return (
