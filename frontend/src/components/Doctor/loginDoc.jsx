@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginDoc.css";
-
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {setLogin,setDoctorId} from "../../service/redux/reducers/doctor/doctorSlice";
@@ -10,15 +9,16 @@ import {setLogin,setDoctorId} from "../../service/redux/reducers/doctor/doctorSl
 
 const loginDoc = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { isLoggedIn } = useSelector((state) => {
     return {
       // token : state.doc.token,
-      isLoggedIn: state.auth.isLoggedIn,
+      isLoggedIn: state.doc.isLoggedIn,
       // doctorId : state.doc.doctorId
     };
   });
-  const navigate = useNavigate();
-
+  
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
@@ -49,19 +49,18 @@ const loginDoc = () => {
   };
 
   //===============================================================
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
-  });
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate("/");
+  //   }
+  // });
 
   //===============================================================
   return (
     <>
-      {!isLoggedIn ? (
         <div className="wrapper">
-          <div className="title">Sign In</div>
-          <div className="form">
+          <div className="title">Doctor_Login</div>
+          <div className="form" onSubmit={Login}>
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -81,12 +80,13 @@ const loginDoc = () => {
               />
             </div>
             <div className="inputfield">
-              <input
-                type="submit"
-                defaultValue="Register"
-                className="btn"
-                onClick={navigate("/")}
-              />
+            <button
+              className="btn"
+              onClick={(e) => {
+                Login(e);
+              }}
+            >Login 
+            </button>
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
@@ -95,7 +95,9 @@ const loginDoc = () => {
             </div>
           </div>
         </div>
-      ) : null}
+        {status
+        ? message && <div className="SuccessMessage">{message}</div>
+        : message && <div className="ErrorMessage">{message}</div>}
     </>
   );
 };

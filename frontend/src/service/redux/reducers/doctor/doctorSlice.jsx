@@ -3,7 +3,7 @@ export const doc = createSlice ({
     name : "doc" ,
     initialState : {
         token : localStorage.getItem("token") || "",
-        doctorId : localStorage.getItem("userId") || "",
+        doctorId : localStorage.getItem("doctorId") || "",
         isLoggedIn :localStorage.getItem("token")? true : false,
         },
      reducers :{
