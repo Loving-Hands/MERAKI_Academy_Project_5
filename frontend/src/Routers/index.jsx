@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts/Main";
 import Home from "../pages/home";
 import Login from "../pages/login";
-import Register from "../pages/regester";
+import Register from "../pages/regester.jsx";
 import ContactUs from "../pages/contactUs";
 import Clinics from "../pages/clinics";
 import InfoClinic from "../pages/infoClinic.jsx";
