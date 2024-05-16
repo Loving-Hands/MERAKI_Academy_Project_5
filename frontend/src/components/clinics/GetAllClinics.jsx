@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAllClinic } from "../../service/redux/reducers/clinics/clinicSlice.jsx";
 import axios from "axios";
 import { Rating } from "react-simple-star-rating";
 import { FaUserMd } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import backgroundImage from "./top-clinic.png";
-import testImageDoctor from "./testImageDoctor.jpg";
 
 import "./clinic.css";
 
@@ -87,7 +86,7 @@ export default function ClinicSpecialization() {
                       <div className="appointment-box">
                         <h6 className="text-center">Today</h6>
                         <div className="time-info text-center">
-                          <strong>From:</strong>{" "}
+                          <strong>From:</strong>
                           {clinic.time_open.split(":")[0]}
                           :00
                           <br />
