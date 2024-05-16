@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from "react-i18next";
 
 function Navbar() {
   const { t, i18n } = useTranslation();
+  const [searchItem, setSearchItem] = useState('')
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
    //window.location.reload();  
   };
 
+
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
       <div className="container d-flex justify-content-between align-items-center">
         <div>
-          <NavLink to="/" className="navbar-brand mr-auto">LovingHands</NavLink>
+          <NavLink to="/" className="navbar-brand mr-auto"><img src="https://d1aovdz1i2nnak.cloudfront.net/vezeeta-web-reactjs/58776/_next/static/images/whitelogowithdotcom.png"></img></NavLink>
         </div>
         <form className="form-inline my-2 my-lg-0">
           <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style={{ width: "250px" }} />
