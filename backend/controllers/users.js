@@ -103,6 +103,7 @@ const login = (req, res) => {
             massage: "Valid login credentials",
             token: userToken,
             userId: result.rows[0].id,
+            role_id: result.rows[0].role_id
           });
         }
       }
