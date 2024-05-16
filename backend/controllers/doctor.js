@@ -39,7 +39,7 @@ exports.registerDoctor = async (req, res) => {
     image_doctor,
     specialization_doctor,
   ];
-  if (phone_number.length <= 10) {
+  if (phone_number.length <= 9) {
     return res.status(400).json({
       success: false,
       message: "Phone number must be between 10",

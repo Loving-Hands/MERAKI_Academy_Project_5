@@ -7,6 +7,8 @@ import ContactUs from "../pages/contactUs";
 import Clinics from "../pages/clinics";
 import InfoClinic from "../pages/infoClinic.jsx";
 import Specialization from "../pages/specialization";
+import LoginDoc from "../pages/doctorLogin";
+import RegisterDoc from "../pages/doctorRegister";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ export const router = createBrowserRouter([
       {
         path: "specialization/:id",
         element: <Specialization />,
+      },
+      {
+        path: "loginDoc",
+        element: <LoginDoc />,
+      },
+      {
+        path: "registerDoc",
+        element: <RegisterDoc />,
       },
     ],
   },

@@ -23,27 +23,31 @@ const Register = () => {
   const [message, setMessage] = useState();
   const [status, setStatus] = useState(false);
   const [register, setregister] = useState();
-  const [role,setRole] = useState(1);
-console.log(fullname,age,phoneNumber,email,password,gender,role);
+  const [role, setRole] = useState("1");
+  console.log(fullname, age, phoneNumber, email, password, gender, role);
   // =================================================================
 
-  const addNewUser =  (e) => {
+  const addNewUser = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5000/users/register", {
+    axios
+      .post(`http://localhost:5000/users/register`, {
         full_name: fullname,
         phone_number: phoneNumber,
-        email :email,
-        password :password,
-        gender :gender,
-        age:age,
-        role_id : role 
+        email: email,
+        password: password,
+        gender: gender,
+        age: age,
+        role_id: role, // This sends the fixed role ID "1" to the server
       })
-      .then((result)=>{
-        setregister
-      }).catch((error)=>{
+      .then((result) => {
+        console.log(result);
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Error occurred during registration:");
         console.log(error);
-      })
-
+        // You might want to update state to show an error message to the user
+      });
   };
   // =================================================================
 
@@ -52,7 +56,7 @@ console.log(fullname,age,phoneNumber,email,password,gender,role);
       {!isLoggedIn ? (
         <div className="wrapper">
           <div className="title">Sign Up</div>
-          <div className="form" onSubmit={addNewUser}>
+          <form className="form" onSubmit={addNewUser}>
             <div className="inputfield">
               <label>Full Name</label>
               <input
@@ -91,12 +95,25 @@ console.log(fullname,age,phoneNumber,email,password,gender,role);
             </div>
             <div className="inputfield">
               <label>Gender</label>
-              <input
-                type="text"
-                className="input"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              />
+              <>
+                <input
+                  type="radio"
+                  id="html"
+                  name="fav_language"
+                  defaultValue="Male"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <label htmlFor="html">Male</label>
+                <br />
+                <input
+                  type="radio"
+                  id="css"
+                  name="fav_language"
+                  defaultValue="Female"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <label htmlFor="css">Female</label>
+              </>
             </div>
             <div className="inputfield">
               <label>Age</label>
@@ -107,27 +124,21 @@ console.log(fullname,age,phoneNumber,email,password,gender,role);
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
+
             <div className="inputfield">
-            <button
-              className="btn"
-              onClick={()=>{
-                console.log("register clicked");
-                navigate("/login")
-              }}
-            >Register 
-            </button>
+              <button className="btn">Register</button>
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
                 Continue with Google
               </button>
             </div>
-          </div>
+          </form>
           {status
-          ? message && <div className="SuccessMessage">{message}</div>
-          : message && <div className="ErrorMessage">{message}</div>}
+            ? message && <div className="SuccessMessage">{message}</div>
+            : message && <div className="ErrorMessage">{message}</div>}
         </div>
-      ) :(
+      ) : (
         <p>Logout First</p>
       )}
     </>

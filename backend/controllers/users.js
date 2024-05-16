@@ -30,7 +30,7 @@ const register = async (req, res) => {
     gender,
     role_id,
   ];
-  if (phone_number.length <= 10) {
+  if (phone_number.length <= 9) {
     return res.status(400).json({
       success: false,
       message: "Phone number must be between 10",
