@@ -11,11 +11,11 @@ const loginDoc = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useSelector((state) => {
+  const { isLoggedIn,doctorId } = useSelector((state) => {
     return {
       // token : state.doc.token,
       isLoggedIn: state.doc.isLoggedIn,
-      // doctorId : state.doc.doctorId
+      doctorId : state.doc.doctorId
     };
   });
   
@@ -34,7 +34,7 @@ const loginDoc = () => {
         password,
       });
       if (result.data) {
-        console.log(result.data);
+        console.log("token from doctor login",result.data);
         setMessage("");
         dispatch(setLogin(result.data.token));
         dispatch(setDoctorId(result.data.doctorId));
@@ -49,11 +49,11 @@ const loginDoc = () => {
   };
 
   //===============================================================
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate("/");
-  //   }
-  // });
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  },[isLoggedIn,doctorId]);
 
   //===============================================================
   return (

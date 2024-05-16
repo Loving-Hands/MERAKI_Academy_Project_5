@@ -7,14 +7,17 @@ export const auth = createSlice ({
         isLoggedIn :localStorage.getItem("token")? true : false,
         message: '',
         status: false,
+        role : localStorage.getItem("role") || "",
         },
      reducers :{
         setLogin : (state , action) => {
-            console.log(action.payload);
+            console.log(action);
             state.token = action.payload,
+            state.role = action.payload,
             localStorage.setItem("token",action.payload),
+            localStorage.setItem("role",action.payload),
             state.isLoggedIn = true
-          
+            
         },
         setUserId : ( state ,action) => {
             state.userId = action.payload,

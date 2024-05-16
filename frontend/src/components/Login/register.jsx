@@ -14,39 +14,36 @@ const Register = () => {
     };
   });
 
-  const [full_name, setFullName] = useState("");
-  const [age, setAge] = useState(0);
-  const [phone_number, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
-  const [message, setMessage] = useState("");
+  const [fullname, setFullName] = useState();
+  const [age, setAge] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [gender, setGender] = useState();
+  const [message, setMessage] = useState();
   const [status, setStatus] = useState(false);
-
+  const [register, setregister] = useState();
+  const [role,setRole] = useState(1);
+console.log(fullname,age,phoneNumber,email,password,gender,role);
   // =================================================================
 
-  const addNewUser = async (e) => {
+  const addNewUser =  (e) => {
     e.preventDefault();
-    try {
-      const result = await axios.post("http://localhost:5000/users/register", {
-        full_name,
-        age,
-        phone_number,
-        email,
-        password,
-        gender,
-      });
-      if (result.data.success) {
-        setStatus(true);
-        setMessage(result.data.message);
-      } else throw Error;
-    } catch (error) {
-      setStatus(false);
-      if (error.response && error.response.data) {
-        return setMessage(error.response.data.message);
-      }
-      setMessage("Error happened while register, please try again");
-    }
+    axios.post("http://localhost:5000/users/register", {
+        full_name: fullname,
+        phone_number: phoneNumber,
+        email :email,
+        password :password,
+        gender :gender,
+        age:age,
+        role_id : role 
+      })
+      .then((result)=>{
+        setregister
+      }).catch((error)=>{
+        console.log(error);
+      })
+
   };
   // =================================================================
 
@@ -61,7 +58,7 @@ const Register = () => {
               <input
                 type="text"
                 className="input"
-                value={full_name}
+                value={fullname}
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
@@ -70,7 +67,7 @@ const Register = () => {
               <input
                 type="text"
                 className="input"
-                value={phone_number}
+                value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
@@ -111,12 +108,14 @@ const Register = () => {
               />
             </div>
             <div className="inputfield">
-              <input
-                type="submit"
-                defaultValue="Register"
-                className="btn"
-                // onClick={navigate("/login")}
-              />
+            <button
+              className="btn"
+              onClick={()=>{
+                console.log("register clicked");
+                navigate("/login")
+              }}
+            >Register 
+            </button>
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
@@ -124,8 +123,13 @@ const Register = () => {
               </button>
             </div>
           </div>
+          {status
+          ? message && <div className="SuccessMessage">{message}</div>
+          : message && <div className="ErrorMessage">{message}</div>}
         </div>
-      ) : null}
+      ) :(
+        <p>Logout First</p>
+      )}
     </>
   );
 };
