@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { setLogout } from "../../service/redux/reducers/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+
+
 function Navbar() {
   const [isAdmin, setIsAdmin] = useState();
   const dispatch = useDispatch();
@@ -19,10 +21,11 @@ function Navbar() {
   const { t, i18n } = useTranslation();
   console.log(token);
   console.log(role);
-
+  const [searchItem, setSearchItem] = useState("");
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     window.location.reload();
+
   };
 
   return (
