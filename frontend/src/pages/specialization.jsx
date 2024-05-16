@@ -1,10 +1,8 @@
-import React from 'react'
-import SpecializationDetails from '../components/specialization'
+import React from "react";
+import SpecializationDetails from "../components/clinics/getAllClinicsBySpecializationId.jsx";
 
 function specialization() {
-  return (
-    <SpecializationDetails/>
-  )
+  return <SpecializationDetails />;
 }
 
-export default specialization
+export default specialization;
