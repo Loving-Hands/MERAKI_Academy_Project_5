@@ -1,4 +1,5 @@
 .navbar-logo {
+<<<<<<< HEAD
     height: 40px;
     margin-right: 10px;
   }
@@ -27,4 +28,31 @@
     
   }
   
-  
+=======
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  font-size: 1.1rem;
+}
+
+.navbar-search {
+  flex-grow: 1;
+}
+
+.navbar-search-input {
+  width: 100%;
+}
+
+.navbar-search-button {
+  margin-left: 10px;
+}
+.collapse {
+  text-align: right;
+}
+>>>>>>> 49b0f29b342b0a25a053585a89d4f20c3fa84a52

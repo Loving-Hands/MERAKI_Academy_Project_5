@@ -8,26 +8,26 @@ a {
   -o-background-size: cover;
   background-size: cover;
   text-align: center;
-  background-attachment: fixed;
+  /* background-attachment: fixed; */
   padding: 70px 0px;
   position: relative;
 }
 
 .clinic-specialization .all-title-box::before {
   content: "";
-  position: absolute;
+  /* position: absolute; */
   z-index: 1;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-  background: rgba(0, 0, 0, 0.3);
+  /* background: rgba(0, 0, 0, 0.3); */
 }
 
 .clinic-specialization .all-title-box h2 {
   font-size: 28px;
   font-weight: 700;
-  color: white;
+  color: black;
   z-index: 2;
   padding: 10px 0;
   z-index: 2;
@@ -63,7 +63,7 @@ a {
 .doctor .card img {
   max-width: 20%;
   /* margin: auto; */
-  padding: 50px;
+  padding: 30px 10px;
   border-radius: 50%;
 }
 .doctor .card-body {
@@ -156,7 +156,7 @@ a {
   max-width: 100%;
   flex-direction: row;
   border: 0;
-  box-shadow: 0 7px 7px var(--sup-main-color);
+  /* box-shadow: 0 7px 7px var(--sup-main-color); */
   margin: 3em auto;
 }
 
@@ -181,7 +181,7 @@ a {
 .info_clinic .card img {
   max-width: 33%;
   /* margin: auto; */
-  padding: 50px;
+  padding: 30px 40px;
   border-radius: 50%;
 }
 .info_clinic .card-body {
@@ -269,3 +269,75 @@ a {
 }
 
 /* -----info clinic End---- */
+.info_clinic .img-clinic img {
+  height: 100%;
+  border-radius: 0;
+  max-width: none;
+  padding: 0;
+}
+/* -----card appointment------- */
+.information_appointment .card {
+  flex-direction: column;
+  border-radius: 5px !important;
+}
+.information_appointment .card .card-head {
+  background-color: var(--main-color);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+}
+.information_appointment .card-body-appintment p {
+  color: var(--sup-main-color);
+  padding: 10px;
+}
+.information_appointment .card-body-appintment svg {
+  color: var(--main-color);
+}
+.information_appointment .card-body-appintment span {
+  color: var(--sup-main-color);
+  padding: 10px;
+}
+.information_appointment .card-body-appintment .appointspan {
+  color: #ff0000;
+  font-weight: bold;
+  padding: 10px;
+}
+.information_appointment .card-body-appintment h5 {
+  color: var(--sup-main-color);
+  padding: 10px;
+}
+.information_appointment .card-body-appintment .edit-width {
+  width: 70%;
+  margin: auto;
+  padding: 10px;
+}
+.information_appointment .signInNow {
+  color: var(--sup-main-color);
+  padding: 10px;
+}
+.information_appointment .card-footer svg {
+  color: rgb(124, 187, 104);
+}
+.info_clinic .card-title {
+  color: var(--sup-main-color);
+}
+.info_clinic .text-section p {
+  color: var(--sup-main-color);
+}
+.doctorInformation {
+  color: var(--sup-main-color);
+}
+.doctorInformation span {
+  font-size: 20px;
+  font-weight: 500;
+}
+.doctorInformation p {
+  font-size: 15px;
+}
+.imageClinic {
+  color: var(--sup-main-color);
+}
+.imageClinic span {
+  font-size: 20px;
+  font-weight: 500;
+}

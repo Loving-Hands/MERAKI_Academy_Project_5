@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { NavLink } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
+import { setLogout } from "../../service/redux/reducers/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+
 
 function Navbar() {
+  //const [isAdmin, setIsAdmin] = useState();
+  const dispatch = useDispatch();
+  /*const { isLoggedIn, token, role } = useSelector((state) => {
+    return {
+      isLoggedIn: state.auth.isLoggedIn,
+      token: state.auth,
+      role: state.role,
+    };
+    setIsAdmin(state.auth.role);
+  });*/
   const { t, i18n } = useTranslation();
   const [searchItem, setSearchItem] = useState('');
 
@@ -52,6 +66,7 @@ function Navbar() {
           <button onClick={() => changeLanguage('ar')}>ar</button>
         </div>
       </div>
+
     </nav>
   );
 }

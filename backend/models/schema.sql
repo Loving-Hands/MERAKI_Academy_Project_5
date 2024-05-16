@@ -43,6 +43,7 @@ CREATE TABLE clinics (
     location VARCHAR(255) NOT NULL,
     image_clinic VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
+    long_description VARCHAR(255) NOT NULL,
     time_open TIME NOT NULL,
     time_close TIME NOT NULL,
     specialization INT NOT NULL,

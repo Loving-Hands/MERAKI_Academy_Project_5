@@ -11,7 +11,7 @@ function ContactUs() {
     const [errorMessage, setErrorMessage] = useState("");
 
     const countactUs = (e) => {
-        e.preventDefault(); // منع السلوك الافتراضي للنموذج من إعادة تحميل الصفحة.
+        e.preventDefault(); 
         
         axios.post('http://localhost:5000/contactUs/create', { 
             full_name: fullName, 
