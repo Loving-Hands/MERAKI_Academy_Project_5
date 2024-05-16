@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAllClinic } from "../../service/redux/reducers/clinics/clinicSlice.jsx";
 import axios from "axios";

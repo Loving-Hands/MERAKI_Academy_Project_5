@@ -62,9 +62,17 @@ const [value, setValue] = useState("")
 
   const handleWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((data) => {
+      .then(async(data) => {
+        console.log(data)
+        const result = await axios.post("http://localhost:5000/users/login", {
+          email:data.user.email,
+          password:data.user.uid,
+        });
         setValue(data.user.email);
+        console.log(result)
         localStorage.setItem("email", data.user.email);
+        dispatch(setLogin(result.data.token));
+        dispatch(setUserId(result.data.userId));
       })
       .catch((error) => {
         console.error(error);
