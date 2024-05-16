@@ -18,9 +18,7 @@ export default function SpecializationDetails() {
       .then((res) => {
         setClinics(res.data);
         setClinicCount(res.data.length)
-        if (res.data.length > 0) {
-          setCurrentSpecialization(res.data[0].specialization_name);
-        }
+       
       })
       .catch((err) => {
         console.log(err);

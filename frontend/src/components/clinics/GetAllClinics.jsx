@@ -14,12 +14,13 @@ import "./clinic.css";
 export default function ClinicSpecialization() {
   const dispatch = useDispatch();
   const clinics = useSelector((state) => state.clinic.allClinic);
-
+const [clinicCount, setClinicCount] = useState("")
   useEffect(() => {
     axios
       .get(`http://localhost:5000/clinic/`)
       .then((result) => {
         dispatch(setAllClinic(result.data));
+        setClinicCount(result.data.length)
       })
       .catch((error) => {
         console.log(error);
@@ -32,7 +33,9 @@ export default function ClinicSpecialization() {
         <div
           className="all-title-box"
           style={{ backgroundImage: `url(${backgroundImage})` }}
+          
         >
+          
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -42,7 +45,9 @@ export default function ClinicSpecialization() {
           </div>
         </div>
       </section>
-
+      <p>
+              عدد العيادات الموجوده: {clinicCount}
+          </p>
       <section className="doctor container">
         {clinics.map((clinic, index) => (
           <Link to={`/infoClinic/${clinic.id}`} key={index}>
