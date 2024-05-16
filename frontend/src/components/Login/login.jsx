@@ -14,11 +14,11 @@ const login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn,userId } = useSelector((state) => {
+  const { isLoggedIn, userId } = useSelector((state) => {
     return {
       // token : state.auth.token,
       isLoggedIn: state.auth.isLoggedIn,
-      userId : state.auth.userId
+      userId: state.auth.userId,
     };
   });
 
@@ -56,7 +56,7 @@ const login = () => {
     if (isLoggedIn) {
       navigate("/");
     }
-  },[isLoggedIn,userId]);
+  }, [isLoggedIn, userId]);
 
   //===============================================================
   return (
@@ -88,14 +88,15 @@ const login = () => {
               onClick={(e) => {
                 Login(e);
               }}
-            >Login 
+            >
+              Login
             </button>
           </div>
           <div className="inputfield">
             <button type="button" className="login-with-google-btn">
               Continue with Google
             </button>
-          </div> 
+          </div>
         </div>
       </div>
       {status

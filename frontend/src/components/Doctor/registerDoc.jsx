@@ -25,12 +25,14 @@ const registerDoc = () => {
   const [status, setStatus] = useState(false);
 
   // =================================================================
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/specialization/")
       .then((result) => {
-        setSpecializations(result.data);
+        setSpecializations(result.data.result);
       })
+
       .catch((error) => {
         console.error("Error fetching specializations:", error);
       });
@@ -130,25 +132,25 @@ const registerDoc = () => {
               </form>
             </div>
             <div className="inputfield">
-              <label>Your Specialization</label>
+              <label>Your Specialization</label> 
               <select
                 id="specialization"
                 className="input"
                 value={specializationDoctor}
                 onChange={(e) => setSpecializationDoctor(e.target.value)}
               >
-                {/* {specializations.map(spec => (
-                  <option key={spec.id} value={spec.name}>{spec.name}</option>
-                ))} */}
+                {specializations.map((specialization) => (
+                  <option
+                    key={specialization.id}
+                    value={specialization.name_specialization}
+                  >
+                    {specialization.name_specialization}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="inputfield">
-              <input
-                type="submit"
-                defaultValue="Register"
-                className="btn"
-                // onClick={navigate("/loginDoc")}
-              />
+              <input type="submit" defaultValue="Register" className="btn" />
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
