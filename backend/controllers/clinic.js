@@ -106,10 +106,12 @@ const getClinicById = (req, res) => {
 
 const getAllClinicsBySpecializationId = (req, res) => {
   const specializationId = req.params.id;
-  console.log(specializationId);
+
   const query = `
-    SELECT * FROM clinics
-    WHERE specialization = $1
+    SELECT clinics.*, specialization.name_specialization AS specialization_name
+    FROM clinics
+    JOIN specialization ON clinics.specialization = specialization.id
+    WHERE clinics.specialization = $1
   `;
   const values = [specializationId];
 

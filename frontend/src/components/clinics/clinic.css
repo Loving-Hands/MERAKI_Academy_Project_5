@@ -8,26 +8,26 @@ a {
   -o-background-size: cover;
   background-size: cover;
   text-align: center;
-  background-attachment: fixed;
+  /* background-attachment: fixed; */
   padding: 70px 0px;
   position: relative;
 }
 
 .clinic-specialization .all-title-box::before {
   content: "";
-  position: absolute;
+  /* position: absolute; */
   z-index: 1;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-  background: rgba(0, 0, 0, 0.3);
+  /* background: rgba(0, 0, 0, 0.3); */
 }
 
 .clinic-specialization .all-title-box h2 {
   font-size: 28px;
   font-weight: 700;
-  color: white;
+  color: black;
   z-index: 2;
   padding: 10px 0;
   z-index: 2;
@@ -284,6 +284,7 @@ a {
   background-color: var(--main-color);
   color: #fff;
   padding: 10px;
+  border-radius: 5px 5px 0 0;
 }
 .information_appointment .card-body-appintment p {
   color: var(--sup-main-color);
