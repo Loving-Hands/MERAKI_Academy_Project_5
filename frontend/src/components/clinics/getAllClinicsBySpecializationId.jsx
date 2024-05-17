@@ -11,7 +11,9 @@ export default function SpecializationDetails() {
   const [clinics, setClinics] = useState([]);
   const { id } = useParams();
   const [clinicCount, setClinicCount] = useState(0);
-  const [SpecializationName, setSpecializationName] = useState();
+  const [specializationName, setSpecializationName] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const clinicPage = 2;
 
   useEffect(() => {
     axios
@@ -19,13 +21,22 @@ export default function SpecializationDetails() {
       .then((res) => {
         setClinics(res.data);
         setClinicCount(res.data.length);
-        setSpecializationName(res.data[0].specialization_name);
-        // console.log(res.data[0].specialization_name);
+        if (res.data.length > 0) {
+          setSpecializationName(res.data[0].specialization_name);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }, [id]);
+
+  const indexLastPage = currentPage * clinicPage;
+  const indexFirstClinic = indexLastPage - clinicPage;
+  const currentClinics = clinics.slice(indexFirstClinic, indexLastPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
@@ -37,15 +48,19 @@ export default function SpecializationDetails() {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <h2 className="text-center">Clinics {SpecializationName}</h2>
+                {/* <h2 className="text-center">Clinics {specializationName}</h2> */}
               </div>
             </div>
           </div>
         </div>
       </section>
-
+      <div className="container d-flex">
+        <h1 className="countClinics">
+          Avaliable Clinics {specializationName} {clinicCount}
+        </h1>
+      </div>
       <section className="doctor container">
-        {clinics.map((clinic, index) => (
+        {currentClinics.map((clinic, index) => (
           <Link to={`/infoClinic/${clinic.id}`} key={index}>
             <div className="card bg-light-subtle mt-4">
               <img
@@ -69,7 +84,7 @@ export default function SpecializationDetails() {
                         <FaUserMd />
                         <span>
                           {clinic.specialization_name +
-                            "," +
+                            ", " +
                             clinic.description}
                         </span>
                       </li>
@@ -87,8 +102,7 @@ export default function SpecializationDetails() {
                         <h6 className="text-center">Today</h6>
                         <div className="time-info text-center">
                           <strong>From:</strong>
-                          {clinic.time_open.split(":")[0]}
-                          :00
+                          {clinic.time_open.split(":")[0]}:00
                           <br />
                           <strong>To:</strong> {clinic.time_close.split(":")[0]}
                           :00
@@ -103,8 +117,7 @@ export default function SpecializationDetails() {
                         <h6 className="text-center">Tomorrow</h6>
                         <div className="time-info text-center">
                           <strong>From:</strong>{" "}
-                          {clinic.time_open.split(":")[0]}
-                          :00
+                          {clinic.time_open.split(":")[0]}:00
                           <br />
                           <strong>To:</strong> {clinic.time_close.split(":")[0]}
                           :00
@@ -120,6 +133,22 @@ export default function SpecializationDetails() {
             </div>
           </Link>
         ))}
+        <nav>
+          <ul className="pagination justify-content-center mt-4">
+            {[...Array(Math.ceil(clinicCount / clinicPage)).keys()].map(
+              (number) => (
+                <li key={number + 1} className="page-item">
+                  <button
+                    onClick={() => paginate(number + 1)}
+                    className="page-link"
+                  >
+                    {number + 1}
+                  </button>
+                </li>
+              )
+            )}
+          </ul>
+        </nav>
       </section>
     </>
   );

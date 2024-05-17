@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
 import { setLogout } from "../../service/redux/reducers/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-
-
+import logo from "./Logo.png";
 
 function Navbar() {
   const [isAdmin, setIsAdmin] = useState();
@@ -25,7 +24,6 @@ function Navbar() {
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     window.location.reload();
-
   };
 
   return (
@@ -84,7 +82,7 @@ function Navbar() {
         <div className="container d-flex justify-content-between align-items-center">
           <div>
             <NavLink to="/" className="navbar-brand mr-auto">
-              LovingHands
+              <img src={logo} alt="" style={{ width: "130px" }} />
             </NavLink>
           </div>
           <form className="form-inline my-2 my-lg-0">
