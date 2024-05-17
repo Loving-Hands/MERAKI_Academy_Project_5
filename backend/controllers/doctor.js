@@ -89,6 +89,7 @@ exports.loginDoctor = (req, res) => {
                 success: true,
                 message: `Login Successfully`,
                 doctorId: result.rows[0].id,
+                role_id: result.rows[0].role_id
               });
             } else {
               throw Error;

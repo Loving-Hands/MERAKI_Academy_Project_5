@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setLogin,
   setUserId,
+  setRoleId,
 } from "../../service/redux/reducers/auth/authSlice";
 import { auth,provider } from "../config";
 import {signInWithPopup} from "firebase/auth"
@@ -16,11 +17,12 @@ const login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn, userId } = useSelector((state) => {
+  const { isLoggedIn, userId,role } = useSelector((state) => {
     return {
       // token : state.auth.token,
       isLoggedIn: state.auth.isLoggedIn,
       userId: state.auth.userId,
+      role : state.auth.role
     };
   });
 
@@ -43,6 +45,7 @@ const [value, setValue] = useState("")
         setMessage("");
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
+        dispatch(setRoleId(result.data.role_id));
       } else throw Error;
     } catch (error) {
       console.log(error);
@@ -56,9 +59,11 @@ const [value, setValue] = useState("")
   //===============================================================
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");
+      if(role===1){
+        navigate("/");
+      }
     }
-  }, [isLoggedIn, userId]);
+  }, [isLoggedIn, userId,role]);
 
   const handleWithGoogle = () => {
     signInWithPopup(auth, provider)
