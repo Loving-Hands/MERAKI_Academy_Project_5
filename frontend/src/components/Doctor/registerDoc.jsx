@@ -2,27 +2,38 @@ import React, { useState, useEffect } from "react";
 import "./RegisterDoc.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
+// import { useDispatch, useSelector } from "react-redux";
+//=================================================================
 const registerDoc = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => {
-    return {
-      isLoggedIn: state.auth.isLoggedIn,
-    };
-  });
+  // const dispatch = useDispatch();
+  // const { isLoggedIn } = useSelector((state) => {
+  //   return {
+  //     isLoggedIn: state.doc.isLoggedIn,
+  //   };
+  // });
 
-  const [full_name, setFullName] = useState("");
-  const [phone_number, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
-  const [image_doctor, setImageDoctor] = useState("");
-  const [specializationDoctor, setSpecializationDoctor] = useState("");
+  const [fullname, setFullName] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [gender, setGender] = useState();
+  const [imageDoctor, setImageDoctor] = useState("https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*");
+  const [specializationDoctor, setSpecializationDoctor] = useState();
   const [specializations, setSpecializations] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState();
   const [status, setStatus] = useState(false);
+  const [role, setRole] = useState("2");
+  console.log(
+    fullname,
+    phoneNumber,
+    email,
+    password,
+    gender,
+    role,
+    imageDoctor,
+    specializationDoctor
+  );
 
   // =================================================================
 
@@ -32,54 +43,51 @@ const registerDoc = () => {
       .then((result) => {
         setSpecializations(result.data.result);
       })
-
       .catch((error) => {
         console.error("Error fetching specializations:", error);
       });
   }, []);
 
-  const addNewUser = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await axios.post("http://localhost:5000/doctor/register", {
-        full_name,
-        phone_number,
-        email,
-        password,
-        gender,
-        image_doctor,
-        specializationDoctor,
+  const addNewUser = () => {
+    // e.preventDefault();
+    axios
+      .post("http://localhost:5000/doctor/register", {
+        full_name: fullname,
+        phone_number: phoneNumber,
+        password: password,
+        email: email,
+        gender: gender,
+        role_id:2,
+        image_doctor: imageDoctor,
+        specialization_doctor: specializationDoctor,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/loginDoc");
+      })
+      .catch((error) => {
+        console.log("Error occurred during registration:");
+        console.log(error);
+        // You might want to update state to show an error message to the user
       });
-      if (result.data.success) {
-        setStatus(true);
-        setMessage(result.data.message);
-      } else throw Error;
-    } catch (error) {
-      setStatus(false);
-      if (error.response && error.response.data) {
-        return setMessage(error.response.data.message);
-      }
-      setMessage("Error happened while register, please try again");
-    }
   };
-  const handleFileChange = (e) => {
-    setImageDoctor(e.target.files[0]);
-  };
+  // const handleFileChange = () => {
+  //   setImageDoctor("https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*");
+  // };
 
   // =================================================================
 
   return (
     <>
-      {!isLoggedIn ? (
         <div className="wrapper">
           <div className="title">Sign Up</div>
-          <div className="form" onSubmit={addNewUser}>
+          <div className="form" >
             <div className="inputfield">
               <label>Full Name</label>
               <input
                 type="text"
                 className="input"
-                value={full_name}
+                value={fullname}
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
@@ -88,7 +96,7 @@ const registerDoc = () => {
               <input
                 type="text"
                 className="input"
-                value={phone_number}
+                value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
@@ -112,12 +120,25 @@ const registerDoc = () => {
             </div>
             <div className="inputfield">
               <label>Gender</label>
-              <input
-                type="text"
-                className="input"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              />
+              <>
+                <input
+                  type="radio"
+                  id="html"
+                  name="fav_language"
+                  defaultValue="Male"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <label htmlFor="html">Male</label>
+                <br />
+                <input
+                  type="radio"
+                  id="css"
+                  name="fav_language"
+                  defaultValue="Female"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <label htmlFor="css">Female</label>
+              </>
             </div>
             <div className="inputfield">
               <label>Your_Image</label>
@@ -126,13 +147,13 @@ const registerDoc = () => {
                   type="file"
                   id="myFile"
                   name="filename"
-                  value={image_doctor}
-                  onChange={(e) => handleFileChange(e.target.value)}
+                  // value={imageDoctor}
+                  // onChange={ ()=>{setImageDoctor("https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*")}}
                 />
               </form>
             </div>
             <div className="inputfield">
-              <label>Your Specialization</label> 
+              <label>Your Specialization</label>
               <select
                 id="specialization"
                 className="input"
@@ -142,7 +163,7 @@ const registerDoc = () => {
                 {specializations.map((specialization) => (
                   <option
                     key={specialization.id}
-                    value={specialization.name_specialization}
+                    value={specialization.id}
                   >
                     {specialization.name_specialization}
                   </option>
@@ -150,7 +171,8 @@ const registerDoc = () => {
               </select>
             </div>
             <div className="inputfield">
-              <input type="submit" defaultValue="Register" className="btn" />
+              <input type="submit" defaultValue="Register" className="btn" 
+              onClick={addNewUser}/>
             </div>
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
@@ -159,7 +181,6 @@ const registerDoc = () => {
             </div>
           </div>
         </div>
-      ) : null}
     </>
   );
 };

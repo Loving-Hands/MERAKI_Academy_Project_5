@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // =================================================================
-
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
