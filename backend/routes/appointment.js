@@ -5,7 +5,7 @@ const appointmentController = require("../controllers/appointment.js");
 const authentication = require("../middleware/authentication");
 
 appointmentRouter.post(
-  "/:clinicId/:userId",
+  "/:clinicId/",
   authentication,
   appointmentController.createAppointmentClinicIdByUserId
 );

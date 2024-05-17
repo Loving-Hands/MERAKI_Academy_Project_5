@@ -341,3 +341,6 @@ a {
   font-size: 20px;
   font-weight: 500;
 }
+.countClinics {
+  color: var(--sup-main-color);
+}
