@@ -8,7 +8,9 @@ import {
   setUserId,
   setRoleId,
 } from "../../service/redux/reducers/auth/authSlice";
-
+import { auth,provider } from "../config";
+import {signInWithPopup} from "firebase/auth"
+import Sptlization from "../Sptilization/index.jsx"
 //====================================================================
 
 const login = () => {
@@ -28,7 +30,7 @@ const login = () => {
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
-
+const [value, setValue] = useState("")
   //===============================================================
   const Login = async (e) => {
     // console.log(isLoggedIn);
@@ -62,6 +64,29 @@ const login = () => {
       }
     }
   }, [isLoggedIn, userId, role]);
+
+  const handleWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(async(data) => {
+        console.log(data)
+        const result = await axios.post("http://localhost:5000/users/login", {
+          email:data.user.email,
+          password:data.user.uid,
+        });
+        setValue(data.user.email);
+        console.log(result)
+        localStorage.setItem("email", data.user.email);
+        dispatch(setLogin(result.data.token));
+        dispatch(setUserId(result.data.userId));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    setValue(localStorage.getItem("email"));
+  }, []);
 
   //===============================================================
   return (
@@ -98,9 +123,11 @@ const login = () => {
             </button>
           </div>
           <div className="inputfield">
-            <button type="button" className="login-with-google-btn">
+            
+            <button type="button" className="login-with-google-btn" onClick={handleWithGoogle}>
               Continue with Google
             </button>
+
           </div>
         </div>
       </div>
@@ -111,6 +138,9 @@ const login = () => {
               <strong>ATTENTION!</strong> {message}
             </div>
           )}
+        : message && <div className="ErrorMessage">{message}</div>}
+<div>
+</div>
     </>
   );
 };

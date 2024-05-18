@@ -103,6 +103,10 @@ CREATE TABLE admins (
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
+
+------
+-- changes 
+-- status == urgent page http://localhost:5173/appointment/5
 -----------
 -- <form id="workingDaysForm">
 --     <input type="checkbox" name="days[]" value="Saturday"> Saturday<br>

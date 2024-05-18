@@ -1,31 +1,29 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
 import { setLogout } from "../../service/redux/reducers/auth/authSlice";
 import { setLogoutDoc } from "../../service/redux/reducers/doctor/doctorSlice";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "./Logo.png"; // Adjust the import path if necessary
 
 function Navbar() {
   const dispatch = useDispatch();
-  const { isLoggedIn, token, role } = useSelector((state) => {
-    return {
-      isLoggedIn: state.auth.isLoggedIn,
-      token: state.auth.token,
-      role: state.auth.role,
-    };
-    
-  });
-  const { isLoggedInDoc, tokenDoc, roleDoc } = useSelector((state) => {
-    return {
-      isLoggedInDoc: state.doc.isLoggedIn,
-      tokenDoc: state.doc.token,
-      roleDoc: state.doc.role,
-    };
-    
-  });
+  const { isLoggedIn, token, role } = useSelector((state) => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    token: state.auth.token,
+    role: state.auth.role,
+  }));
+
+  const { isLoggedInDoc, tokenDoc, roleDoc } = useSelector((state) => ({
+    isLoggedInDoc: state.doc.isLoggedIn,
+    tokenDoc: state.doc.token,
+    roleDoc: state.doc.role,
+  }));
+
   const { t, i18n } = useTranslation();
-  const [searchItem, setSearchItem] = useState("");
+  const [searchItem, setSearchItem] = useState('');
+
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     window.location.reload();

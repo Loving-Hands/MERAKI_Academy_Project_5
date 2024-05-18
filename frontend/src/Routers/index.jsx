@@ -9,6 +9,7 @@ import InfoClinic from "../pages/infoClinic.jsx";
 import Specialization from "../pages/specialization";
 import LoginDoc from "../pages/doctorLogin";
 import RegisterDoc from "../pages/doctorRegister";
+import RegisterAppointmentClinic from "../pages/registerAppointmentClinic.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: "registerDoc",
         element: <RegisterDoc />,
+      },
+      {
+        path: "/appointment/:id",
+        element: <RegisterAppointmentClinic />,
       },
     ],
   },

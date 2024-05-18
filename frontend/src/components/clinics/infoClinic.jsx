@@ -6,12 +6,15 @@ import { BsQuestionSquare } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiImageOn } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 import backgroundImage from "./top-clinic.png";
 
 export default function InfoClinic() {
   const { id } = useParams();
+
   const [clinicData, setClinicData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -24,6 +27,12 @@ export default function InfoClinic() {
         console.log(error);
       });
   }, [id]);
+
+  // const getTheUserId = localStorage.getItem("userId");
+
+  const handleBookPage = () => {
+    navigate(`/appointment/${id}`);
+  };
 
   return (
     <>
@@ -136,7 +145,12 @@ export default function InfoClinic() {
                         <strong>To:</strong> {clinicData.time_close}
                       </div>
                       <div className="footer">
-                        <button className="book-button">Book</button>
+                        <button
+                          className="book-button"
+                          onClick={handleBookPage}
+                        >
+                          Book
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -150,7 +164,12 @@ export default function InfoClinic() {
                         <strong>To:</strong> {clinicData.time_close}
                       </div>
                       <div className="footer">
-                        <button className="book-button">Book</button>
+                        <button
+                          className="book-button"
+                          onClick={handleBookPage}
+                        >
+                          Book
+                        </button>
                       </div>
                     </div>
                   </div>
