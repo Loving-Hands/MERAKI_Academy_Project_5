@@ -1,4 +1,4 @@
-const {pool} = require("../models/db");
+const { pool } = require("../models/db");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -6,13 +6,7 @@ const jwt = require("jsonwebtoken");
 const register = async (req, res) => {
   const { full_name, age, phone_number, email, password, gender } = req.body;
   const role_id = 1;
-  if (
-    !full_name ||
-    !phone_number ||
-    !password ||
-    !email ||
-    !gender 
-  ) {
+  if (!full_name || !phone_number || !password || !email || !gender) {
     return res.status(400).json({
       success: false,
       message:
@@ -43,9 +37,10 @@ const register = async (req, res) => {
     )
     .then((result) => {
       console.log(result.rows);
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        massage: "Account created successfully",
+        message: "Account created successfully",
+        result: result.rows,
       });
     })
     .catch((err) => {
@@ -53,6 +48,7 @@ const register = async (req, res) => {
       res.status(409).json({
         success: false,
         message: "The email already exists",
+        error: err,
       });
     });
 };
@@ -73,7 +69,7 @@ const login = (req, res) => {
       if (!result.rows.length)
         res.status(403).json({
           success: false,
-          massage:
+          message:
             "The email doesn’t exist or the password you’ve entered is incorrect",
         });
       else {
@@ -85,7 +81,7 @@ const login = (req, res) => {
         if (!isValid) {
           res.status(403).json({
             success: false,
-            massage:
+            message:
               "The email doesn’t exist or the password you’ve entered is incorrect",
           });
         } else {
@@ -100,10 +96,10 @@ const login = (req, res) => {
           const userToken = jwt.sign(payload, process.env.SECRET, options);
           res.status(200).json({
             success: true,
-            massage: "Valid login credentials",
+            message: `Login Successfully`,
             token: userToken,
             userId: result.rows[0].id,
-            role_id: result.rows[0].role_id
+            role_id: result.rows[0].role_id,
           });
         }
       }
@@ -111,9 +107,8 @@ const login = (req, res) => {
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message:
-          "Server Error",
-        error : err,
+        message: "Server Error",
+        error: err,
       });
     });
 };

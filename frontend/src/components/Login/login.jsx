@@ -15,12 +15,12 @@ const login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn, userId,role } = useSelector((state) => {
+  const { isLoggedIn, userId, role } = useSelector((state) => {
     return {
       // token : state.auth.token,
       isLoggedIn: state.auth.isLoggedIn,
       userId: state.auth.userId,
-      role : state.auth.role
+      role: state.auth.role,
     };
   });
 
@@ -31,7 +31,7 @@ const login = () => {
 
   //===============================================================
   const Login = async (e) => {
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
     e.preventDefault();
     try {
       const result = await axios.post("http://localhost:5000/users/login", {
@@ -57,11 +57,11 @@ const login = () => {
   //===============================================================
   useEffect(() => {
     if (isLoggedIn) {
-      if(role===1){
+      if (role === 1) {
         navigate("/");
       }
     }
-  }, [isLoggedIn, userId,role]);
+  }, [isLoggedIn, userId, role]);
 
   //===============================================================
   return (
@@ -106,7 +106,11 @@ const login = () => {
       </div>
       {status
         ? message && <div className="SuccessMessage">{message}</div>
-        : message && <div className="ErrorMessage">{message}</div>}
+        : message && (
+            <div class="alert">
+              <strong>ATTENTION!</strong> {message}
+            </div>
+          )}
     </>
   );
 };

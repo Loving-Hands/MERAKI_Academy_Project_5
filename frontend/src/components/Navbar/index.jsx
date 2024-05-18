@@ -36,7 +36,7 @@ function Navbar() {
       className="navbar navbar-expand-lg navbar-dark"
       style={{ backgroundColor: "#1787e0" }}
     > 
-    {!isLoggedIn && !isLoggedInDoc && (  
+    {/* {!isLoggedIn && !isLoggedInDoc && (   */}
        <div className="container d-flex justify-content-between align-items-center">
     <div>
       <NavLink to="/" className="navbar-brand mr-auto">
@@ -81,11 +81,12 @@ function Navbar() {
       <button onClick={() => changeLanguage("en")}>en</button>
       <button onClick={() => changeLanguage("ar")}>ar</button>
     </div>
-  </div>)}
+  </div>
+  {/* )} */}
  
       {isLoggedIn && role === 1  && (
         <>
-        <div className="container d-flex justify-content-between align-items-center">
+        {/* <div className="container d-flex justify-content-between align-items-center">
             <div>
               <NavLink to="/" className="navbar-brand mr-auto">
                 LovingHands
@@ -118,7 +119,7 @@ function Navbar() {
             <div>
               <button onClick={() => changeLanguage("en")}>en</button>
               <button onClick={() => changeLanguage("ar")}>ar</button>
-            </div>
+            </div> */}
             <button
               className="logout"
               onClick={() => {
@@ -128,12 +129,12 @@ function Navbar() {
             >
               Logout
             </button>
-          </div> 
+          {/* </div>  */}
         </>
       )}
        {isLoggedInDoc && roleDoc === 2  && (
         <>
-        <div className="container d-flex justify-content-between align-items-center">
+        {/* <div className="container d-flex justify-content-between align-items-center">
             <div>
               <NavLink to="/" className="navbar-brand mr-auto">
                 LovingHands
@@ -166,7 +167,7 @@ function Navbar() {
             <div>
               <button onClick={() => changeLanguage("en")}>en</button>
               <button onClick={() => changeLanguage("ar")}>ar</button>
-            </div>
+            </div> */}
             <button
               className="logout"
               onClick={() => {
@@ -176,7 +177,7 @@ function Navbar() {
             >
               Logout Doctor 
             </button>
-          </div> 
+          {/* </div>  */}
         </>
       )}
     </nav>
