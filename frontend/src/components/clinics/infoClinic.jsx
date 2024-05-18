@@ -145,7 +145,12 @@ export default function InfoClinic() {
                         <strong>To:</strong> {clinicData.time_close}
                       </div>
                       <div className="footer">
-                        <button className="book-button">Book</button>
+                        <button
+                          className="book-button"
+                          onClick={handleBookPage}
+                        >
+                          Book
+                        </button>
                       </div>
                     </div>
                   </div>
