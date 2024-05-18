@@ -4,8 +4,9 @@ const { pool } = require("../models/db.js");
 exports.createAppointmentClinicIdByUserId = (req, res) => {
   const { userId } = req.token;
   const { clinicId } = req.params;
-  const { date_time } = req.body;
+  const { date_time, status } = req.body; // Extract status from req.body
   const clinicQuery = "SELECT * FROM clinics WHERE id = $1";
+
   pool
     .query(clinicQuery, [clinicId])
     .then((clinicResult) => {
@@ -15,6 +16,7 @@ exports.createAppointmentClinicIdByUserId = (req, res) => {
           message: `Clinic with ID ${clinicId} not found.`,
         });
       }
+
       const userQuery = "SELECT * FROM users WHERE id = $1";
       return pool.query(userQuery, [userId]);
     })
@@ -25,13 +27,14 @@ exports.createAppointmentClinicIdByUserId = (req, res) => {
           message: `User with ID ${userId} not found.`,
         });
       }
+
       const insertQuery = `
-          INSERT INTO appointment (date_time, status, user_id, clinic_id)
-          VALUES ($1, $2, $3, $4)
-          RETURNING *
-        `;
-      const status = "Scheduled";
-      const values = [date_time, status, userId, clinicId];
+        INSERT INTO appointment (date_time, status, user_id, clinic_id)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *
+      `;
+
+      const values = [date_time, status, userId, clinicId]; // Include status in values array
 
       return pool.query(insertQuery, values);
     })
@@ -51,6 +54,7 @@ exports.createAppointmentClinicIdByUserId = (req, res) => {
       });
     });
 };
+
 exports.getAllAppointmentByClinicId = (req, res) => {
   const { clinicId } = req.params;
   pool

@@ -344,3 +344,71 @@ a {
 .countClinics {
   color: var(--sup-main-color);
 }
+/* ---------Uniqe Appointment Start--------- */
+/* registerAppointmentClinic.css */
+
+.uniqueAppointment-main-wrapper {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.uniqueAppointment-form-wrapper {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.uniqueAppointment-form-wrapper form {
+  display: flex;
+  flex-direction: column;
+}
+
+.uniqueAppointment-form-wrapper label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.uniqueAppointment-form-wrapper .form-group {
+  margin-bottom: 15px;
+}
+
+.uniqueAppointment-form-wrapper .form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.uniqueAppointment-btn {
+  padding: 10px 20px;
+  background-color: var(--main-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.uniqueAppointment-btn:hover {
+  background-color: rgb(23, 135, 224);
+}
+
+.btn-group {
+  margin-bottom: 15px;
+}
+
+.btn-outline-primary {
+  margin-right: 5px;
+}
+
+.uniqueAppointment-form-wrapper h2,
+.uniqueAppointment-form-wrapper label {
+  color: var(--sup-main-color);
+}
+
+/* ---------Uniqe Appointment End--------- */

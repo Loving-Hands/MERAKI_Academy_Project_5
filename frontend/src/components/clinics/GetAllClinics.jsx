@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAllClinic } from "../../service/redux/reducers/clinics/clinicSlice.jsx";
 import axios from "axios";
@@ -13,18 +13,30 @@ import "./clinic.css";
 export default function ClinicSpecialization() {
   const dispatch = useDispatch();
   const clinics = useSelector((state) => state.clinic.allClinic);
-const [clinicCount, setClinicCount] = useState("")
+
+  const [clinicCount, setClinicCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const clinicsPerPage = 2;
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/clinic/`)
       .then((result) => {
         dispatch(setAllClinic(result.data));
-        setClinicCount(result.data.length)
+        setClinicCount(result.data.length);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [dispatch]);
+
+  const indexOfLastClinic = currentPage * clinicsPerPage;
+  const indexOfFirstClinic = indexOfLastClinic - clinicsPerPage;
+  const currentClinics = clinics.slice(indexOfFirstClinic, indexOfLastClinic);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
@@ -32,9 +44,7 @@ const [clinicCount, setClinicCount] = useState("")
         <div
           className="all-title-box"
           style={{ backgroundImage: `url(${backgroundImage})` }}
-          
         >
-          
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -44,11 +54,9 @@ const [clinicCount, setClinicCount] = useState("")
           </div>
         </div>
       </section>
-      <p>
-              عدد العيادات الموجوده: {clinicCount}
-          </p>
+      <h4 className="container">Total Clinics: {clinicCount}</h4>
       <section className="doctor container">
-        {clinics.map((clinic, index) => (
+        {currentClinics.map((clinic, index) => (
           <Link to={`/infoClinic/${clinic.id}`} key={index}>
             <div className="card bg-light-subtle mt-4">
               <img
@@ -125,6 +133,23 @@ const [clinicCount, setClinicCount] = useState("")
             </div>
           </Link>
         ))}
+        {/* Pagination */}
+        <nav>
+          <ul className="pagination justify-content-center mt-4">
+            {[...Array(Math.ceil(clinicCount / clinicsPerPage)).keys()].map(
+              (number) => (
+                <li key={number + 1} className="page-item">
+                  <button
+                    onClick={() => paginate(number + 1)}
+                    className="page-link"
+                  >
+                    {number + 1}
+                  </button>
+                </li>
+              )
+            )}
+          </ul>
+        </nav>
       </section>
     </>
   );
