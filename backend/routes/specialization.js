@@ -3,7 +3,7 @@ const specializationRouter = express.Router();
 const specializationController = require("../controllers/specialization.js");
 const authentication = require("../middleware/authentication");
 specializationRouter.post(
-  "/",
+  "/create",
   authentication,
   specializationController.createNewSpecialization
 );
