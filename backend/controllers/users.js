@@ -16,7 +16,7 @@ const register = async (req, res) => {
     return res.status(400).json({
       success: false,
       message:
-        "All fields (full_name, phone_number, password, email, gender ) are required",
+        "All fields are required",
     });
   }
   const hash_password = await bcryptjs.hash(password, 10);

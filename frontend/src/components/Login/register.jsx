@@ -65,7 +65,8 @@ const Register = () => {
                 type="text"
                 className="input"
                 value={fullname}
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={(e) => setFullName(e.target.value)
+                }
               />
             </div>
             <div className="inputfield">
@@ -126,7 +127,6 @@ const Register = () => {
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
-
             <div className="inputfield">
               <button className="btn">Register</button>
             </div>
@@ -136,14 +136,13 @@ const Register = () => {
               </button>
             </div>
           </form>
-          
         </div>
       ) : (
         <p>Logout First</p>
       )}
       {status
-            ? message && <div className="SuccessMessage">{message}</div>
-            : message && <div className="ErrorMessage">{message}</div>}
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
     </>
   );
 };

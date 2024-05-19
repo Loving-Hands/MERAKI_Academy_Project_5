@@ -15,12 +15,12 @@ const loginDoc = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedInDoc, doctorId,roleDoc } = useSelector((state) => {
+  const { isLoggedInDoc, doctorId, roleDoc } = useSelector((state) => {
     return {
       // token : state.doc.token,
       isLoggedInDoc: state.doc.isLoggedIn,
       doctorId: state.doc.doctorId,
-      roleDoc : state.doc.role
+      roleDoc: state.doc.role,
     };
   });
 
@@ -57,7 +57,7 @@ const loginDoc = () => {
   //===============================================================
   useEffect(() => {
     if (isLoggedInDoc) {
-      if(roleDoc===2){
+      if (roleDoc === 2) {
         navigate("/");
       }
     }
@@ -87,6 +87,9 @@ const loginDoc = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {status
+            ? message && <div className="SuccessMessage">{message}</div>
+            : message && <div class="alert"> {message}</div>}
           <div className="inputfield">
             <button
               className="btn"
@@ -104,11 +107,6 @@ const loginDoc = () => {
           </div>
         </div>
       </div>
-      {status
-        ? message && <div className="SuccessMessage">{message}</div>
-        : message &&  <div class="alert">
-        <strong>ATTENTION!</strong> {message}
-      </div>}
     </>
   );
 };
