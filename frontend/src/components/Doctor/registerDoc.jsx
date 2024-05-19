@@ -67,7 +67,9 @@ const registerDoc = () => {
       })
       .catch((error) => {
         console.log("Error occurred during registration:");
-        console.log(error);
+        if (error.response && error.response.data) {
+          return setMessage(error.response.data.message);
+        }
         // You might want to update state to show an error message to the user
       });
   };
@@ -181,6 +183,13 @@ const registerDoc = () => {
             </div>
           </div>
         </div>
+        {status
+            ? message && <div className="SuccessMessage">{message}</div>
+            : message && (
+                <div class="alert">
+                  <strong>ATTENTION!</strong> {message}
+                </div>
+              )}
     </>
   );
 };
