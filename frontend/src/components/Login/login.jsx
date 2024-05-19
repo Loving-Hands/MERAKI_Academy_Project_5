@@ -102,6 +102,7 @@ const login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+        
           </div>
           <div className="inputfield">
             <label>Password</label>
@@ -144,3 +145,6 @@ const login = () => {
   );
 };
 export default login;
+
+
+{/* <div class="Commonstyle__Error-sc-1vgucvm-0 jjNxQN">Email Address is invalid</div> */}

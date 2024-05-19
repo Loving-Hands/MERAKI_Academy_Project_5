@@ -166,24 +166,3 @@ body{
   
 }
 
-.alert {
-  width: auto;
-  height: auto;
-  background: red;
-  position: relative;
-  animation: mymove 1s infinite;
-  animation-direction: normal;
-  /* animation-iteration-count: 1; */
-}
-
-@keyframes mymove {
-  from {
-    top: 0px;
-  }
-  to {
-    top: 100px;
-  }
-  0% {
-    animation-play-state: paused;
-  }
-}
