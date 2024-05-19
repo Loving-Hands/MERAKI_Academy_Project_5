@@ -16,7 +16,7 @@ const register = async (req, res) => {
     return res.status(400).json({
       success: false,
       message:
-        "All fields (full_name, phone_number, password, email, gender ) are required",
+        "All fields are required",
     });
   }
   const hash_password = await bcryptjs.hash(password, 10);
@@ -43,9 +43,10 @@ const register = async (req, res) => {
     )
     .then((result) => {
       console.log(result.rows);
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        massage: "Account created successfully",
+        message: "Account created successfully",
+        result: result.rows,
       });
     })
     .catch((err) => {
@@ -53,6 +54,7 @@ const register = async (req, res) => {
       res.status(409).json({
         success: false,
         message: "The email already exists",
+        error: err,
       });
     });
 };
@@ -73,7 +75,7 @@ const login = (req, res) => {
       if (!result.rows.length)
         res.status(403).json({
           success: false,
-          massage:
+          message:
             "The email doesn’t exist or the password you’ve entered is incorrect",
         });
       else {
@@ -85,7 +87,7 @@ const login = (req, res) => {
         if (!isValid) {
           res.status(403).json({
             success: false,
-            massage:
+            message:
               "The email doesn’t exist or the password you’ve entered is incorrect",
           });
         } else {
@@ -100,7 +102,7 @@ const login = (req, res) => {
           const userToken = jwt.sign(payload, process.env.SECRET, options);
           res.status(200).json({
             success: true,
-            massage: "Valid login credentials",
+            message: `Login Successfully`,
             token: userToken,
             userId: result.rows[0].id,
             role_id: result.rows[0].role_id

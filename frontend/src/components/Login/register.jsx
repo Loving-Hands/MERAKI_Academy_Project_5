@@ -40,11 +40,14 @@ const Register = () => {
       })
       .then((result) => {
         console.log(result);
+        setMessage("");
         navigate("/login");
       })
       .catch((error) => {
         console.log("Error occurred during registration:");
-        console.log(error);
+        if (error.response && error.response.data) {
+          return setMessage(error.response.data.message);
+        }
         // You might want to update state to show an error message to the user
       });
   };
@@ -63,6 +66,7 @@ const Register = () => {
                 className="input"
                 value={fullname}
                 onChange={(e) => setFullName(e.target.value)}
+                required
               />
             </div>
             <div className="inputfield">
@@ -72,8 +76,12 @@ const Register = () => {
                 className="input"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                required
               />
             </div>
+            {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -81,8 +89,13 @@ const Register = () => {
                 className="input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                maxLength={10}
+                required
               />
             </div>
+            {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Password</label>
               <input
@@ -90,6 +103,7 @@ const Register = () => {
                 className="input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="inputfield">
@@ -101,6 +115,7 @@ const Register = () => {
                   name="fav_language"
                   defaultValue="Male"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 />
                 <label htmlFor="html">Male</label>
                 <br />
@@ -110,6 +125,7 @@ const Register = () => {
                   name="fav_language"
                   defaultValue="Female"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 />
                 <label htmlFor="css">Female</label>
               </>
@@ -121,9 +137,9 @@ const Register = () => {
                 className="input"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
+                required
               />
             </div>
-
             <div className="inputfield">
               <button className="btn">Register</button>
             </div>
@@ -133,15 +149,18 @@ const Register = () => {
               </button>
             </div>
           </form>
-          {status
-            ? message && <div className="SuccessMessage">{message}</div>
-            : message && <div className="ErrorMessage">{message}</div>}
         </div>
       ) : (
         <p>Logout First</p>
       )}
+     
     </>
   );
 };
 
 export default Register;
+
+
+// {success
+//   ? message && <div className="SuccessMessage">{message}</div>
+//   : message && <div class="alert"> {message}</div>}

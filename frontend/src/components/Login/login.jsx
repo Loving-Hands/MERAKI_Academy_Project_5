@@ -10,19 +10,30 @@ import {
 } from "../../service/redux/reducers/auth/authSlice";
 import { auth, provider } from "../config";
 import { signInWithPopup } from "firebase/auth";
+import Sptlization from "../Sptilization/index.jsx";
+//====================================================================
 
-const Login = () => {
+const login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn, userId, role, token } = useSelector((state) => state.auth);
+  const { isLoggedIn, userId, role } = useSelector((state) => {
+    return {
+      // token : state.auth.token,
+      isLoggedIn: state.auth.isLoggedIn,
+      userId: state.auth.userId,
+      role: state.auth.role,
+    };
+  });
 
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
-
+  const [value, setValue] = useState("");
+  //===============================================================
   const Login = async (e) => {
+    // console.log(isLoggedIn);
     e.preventDefault();
     try {
       const result = await axios.post("http://localhost:5000/users/login", {
@@ -30,6 +41,7 @@ const Login = () => {
         password,
       });
       if (result.data) {
+        console.log(result.data);
         setMessage("");
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
@@ -44,21 +56,25 @@ const Login = () => {
     }
   };
 
+  //===============================================================
   useEffect(() => {
     if (isLoggedIn) {
       if (role === 1) {
         navigate("/");
       }
     }
-  }, [isLoggedIn, role]);
+  }, [isLoggedIn, userId, role]);
 
   const handleWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then(async (data) => {
+        console.log(data);
         const result = await axios.post("http://localhost:5000/users/login", {
           email: data.user.email,
           password: data.user.uid,
         });
+        setValue(data.user.email);
+        console.log(result);
         localStorage.setItem("email", data.user.email);
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
@@ -69,9 +85,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    setEmail(localStorage.getItem("email"));
+    setValue(localStorage.getItem("email"));
   }, []);
 
+  //===============================================================
   return (
     <>
       <div className="wrapper">
@@ -95,8 +112,16 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
           <div className="inputfield">
-            <button className="btn" onClick={Login}>
+            <button
+              className="btn"
+              onClick={(e) => {
+                Login(e);
+              }}
+            >
               Login
             </button>
           </div>
@@ -111,13 +136,11 @@ const Login = () => {
           </div>
         </div>
       </div>
-      {status ? (
-        message && <div className="SuccessMessage">{message}</div>
-      ) : (
-        message && <div className="ErrorMessage">{message}</div>
-      )}
     </>
   );
 };
+export default login;
 
-export default Login;
+{
+  /* <div class="Commonstyle__Error-sc-1vgucvm-0 jjNxQN">Email Address is invalid</div> */
+}

@@ -35,7 +35,7 @@ body{
   align-items: center;
 }
 
-.wrapper .form .inputfield label{
+.wrapper .form .inputfield label .p{
    width: 200px;
    color: #757575;
    margin-right: 10px;
@@ -163,6 +163,13 @@ body{
   &:hover {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
   }
-  
 }
 
+.form .alert {
+  width :300px;
+  color: red;
+  font-size: 14px;
+  left: 130px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
@@ -22,7 +22,7 @@ function Navbar() {
   }));
 
   const { t, i18n } = useTranslation();
-  const [searchItem, setSearchItem] = useState('');
+  const [searchItem, setSearchItem] = useState("");
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -30,59 +30,64 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
-      {!isLoggedIn && !isLoggedInDoc && (
-        <div className="container d-flex justify-content-between align-items-center">
-          <div>
-            <NavLink to="/" className="navbar-brand mr-auto">
-              LovingHands
-            </NavLink>
-          </div>
-          <form className="form-inline my-2 my-lg-0">
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              placeholder={t('Search')}
-              aria-label="Search"
-              style={{ width: "250px" }}
-              value={searchItem}
-              onChange={(e) => setSearchItem(e.target.value)}
-            />
-          </form>
-          <div className="ml-auto">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink to="/login" className="nav-link">
-                  {t("Login")}
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/register" className="nav-link">
-                  {t("Register")}
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/contactus" className="nav-link">
-                  {t("Contact Us")}
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/allClinics" className="nav-link">
-                  {t("Clinics")}
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-          <h1>{t("Welcome to React")}</h1>
-          <div>
-            <button onClick={() => changeLanguage("en")}>en</button>
-            <button onClick={() => changeLanguage("ar")}>ar</button>
-          </div>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ backgroundColor: "#1787e0" }}
+    >
+      {/* {!isLoggedIn && !isLoggedInDoc && ( */}
+      <div className="container d-flex justify-content-between align-items-center">
+        <div>
+          <NavLink to="/" className="navbar-brand mr-auto">
+            LovingHands
+          </NavLink>
         </div>
-      )}
+        <form className="form-inline my-2 my-lg-0">
+          <input
+            className="form-control mr-sm-2"
+            type="search"
+            placeholder={t("Search")}
+            aria-label="Search"
+            style={{ width: "250px" }}
+            value={searchItem}
+            onChange={(e) => setSearchItem(e.target.value)}
+          />
+        </form>
+        <div className="ml-auto">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <NavLink to="/login" className="nav-link">
+                {t("Login")}
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/register" className="nav-link">
+                {t("Register")}
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/contactus" className="nav-link">
+                {t("Contact Us")}
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/allClinics" className="nav-link">
+                {t("Clinics")}
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <h1>{t("Welcome to React")}</h1>
+        <div>
+          <button onClick={() => changeLanguage("en")}>en</button>
+          <button onClick={() => changeLanguage("ar")}>ar</button>
+        </div>
+      </div>
+      {/* )} */}
+
       {isLoggedIn && role === 1 && (
-        <div className="container d-flex justify-content-between align-items-center">
-          <div>
+        <>
+         {/* <div className="container d-flex justify-content-between align-items-center"> */}
+          {/* <div>
             <NavLink to="/" className="navbar-brand mr-auto">
               LovingHands
             </NavLink>
@@ -91,7 +96,7 @@ function Navbar() {
             <input
               className="form-control mr-sm-2"
               type="search"
-              placeholder={t('Search')}
+              placeholder={t("Search")}
               aria-label="Search"
               style={{ width: "250px" }}
               value={searchItem}
@@ -116,7 +121,7 @@ function Navbar() {
           <div>
             <button onClick={() => changeLanguage("en")}>en</button>
             <button onClick={() => changeLanguage("ar")}>ar</button>
-          </div>
+          </div> */}
           <button
             className="logout"
             onClick={() => {
@@ -126,11 +131,14 @@ function Navbar() {
           >
             Logout
           </button>
-        </div>
+        {/* </div> */}
+        </>
+       
       )}
       {isLoggedInDoc && roleDoc === 2 && (
-        <div className="container d-flex justify-content-between align-items-center">
-          <div>
+        <>
+           {/* <div className="container d-flex justify-content-between align-items-center"> */}
+          {/* <div>
             <NavLink to="/" className="navbar-brand mr-auto">
               <img src={logo} alt="Logo" style={{ width: "130px" }} />
             </NavLink>
@@ -139,7 +147,7 @@ function Navbar() {
             <input
               className="form-control mr-sm-2"
               type="search"
-              placeholder={t('Search')}
+              placeholder={t("Search")}
               aria-label="Search"
               style={{ width: "250px" }}
               value={searchItem}
@@ -164,7 +172,7 @@ function Navbar() {
           <div>
             <button onClick={() => changeLanguage("en")}>en</button>
             <button onClick={() => changeLanguage("ar")}>ar</button>
-          </div>
+          </div> */}
           <button
             className="logout"
             onClick={() => {
@@ -174,7 +182,9 @@ function Navbar() {
           >
             Logout Doctor
           </button>
-        </div>
+        {/* </div> */}
+        </>
+     
       )}
     </nav>
   );
