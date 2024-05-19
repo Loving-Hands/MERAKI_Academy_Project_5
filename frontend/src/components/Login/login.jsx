@@ -8,21 +8,21 @@ import {
   setUserId,
   setRoleId,
 } from "../../service/redux/reducers/auth/authSlice";
-import { auth,provider } from "../config";
-import {signInWithPopup} from "firebase/auth"
-import Sptlization from "../Sptilization/index.jsx"
+import { auth, provider } from "../config";
+import { signInWithPopup } from "firebase/auth";
+import Sptlization from "../Sptilization/index.jsx";
 //====================================================================
 
 const login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn, userId,role } = useSelector((state) => {
+  const { isLoggedIn, userId, role } = useSelector((state) => {
     return {
       // token : state.auth.token,
       isLoggedIn: state.auth.isLoggedIn,
       userId: state.auth.userId,
-      role : state.auth.role
+      role: state.auth.role,
     };
   });
 
@@ -30,10 +30,10 @@ const login = () => {
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
-const [value, setValue] = useState("")
+  const [value, setValue] = useState("");
   //===============================================================
   const Login = async (e) => {
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
     e.preventDefault();
     try {
       const result = await axios.post("http://localhost:5000/users/login", {
@@ -59,22 +59,22 @@ const [value, setValue] = useState("")
   //===============================================================
   useEffect(() => {
     if (isLoggedIn) {
-      if(role===1){
+      if (role === 1) {
         navigate("/");
       }
     }
-  }, [isLoggedIn, userId,role]);
+  }, [isLoggedIn, userId, role]);
 
   const handleWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then(async(data) => {
-        console.log(data)
+      .then(async (data) => {
+        console.log(data);
         const result = await axios.post("http://localhost:5000/users/login", {
-          email:data.user.email,
-          password:data.user.uid,
+          email: data.user.email,
+          password: data.user.uid,
         });
         setValue(data.user.email);
-        console.log(result)
+        console.log(result);
         localStorage.setItem("email", data.user.email);
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
@@ -123,20 +123,23 @@ const [value, setValue] = useState("")
             </button>
           </div>
           <div className="inputfield">
-            
-            <button type="button" className="login-with-google-btn" onClick={handleWithGoogle}>
+            <button
+              type="button"
+              className="login-with-google-btn"
+              onClick={handleWithGoogle}
+            >
               Continue with Google
             </button>
-
           </div>
         </div>
       </div>
       {status
         ? message && <div className="SuccessMessage">{message}</div>
-        : message && <div className="ErrorMessage">{message}</div>}
-<div>
-
-</div>
+        : message && (
+            <div class="alert">
+              <strong>ATTENTION!</strong> {message}
+            </div>
+          )}
     </>
   );
 };
