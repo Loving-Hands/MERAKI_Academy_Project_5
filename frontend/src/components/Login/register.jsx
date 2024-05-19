@@ -65,8 +65,7 @@ const Register = () => {
                 type="text"
                 className="input"
                 value={fullname}
-                onChange={(e) => setFullName(e.target.value)
-                }
+                onChange={(e) => setFullName(e.target.value)}
                 required
               />
             </div>
@@ -80,7 +79,9 @@ const Register = () => {
                 required
               />
             </div>
-            {/* {status ? true : message && <div className="alert"> {message}</div>} */}
+            {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -88,10 +89,13 @@ const Register = () => {
                 className="input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                maxLength={10}
                 required
               />
             </div>
-            {/* {status ? true : message && <div className="alert"> {message}</div>} */}
+            {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Password</label>
               <input
@@ -146,7 +150,6 @@ const Register = () => {
             </div>
           </form>
         </div>
-        
       ) : (
         <p>Logout First</p>
       )}
@@ -156,3 +159,8 @@ const Register = () => {
 };
 
 export default Register;
+
+
+// {success
+//   ? message && <div className="SuccessMessage">{message}</div>
+//   : message && <div class="alert"> {message}</div>}

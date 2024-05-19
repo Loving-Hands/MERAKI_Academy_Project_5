@@ -7,7 +7,7 @@ export const auth = createSlice({
     userId: localStorage.getItem("userId") || "",
     isLoggedIn: localStorage.getItem("token") ? true : false,
     message: "",
-    // status: false,
+    success: false,
     role: localStorage.getItem("role") || "",
     username: null
   },

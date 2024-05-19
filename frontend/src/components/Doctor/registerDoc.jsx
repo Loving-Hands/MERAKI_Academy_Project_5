@@ -91,6 +91,7 @@ const registerDoc = () => {
                 className="input"
                 value={fullname}
                 onChange={(e) => setFullName(e.target.value)}
+                required
               />
             </div>
             <div className="inputfield">
@@ -100,8 +101,13 @@ const registerDoc = () => {
                 className="input"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                maxLength={10}
+                required
               />
             </div>
+            {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -109,8 +115,13 @@ const registerDoc = () => {
                 className="input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
+            {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
+
             <div className="inputfield">
               <label>Password</label>
               <input
@@ -118,6 +129,7 @@ const registerDoc = () => {
                 className="input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="inputfield">
@@ -129,6 +141,7 @@ const registerDoc = () => {
                   name="fav_language"
                   defaultValue="Male"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 />
                 <label htmlFor="html">Male</label>
                 <br />
@@ -138,6 +151,7 @@ const registerDoc = () => {
                   name="fav_language"
                   defaultValue="Female"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 />
                 <label htmlFor="css">Female</label>
               </>
@@ -151,6 +165,7 @@ const registerDoc = () => {
                   name="filename"
                   // value={imageDoctor}
                   // onChange={ ()=>{setImageDoctor("https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*")}}
+                  required
                 />
               </form>
             </div>
@@ -161,6 +176,7 @@ const registerDoc = () => {
                 className="input"
                 value={specializationDoctor}
                 onChange={(e) => setSpecializationDoctor(e.target.value)}
+                required
               >
                 {specializations.map((specialization) => (
                   <option
@@ -182,15 +198,7 @@ const registerDoc = () => {
               </button>
             </div>
           </div>
-          {status
-            ? message && <div className="SuccessMessage">{message}</div>
-            : message && (
-                <div class="alert">
-                  <strong>ATTENTION!</strong> {message}
-                </div>
-              )}
         </div>
-        
     </>
   );
 };
