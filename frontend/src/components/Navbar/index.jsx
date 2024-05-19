@@ -38,7 +38,7 @@ function Navbar() {
       <div className="container d-flex justify-content-between align-items-center">
         <div>
           <NavLink to="/" className="navbar-brand mr-auto">
-            LovingHands
+            <img src={logo} style={{ width: "130px" }} />
           </NavLink>
         </div>
         <form className="form-inline my-2 my-lg-0">
@@ -86,7 +86,7 @@ function Navbar() {
 
       {isLoggedIn && role === 1 && (
         <>
-         {/* <div className="container d-flex justify-content-between align-items-center"> */}
+          {/* <div className="container d-flex justify-content-between align-items-center"> */}
           {/* <div>
             <NavLink to="/" className="navbar-brand mr-auto">
               LovingHands
@@ -131,13 +131,12 @@ function Navbar() {
           >
             Logout
           </button>
-        {/* </div> */}
+          {/* </div> */}
         </>
-       
       )}
       {isLoggedInDoc && roleDoc === 2 && (
         <>
-           {/* <div className="container d-flex justify-content-between align-items-center"> */}
+          {/* <div className="container d-flex justify-content-between align-items-center"> */}
           {/* <div>
             <NavLink to="/" className="navbar-brand mr-auto">
               <img src={logo} alt="Logo" style={{ width: "130px" }} />
@@ -182,9 +181,8 @@ function Navbar() {
           >
             Logout Doctor
           </button>
-        {/* </div> */}
+          {/* </div> */}
         </>
-     
       )}
     </nav>
   );
