@@ -166,3 +166,11 @@ body{
   
 }
 
+.form .alert {
+  width :300px;
+  color: red;
+  font-size: 14px;
+  left: 130px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}

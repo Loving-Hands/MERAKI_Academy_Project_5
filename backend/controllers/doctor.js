@@ -24,7 +24,7 @@ exports.registerDoctor = async (req, res) => {
     return res.status(400).json({
       success: false,
       message:
-        "All fields (full_name, phone_number, password, email, gender ,image_doctor , specialization_doctor ) are required",
+        "All fields are required",
     });
   }
   const encryptedPassword = await bcryptjs.hash(password, 9);

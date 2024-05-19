@@ -15,12 +15,12 @@ const loginDoc = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn, doctorId,role } = useSelector((state) => {
+  const { isLoggedInDoc, doctorId, roleDoc } = useSelector((state) => {
     return {
       // token : state.doc.token,
-      isLoggedIn: state.doc.isLoggedIn,
+      isLoggedInDoc: state.doc.isLoggedIn,
       doctorId: state.doc.doctorId,
-      role : state.doc.role
+      roleDoc: state.doc.role,
     };
   });
 
@@ -31,7 +31,7 @@ const loginDoc = () => {
 
   //===============================================================
   const Login = async (e) => {
-    console.log(isLoggedIn);
+    // console.log(isLoggedInDoc);
     e.preventDefault();
     try {
       const result = await axios.post("http://localhost:5000/doctor/login", {
@@ -56,12 +56,12 @@ const loginDoc = () => {
 
   //===============================================================
   useEffect(() => {
-    if (isLoggedIn) {
-      if(role===2){
+    if (isLoggedInDoc) {
+      if (roleDoc === 2) {
         navigate("/");
       }
     }
-  }, [isLoggedIn, doctorId, role]);
+  }, [isLoggedInDoc, doctorId, roleDoc]);
 
   //===============================================================
   return (
@@ -87,6 +87,9 @@ const loginDoc = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {status
+            ? message && <div className="SuccessMessage">{message}</div>
+            : message && <div class="alert"> {message}</div>}
           <div className="inputfield">
             <button
               className="btn"
@@ -104,9 +107,6 @@ const loginDoc = () => {
           </div>
         </div>
       </div>
-      {status
-        ? message && <div className="SuccessMessage">{message}</div>
-        : message && <div className="ErrorMessage">{message}</div>}
     </>
   );
 };
