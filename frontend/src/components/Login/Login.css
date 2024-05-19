@@ -30,7 +30,7 @@ body {
 }
 
 .wrapper .form .inputfield {
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   display: flex;
   align-items: center;
 }
@@ -165,3 +165,11 @@ body {
   }
 }
 
+.form .alert {
+  width :300px;
+  color: red;
+  font-size: 14px;
+  left: 130px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}

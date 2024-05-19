@@ -102,7 +102,6 @@ const login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-        
           </div>
           <div className="inputfield">
             <label>Password</label>
@@ -113,6 +112,9 @@ const login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="alert"> {message}</div>}
           <div className="inputfield">
             <button
               className="btn"
@@ -134,17 +136,11 @@ const login = () => {
           </div>
         </div>
       </div>
-      {status
-        ? message && <div className="SuccessMessage">{message}</div>
-        : message && (
-            <div class="alert">
-              <strong>ATTENTION!</strong> {message}
-            </div>
-          )}
     </>
   );
 };
 export default login;
 
-
-{/* <div class="Commonstyle__Error-sc-1vgucvm-0 jjNxQN">Email Address is invalid</div> */}
+{
+  /* <div class="Commonstyle__Error-sc-1vgucvm-0 jjNxQN">Email Address is invalid</div> */
+}
