@@ -77,6 +77,7 @@ const Register = () => {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 required
+                maxLength={10}
               />
             </div>
             {status
@@ -89,7 +90,6 @@ const Register = () => {
                 className="input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                maxLength={10}
                 required
               />
             </div>
@@ -153,13 +153,11 @@ const Register = () => {
       ) : (
         <p>Logout First</p>
       )}
-     
     </>
   );
 };
 
 export default Register;
-
 
 // {success
 //   ? message && <div className="SuccessMessage">{message}</div>
