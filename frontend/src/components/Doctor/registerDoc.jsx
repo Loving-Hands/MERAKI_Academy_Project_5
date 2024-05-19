@@ -182,14 +182,15 @@ const registerDoc = () => {
               </button>
             </div>
           </div>
-        </div>
-        {status
+          {status
             ? message && <div className="SuccessMessage">{message}</div>
             : message && (
                 <div class="alert">
                   <strong>ATTENTION!</strong> {message}
                 </div>
               )}
+        </div>
+        
     </>
   );
 };

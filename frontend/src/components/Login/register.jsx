@@ -67,6 +67,7 @@ const Register = () => {
                 value={fullname}
                 onChange={(e) => setFullName(e.target.value)
                 }
+                required
               />
             </div>
             <div className="inputfield">
@@ -76,8 +77,10 @@ const Register = () => {
                 className="input"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                required
               />
             </div>
+            {/* {status ? true : message && <div className="alert"> {message}</div>} */}
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -85,8 +88,10 @@ const Register = () => {
                 className="input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
+            {/* {status ? true : message && <div className="alert"> {message}</div>} */}
             <div className="inputfield">
               <label>Password</label>
               <input
@@ -94,6 +99,7 @@ const Register = () => {
                 className="input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="inputfield">
@@ -105,6 +111,7 @@ const Register = () => {
                   name="fav_language"
                   defaultValue="Male"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 />
                 <label htmlFor="html">Male</label>
                 <br />
@@ -114,6 +121,7 @@ const Register = () => {
                   name="fav_language"
                   defaultValue="Female"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 />
                 <label htmlFor="css">Female</label>
               </>
@@ -125,6 +133,7 @@ const Register = () => {
                 className="input"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
+                required
               />
             </div>
             <div className="inputfield">
@@ -137,12 +146,11 @@ const Register = () => {
             </div>
           </form>
         </div>
+        
       ) : (
         <p>Logout First</p>
       )}
-      {status
-              ? message && <div className="SuccessMessage">{message}</div>
-              : message && <div className="alert"> {message}</div>}
+     
     </>
   );
 };
