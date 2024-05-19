@@ -166,4 +166,15 @@
     
   }
   
+  .alert {
+    width: 300px;
+      height: 100px; 
+      background-color: #f10707;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+  
   
