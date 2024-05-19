@@ -28,11 +28,13 @@ const loginDoc = () => {
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
+  const [errors ,setErrors] = useState({});
 
   //===============================================================
   const Login = async (e) => {
     // console.log(isLoggedInDoc);
     e.preventDefault();
+    setErrors(Validation({email,password}));
     try {
       const result = await axios.post("http://localhost:5000/doctor/login", {
         email,
@@ -63,6 +65,21 @@ const loginDoc = () => {
     }
   }, [isLoggedInDoc, doctorId, roleDoc]);
 
+  const Validation = (values) =>{
+    const errors = {};
+    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
+
+    if(values.email === ""){
+      errors.email = "Email is Required!";
+    }
+    else if (!email_pattern.test(values.email)){
+      errors.email = "Email did not match";
+    }
+    if(values.password === ""){
+      errors.password = "Password is Required!";
+    }
+    return errors;
+  }
   //===============================================================
   return (
     <>
@@ -78,6 +95,7 @@ const loginDoc = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+          {errors.email && <p style={{color: "red"}}>{errors.email}</p>}
           <div className="inputfield">
             <label>Password</label>
             <input
@@ -87,9 +105,7 @@ const loginDoc = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {status
-            ? message && <div className="SuccessMessage">{message}</div>
-            : message && <div class="alert"> {message}</div>}
+          {errors.password && <p style={{color: "red"}}>{errors.password}</p>}
           <div className="inputfield">
             <button
               className="btn"

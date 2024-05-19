@@ -98,7 +98,7 @@ const login = () => {
       errors.email = "Email is Required!";
     }
     else if (!email_pattern.test(values.email)){
-      errors.email = "email did not match";
+      errors.email = "Email did not match";
     }
     if(values.password === ""){
       errors.password = "Password is Required!";
@@ -121,7 +121,6 @@ const login = () => {
             />
           </div>
           {errors.email && <p style={{color: "red"}}>{errors.email}</p>}
-
           <div className="inputfield">
             <label>Password</label>
             <input
