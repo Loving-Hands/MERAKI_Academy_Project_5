@@ -12,9 +12,9 @@ export default function RegisterAppointmentClinic() {
   const { id } = useParams();
   const currentDate = new Date();
   const { token } = useSelector((state) => ({
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjM1LCJwaG9uZV9udW1iZXIiOiIxMjM0NTY3ODkxIiwicm9sZSI6MSwiaWF0IjoxNzE1OTk0NDY1LCJleHAiOjE3MTYwMTYwNjV9.CCrpPNW-trSQyawSRsbrpp2Dcbd-f1i4CC2T3dl-dLM",
+    token: state.auth.token,
   }));
+  console.log(token);
 
   const handleSetUrgent = (value) => {
     setUrgent(value);
