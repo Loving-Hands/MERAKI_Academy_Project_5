@@ -10,7 +10,7 @@ import Specialization from "../pages/specialization";
 import LoginDoc from "../pages/doctorLogin";
 import RegisterDoc from "../pages/doctorRegister";
 import RegisterAppointmentClinic from "../pages/registerAppointmentClinic.jsx";
-
+import InformationUsers from "../pages/informationUsers.jsx"
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -56,6 +56,10 @@ export const router = createBrowserRouter([
         path: "/appointment/:id",
         element: <RegisterAppointmentClinic />,
       },
+      {
+        path:"user/:id",
+        element:<InformationUsers/>
+      }
     ],
   },
 ]);

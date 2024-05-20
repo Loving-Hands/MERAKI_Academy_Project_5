@@ -7,6 +7,7 @@ import {
   setLogin,
   setUserId,
   setRoleId,
+  setUsername
 } from "../../service/redux/reducers/auth/authSlice";
 import { auth, provider } from "../config";
 import { signInWithPopup } from "firebase/auth";
@@ -46,6 +47,7 @@ const login = () => {
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
         dispatch(setRoleId(result.data.role_id));
+        dispatch(setUsername(result.data.username))
       } else throw Error;
     } catch (error) {
       console.log(error);
