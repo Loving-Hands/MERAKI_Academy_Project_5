@@ -112,21 +112,22 @@ const getClinicsByTopRating = (req, res) => {
       });
     });
 };
+
 const getAllClinicsById = (req, res) => {
   const { clinicid } = req.params;
   pool
     .query(
       `SELECT
-    ratings.rating,
-    ratings.comment,
-    ratings.rating_date,
-    users.full_name AS user_full_name
-  FROM
-    ratings
-  JOIN
-    users ON ratings.user_id = users.id
-  WHERE
-    ratings.clinic_id = ${clinicid};`
+  ratings.rating,
+  ratings.comment,
+  ratings.rating_date,
+  users.full_name AS user_full_name
+FROM
+  ratings
+JOIN
+  users ON ratings.user_id = users.id
+WHERE
+  ratings.clinic_id = ${clinicid};`
     )
     .then((result) => {
       res.status(200).json({
@@ -142,38 +143,9 @@ const getAllClinicsById = (req, res) => {
       });
     });
 };
-
-const getAllClinicsById = (req,res)=>{
-const {clinicid} = req.params;
-pool.query(
-  `SELECT
-  ratings.rating,
-  ratings.comment,
-  ratings.rating_date,
-  users.full_name AS user_full_name
-FROM
-  ratings
-JOIN
-  users ON ratings.user_id = users.id
-WHERE
-  ratings.clinic_id = ${clinicid};`
-).then((result)=>{
-  res.status(200).json({
-    success: true,
-    message: `All comments`,
-    result: result.rows
-  })
-})
-.catch((error)=>{
-  res.status(500).json({
-    success: false,
-    message: `No comments`,
-  })
-})
-}
 module.exports = {
   createRatingByUserIdForClinic,
   getAverageRatingByClinicId,
   getClinicsByTopRating,
-  getAllClinicsById
+  getAllClinicsById,
 };
