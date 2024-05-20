@@ -85,20 +85,21 @@ const getClinicsByTopRating = (req, res) => {
   SELECT clinics.specialization, specialization. name_specialization ,ratings.* FROM ratings
    full outer join clinics On ratings.clinic_id= clinics.id full outer join specialization On clinics. specialization =  specialization. id where specialization. id = $1 ORDER BY rating desc
   `;
-  pool.query(query, [specializationId])
+  pool
+    .query(query, [specializationId])
     .then((result) => {
       // console.log(result.rows[4].id);
       if (result.rows.specialization === null) {
         res.status(404).json({
           success: false,
           message: `No ratings found for clinic with ID ${specializationId}`,
-          result: null
+          result: null,
         });
       } else {
         res.status(200).json({
           success: true,
           message: `Clinics From Higher Rating To Lower Rating`,
-          result: result.rows
+          result: result.rows,
         });
       }
     })
@@ -108,6 +109,36 @@ const getClinicsByTopRating = (req, res) => {
         success: false,
         message: "Internal Server Error",
         result: null,
+      });
+    });
+};
+const getAllClinicsById = (req, res) => {
+  const { clinicid } = req.params;
+  pool
+    .query(
+      `SELECT
+    ratings.rating,
+    ratings.comment,
+    ratings.rating_date,
+    users.full_name AS user_full_name
+  FROM
+    ratings
+  JOIN
+    users ON ratings.user_id = users.id
+  WHERE
+    ratings.clinic_id = ${clinicid};`
+    )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `All comments`,
+        result: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: `No comments`,
       });
     });
 };

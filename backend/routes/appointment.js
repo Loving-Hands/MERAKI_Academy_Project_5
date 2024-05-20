@@ -16,7 +16,7 @@ appointmentRouter.get(
 
 appointmentRouter.get(
   "/user/:userId",
-  authentication,
+
   appointmentController.getAppointmentByUserId
 );
 appointmentRouter.delete(
