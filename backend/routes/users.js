@@ -1,10 +1,12 @@
 const express = require("express");
 const userRouter = express.Router();
-const { register,login} = require("../controllers/users");
+const { register,login,getUser,changePassword} = require("../controllers/users");
 // Import users controllers
 
 userRouter.post("/register", register);
 userRouter.post("/login", login);
+userRouter.get('/:id',getUser)
+userRouter.post('/change-password', changePassword);
 
 module.exports = userRouter;
 
