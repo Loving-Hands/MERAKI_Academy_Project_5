@@ -65,21 +65,20 @@ const loginDoc = () => {
     }
   }, [isLoggedInDoc, doctorId, roleDoc]);
 
-  const Validation = (values) =>{
+  const Validation = (values) => {
     const errors = {};
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
 
-    if(values.email === ""){
+    if (values.email === "") {
       errors.email = "Email is Required!";
+    } else if (!email_pattern.test(values.email)) {
+      errors.email = "Email did not match the format";
     }
-    else if (!email_pattern.test(values.email)){
-      errors.email = "Email did not match";
-    }
-    if(values.password === ""){
+    if (values.password === "") {
       errors.password = "Password is Required!";
     }
     return errors;
-  }
+  };
   //===============================================================
   return (
     <>
@@ -94,8 +93,12 @@ const loginDoc = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.email && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.email}
+              </p>
+            )}
           </div>
-          {errors.email && <p style={{color: "red"}}>{errors.email}</p>}
           <div className="inputfield">
             <label>Password</label>
             <input
@@ -104,8 +107,12 @@ const loginDoc = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+             {errors.password && (
+              <p className="inputfield" style={{ color: "red" }}>
+                {errors.password}
+              </p>
+            )}
           </div>
-          {errors.password && <p style={{color: "red"}}>{errors.password}</p>}
           <div className="inputfield">
             <button
               className="btn"
@@ -116,6 +123,13 @@ const loginDoc = () => {
               Login
             </button>
           </div>
+          {status
+            ? console.log("true")
+            : message && (
+                <p className="invalid-message" style={{ color: "red" }}>
+                  {message}
+                </p>
+              )}
           <div className="inputfield">
             <button type="button" className="login-with-google-btn">
               Continue with Google
