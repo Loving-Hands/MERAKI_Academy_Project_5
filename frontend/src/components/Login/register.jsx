@@ -57,40 +57,39 @@ const Register = () => {
         // You might want to update state to show an error message to the user
       });
   };
-  const Validation = (values) =>{
+  const Validation = (values) => {
     const errors = {};
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
     const phone_pattern = /^\d{10}$/;
 
-    if(!values.fullname){
+    if (!values.fullname) {
       errors.fullname = "Full Name is Required!";
     }
-       if(!values.phoneNumber){
+    if (!values.phoneNumber) {
       errors.phoneNumber = "phone Number is Required!";
-    }else if (!phone_pattern.test(values.phoneNumber)) { 
+    } else if (!phone_pattern.test(values.phoneNumber)) {
       errors.phoneNumber = "Phone Number must be 10 digits";
     }
-    if(!values.email ){
+    if (!values.email) {
       errors.email = "Email is Required!";
-    }
-    else if (!email_pattern.test(values.email)){
+    } else if (!email_pattern.test(values.email)) {
       errors.email = "Email did not match";
     }
-    if(!values.password){
+    if (!values.password) {
       errors.password = "Password is Required!";
     }
-    if(!values.gender){
+    if (!values.gender) {
       errors.gender = "Gender is Required!";
     }
     return errors;
-  }
-  
+  };
+
   // =================================================================
 
   return (
     <>
       {!isLoggedIn ? (
-        <div className="wrapper">
+        <div className="wrapper_reg">
           <div className="title">Sign Up</div>
           <form className="form" onSubmit={addNewUser}>
             <div className="inputfield">
@@ -101,8 +100,13 @@ const Register = () => {
                 value={fullname}
                 onChange={(e) => setFullName(e.target.value)}
               />
+              {errors.fullname && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.fullname}
+                </p>
+              )}
             </div>
-            {errors.fullname && <p style={{color: "red"}}>{errors.fullname}</p>}
+
             <div className="inputfield">
               <label>Phone_Number</label>
               <input
@@ -110,9 +114,14 @@ const Register = () => {
                 className="input"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                maxLength={10}
               />
+              {errors.phoneNumber && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.phoneNumber}
+                </p>
+              )}
             </div>
-            {errors.phoneNumber && <p style={{color: "red"}}>{errors.phoneNumber}</p>}
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -121,8 +130,12 @@ const Register = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {errors.email && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.email}
+                </p>
+              )}
             </div>
-            {errors.email && <p style={{color: "red"}}>{errors.email}</p>}
             <div className="inputfield">
               <label>Password</label>
               <input
@@ -131,8 +144,12 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {errors.password && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.password}
+                </p>
+              )}
             </div>
-            {errors.password && <p style={{color: "red"}}>{errors.password}</p>}
             <div className="inputfield">
               <label>Gender</label>
               <>
@@ -143,8 +160,8 @@ const Register = () => {
                   defaultValue="Male"
                   onChange={(e) => setGender(e.target.value)}
                 />
+                
                 <label htmlFor="html">Male</label>
-                <br />
                 <input
                   type="radio"
                   id="css"
@@ -155,7 +172,11 @@ const Register = () => {
                 <label htmlFor="css">Female</label>
               </>
             </div>
-            {errors.gender && <p style={{color: "red"}}>{errors.gender}</p>}
+            {errors.gender && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.gender}
+                </p>
+              )}
 
             <div className="inputfield">
               <label>Age</label>
@@ -169,8 +190,14 @@ const Register = () => {
             <div className="inputfield">
               <button className="btn">Register</button>
             </div>
-            {status ? console.log("true")
-            : message &&<p style={{ color: "red" }}>{message}</p>}
+
+            {status
+              ? console.log("true")
+              : message && (
+                  <p className="invalid-message-reg" style={{ color: "red" }}>
+                    {message}
+                  </p>
+                )}
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
                 Continue with Google
