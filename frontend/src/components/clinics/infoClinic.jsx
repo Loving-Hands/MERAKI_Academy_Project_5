@@ -7,15 +7,23 @@ import { IoLocation } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiImageOn } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-
 import backgroundImage from "./top-clinic.png";
-
+import { useDispatch, useSelector } from "react-redux";
 export default function InfoClinic() {
   const { id } = useParams();
-
   const [clinicData, setClinicData] = useState({});
-  const navigate = useNavigate();
+  const [rate, setRate] = useState([]); // Corrected initialization
+  const [userRate, setUserRate] = useState("");
+  const [userComment, setUserComment] = useState("");
+  const dispatch = useDispatch();
 
+  const { token } = useSelector((state) => {
+    return {
+      token : state.auth.token,
+    };
+  });
+  console.log(token);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`http://localhost:5000/clinic/info/${id}`)
@@ -27,12 +35,55 @@ export default function InfoClinic() {
         console.log(error);
       });
   }, [id]);
-
-  // const getTheUserId = localStorage.getItem("userId");
-
   const handleBookPage = () => {
     navigate(`/appointment/${id}`);
   };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/ratings/info/${id}`)
+      .then((result) => {
+        console.log("from rating useEffect", result.data.result);
+        setRate(result.data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+  
+  const handleSubmitRating = (e) => {
+    e.preventDefault();
+  
+    const ratingData = {
+      rating: userRate,
+      comment: userComment,
+    };
+  
+    axios
+      .post(`http://localhost:5000/ratings/${id}`, ratingData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((result) => {
+        console.log("from creating comment", result);
+        // setRate(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleRating = (rate) => {
+    setUserRate(rate);
+    console.log(rate);
+  };
+
+  const addComment = (e) => {
+    setUserComment(e.target.value);
+    console.log(userComment);
+  };
+
+  //======================================================================================
 
   return (
     <>
@@ -52,7 +103,6 @@ export default function InfoClinic() {
           </div>
         </div>
       </section>
-
       <section className="info_clinic container">
         <div className="row">
           <div className="col-lg-7">
@@ -81,7 +131,6 @@ export default function InfoClinic() {
                     </div>
                   </div>
                 </div>
-
                 <div className="card dark doctorInformation">
                   <div className="card-body">
                     <div className="text-section">
@@ -95,7 +144,6 @@ export default function InfoClinic() {
                     </div>
                   </div>
                 </div>
-
                 <div className="card dark imageClinic">
                   <div className="card-body">
                     <div className="text-section">
@@ -109,8 +157,48 @@ export default function InfoClinic() {
                 </div>
               </>
             )}
+            <div className="comments container">
+              <div className="row">
+                {rate.map((singleRate, index) => (
+                  <div className="col-lg-12 mb-3" key={index}>
+                    <div className="row">
+                      <div className="col-lg-9">
+                        <div className="star">
+                          <Rating initialValue={singleRate.rating} />
+                        </div>
+                        <h5>Overall Rating</h5>
+                        <h6 className="user_comment">{singleRate.comment}</h6>
+                        <p className="user_name">
+                          {singleRate.user_full_name || "Anonymous"}
+                        </p>
+                        <h6 className="rating_date">
+                          {new Date(
+                            singleRate.rating_date
+                          ).toLocaleDateString()}
+                        </h6>
+                      </div>
+                      <div className="col-lg-3 text-center">
+                        <h3>{singleRate.rating}</h3>
+                        <p>Doctor Rating</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="Rating">
+              <div className="row">
+                <div className="col-lg-12">
+                  <form onSubmit={handleSubmitRating}>
+                    <h3>Rating Doctor</h3>
+                    <Rating onClick={handleRating} />
+                    <input type="text" onChange={addComment} />
+                    <button>Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
-
           <div className="col-lg-5 information_appointment">
             <div className="card">
               <div className="card-head">
@@ -127,7 +215,7 @@ export default function InfoClinic() {
                   <IoLocation />
                   <span>
                     {clinicData.location} <br />{" "}
-                    <span className="appointspan">appintment now</span>
+                    <span className="appointspan">appointment now</span>
                   </span>
                 </div>
                 <hr />
@@ -181,7 +269,7 @@ export default function InfoClinic() {
               </div>
               <div className="card-footer text-capitalize text-center">
                 <FaCalendarAlt size={25} />
-                appointment online <br /> now and bay in clinic
+                appointment online <br /> now and pay in clinic
               </div>
             </div>
           </div>

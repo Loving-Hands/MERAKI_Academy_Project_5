@@ -32,6 +32,7 @@ body {
 .wrapper .form .inputfield {
   /* margin-bottom: 15px; */
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -164,12 +165,9 @@ body {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
   }
 }
-
-.form .alert {
-  width :300px;
-  color: red;
-  font-size: 14px;
-  left: 130px;
-  margin-bottom: 0px;
-  margin-top: 0px;
+.invalid-message{
+  display: flex;
+  width: 300px;
+  margin-left: 80px;
+  text-align: center;
 }
