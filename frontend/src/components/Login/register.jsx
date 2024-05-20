@@ -184,25 +184,3 @@ const Register = () => {
 };
 
 export default Register;
-// const Validation = (values) => {
-//   const errors = {};
-//   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
-
-//   if (!values.fullname || values.fullname.trim() === "") {
-//     errors.fullname = "Fullname is Required!";
-//   }
-//   if (!values.phoneNumber || values.phoneNumber.trim() === "") {
-//     errors.phoneNumber = "Phone Number is Required!";
-//   } else if (!values.phoneNumber.length === 10) {
-//     errors.phoneNumber = "Phone Number must be 10 digits";
-//   }
-//   if (!values.email || values.email.trim() === "") {
-//     errors.email = "Email is Required!";
-//   } else if (!email_pattern.test(values.email)) {
-//     errors.email = "Email did not match";
-//   }
-//   if (!values.password || values.password.trim() === "") {
-//     errors.password = "Password is Required!";
-//   }
-//   return errors;
-// };
