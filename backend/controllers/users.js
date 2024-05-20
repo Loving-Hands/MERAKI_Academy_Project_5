@@ -93,8 +93,10 @@ const login = (req, res) => {
         } else {
           const payload = {
             userId: result.rows[0].id,
-            phone_number: result.rows[0].phone_number,
+            username: result.rows[0].full_name,
             role: result.rows[0].role_id,
+            phone_number: result.rows[0].phone_number,
+
           };
           const options = {
             expiresIn: "6h",
@@ -105,7 +107,9 @@ const login = (req, res) => {
             message: `Login Successfully`,
             token: userToken,
             userId: result.rows[0].id,
-            role_id: result.rows[0].role_id
+            role_id: result.rows[0].role_id,
+            username:result.rows[0].full_name
+
           });
         }
       }
@@ -120,7 +124,95 @@ const login = (req, res) => {
     });
 };
 
+const getUser = (req, res) => {
+  const userId = req.params.id;
+  pool
+    .query(
+      `SELECT * FROM users WHERE id = $1;`,
+      [userId]
+    )
+    .then((result) => {
+      if (result.rows.length) {
+        res.status(200).json({
+          success: true,
+          message: "User data retrieved successfully",
+          user: result.rows[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err,
+      });
+    });
+};
+
+const changePassword = async (req, res) => {
+  const { userId, currentPassword, newPassword } = req.body;
+
+  if (!userId || !currentPassword || !newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    });
+  }
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM users WHERE id = $1`,
+      [userId]
+    );
+
+    if (!result.rows.length) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const user = result.rows[0];
+
+    const isValid = await bcryptjs.compare(currentPassword, user.password);
+
+    if (!isValid) {
+      return res.status(403).json({
+        success: false,
+        message: "Current password is incorrect",
+      });
+    }
+
+    const hash_password = await bcryptjs.hash(newPassword, 10);
+
+    await pool.query(
+      `UPDATE users SET password = $1 WHERE id = $2`,
+      [hash_password, userId]
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Password changed successfully",
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: err,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
+  getUser,
+  changePassword
 };

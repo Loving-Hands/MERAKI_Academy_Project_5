@@ -9,7 +9,7 @@ export const auth = createSlice({
     message: "",
     success: false,
     role: localStorage.getItem("role") || "",
-    username: null
+    username: localStorage.getItem("username") || "",
   },
   reducers: {
     setLogin: (state, action) => {
@@ -18,7 +18,6 @@ export const auth = createSlice({
       localStorage.setItem("token", action.payload);
       localStorage.setItem("role", action.payload);
       state.isLoggedIn = true;
-      state.username = action.payload.username;
     },
     setUserId: (state, action) => {
       state.userId = action.payload;
@@ -38,6 +37,8 @@ export const auth = createSlice({
     },
     setUsername: (state, action) => {
       state.username = action.payload;
+      localStorage.setItem("username", action.payload);
+
     },
   },
 });
