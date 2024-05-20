@@ -139,7 +139,7 @@ const registerDoc = () => {
 
   return (
     <>
-      <div className="wrapper">
+      <div className="wrapper_reg_doctor">
         <div className="title">Sign Up</div>
         <div className="form">
           <div className="inputfield">
