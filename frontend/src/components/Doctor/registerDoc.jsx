@@ -24,6 +24,8 @@ const registerDoc = () => {
   const [message, setMessage] = useState();
   const [status, setStatus] = useState(false);
   const [role, setRole] = useState("2");
+  const [errors, setErrors] = useState({});
+
   console.log(
     fullname,
     phoneNumber,
@@ -48,8 +50,20 @@ const registerDoc = () => {
       });
   }, []);
 
-  const addNewUser = () => {
-    // e.preventDefault();
+  const addNewUser = (e) => {
+    e.preventDefault();
+    setErrors(
+      Validation({
+        fullname,
+        phoneNumber,
+        email,
+        password,
+        gender,
+        imageDoctor,
+        specializationDoctor,
+      })
+    );
+
     axios
       .post("http://localhost:5000/doctor/register", {
         full_name: fullname,
@@ -87,11 +101,45 @@ const registerDoc = () => {
         setImageDoctor(data.secure_url);
       });
   };
+
+  const Validation = (values) => {
+    const errors = {};
+    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
+    const phone_pattern = /^\d{10}$/;
+
+    if (!values.fullname) {
+      errors.fullname = "Full Name is Required!";
+    }
+    if (!values.phoneNumber) {
+      errors.phoneNumber = "phone Number is Required!";
+    } else if (!phone_pattern.test(values.phoneNumber)) {
+      errors.phoneNumber = "Phone Number must be 10 digits";
+    }
+    if (!values.email) {
+      errors.email = "Email is Required!";
+    } 
+    // else if (!email_pattern.test(values.email)) {
+    //   errors.email = "Email did not match";
+    // }
+    if (!values.password) {
+      errors.password = "Password is Required!";
+    }
+    if (!values.gender) {
+      errors.gender = "Gender is Required!";
+    }
+    if(!values.imageDoctor){
+      errors.imageDoctor = "Your Image is Required"
+    }
+    if(!values.specializationDoctor){
+      errors.specializationDoctor = "your specialization is Required"
+    }
+    return errors;
+  };
   // =================================================================
 
   return (
     <>
-      <div className="wrapper">
+      <div className="wrapper_reg_doctor">
         <div className="title">Sign Up</div>
         <div className="form">
           <div className="inputfield">
@@ -103,6 +151,11 @@ const registerDoc = () => {
               onChange={(e) => setFullName(e.target.value)}
               required
             />
+            {errors.fullname && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.fullname}
+                </p>
+              )}
           </div>
           <div className="inputfield">
             <label>Phone_Number</label>
@@ -114,10 +167,12 @@ const registerDoc = () => {
               maxLength={10}
               required
             />
+             {errors.phoneNumber && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.phoneNumber}
+                </p>
+              )}
           </div>
-          {status
-            ? message && <div className="SuccessMessage">{message}</div>
-            : message && <div className="alert"> {message}</div>}
           <div className="inputfield">
             <label>Email</label>
             <input
@@ -127,11 +182,12 @@ const registerDoc = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+            {errors.email && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.email}
+                </p>
+              )}
           </div>
-          {status
-            ? message && <div className="SuccessMessage">{message}</div>
-            : message && <div className="alert"> {message}</div>}
-
           <div className="inputfield">
             <label>Password</label>
             <input
@@ -141,6 +197,11 @@ const registerDoc = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+             {errors.password && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.password}
+                </p>
+              )}
           </div>
           <div className="inputfield">
             <label>Gender</label>
@@ -166,6 +227,11 @@ const registerDoc = () => {
               <label htmlFor="css">Female</label>
             </>
           </div>
+          {errors.gender && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.gender}
+              </p>
+            )}
           <div className="inputfield">
             <label>Your_Image</label>
             <form>
@@ -173,12 +239,15 @@ const registerDoc = () => {
                 type="file"
                 id="myFile"
                 name="filename"
-                // value={imageDoctor}
                 onChange={(e) => uploadImage(e.target.files)}
                 required
               />
-              {/* <img src={imageDoctor} alt="uploaded image" /> */}
             </form>
+            {errors.imageDoctor && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.imageDoctor}
+              </p>
+            )}
           </div>
           <div className="inputfield">
             <label>Your Specialization</label>
@@ -196,6 +265,11 @@ const registerDoc = () => {
               ))}
             </select>
           </div>
+          {errors.specializationDoctor && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.specializationDoctor}
+              </p>
+            )}
           <div className="inputfield">
             <input
               type="submit"
@@ -204,6 +278,13 @@ const registerDoc = () => {
               onClick={addNewUser}
             />
           </div>
+          {status
+              ? console.log("true")
+              : message && (
+                  <p className="invalid-message-reg" style={{ color: "red" }}>
+                    {message}
+                  </p>
+                )}
           <div className="inputfield">
             <button type="button" className="login-with-google-btn">
               Continue with Google
