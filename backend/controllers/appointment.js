@@ -83,8 +83,7 @@ exports.getAllAppointmentByClinicId = (req, res) => {
     });
 };
 exports.getAppointmentByUserId = (req, res) => {
-  const { userId } = req.token;
-
+  const { userId } = req.params;
   //   ChatGPT Query
   pool
     .query(

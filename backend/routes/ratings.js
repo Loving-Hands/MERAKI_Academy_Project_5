@@ -1,12 +1,17 @@
 const express = require("express");
 const rateRouter = express.Router();
-const { createRatingByUserIdForClinic,getAverageRatingByClinicId,getClinicsByTopRating } = require("../controllers/ratings");
+const {
+  createRatingByUserIdForClinic,
+  getAverageRatingByClinicId,
+  getClinicsByTopRating,
+  getAllClinicsById,
+} = require("../controllers/ratings");
 // Import users controllers
-const authentication=require('../middleware/authentication')
+const authentication = require("../middleware/authentication");
 
-rateRouter.post("/:clinicId/",authentication,createRatingByUserIdForClinic);
-rateRouter.get("/:clinicId",getAverageRatingByClinicId);
-rateRouter.get("/specialization/:specializationId",getClinicsByTopRating);
+rateRouter.post("/:clinicId/", authentication, createRatingByUserIdForClinic);
+rateRouter.get("/:clinicId", getAverageRatingByClinicId);
+rateRouter.get("/specialization/:specializationId", getClinicsByTopRating);
+rateRouter.get("/info/:clinicid", getAllClinicsById);
 
 module.exports = rateRouter;
-
