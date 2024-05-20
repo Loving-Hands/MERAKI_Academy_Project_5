@@ -72,9 +72,10 @@ const Register = () => {
     }
     if (!values.email) {
       errors.email = "Email is Required!";
-    } else if (!email_pattern.test(values.email)) {
-      errors.email = "Email did not match";
-    }
+    } 
+    // else if (!email_pattern.test(values.email)) {
+    //   errors.email = "Email did not match";
+    // }
     if (!values.password) {
       errors.password = "Password is Required!";
     }
@@ -160,7 +161,7 @@ const Register = () => {
                   defaultValue="Male"
                   onChange={(e) => setGender(e.target.value)}
                 />
-                
+
                 <label htmlFor="html">Male</label>
                 <input
                   type="radio"
@@ -173,10 +174,10 @@ const Register = () => {
               </>
             </div>
             {errors.gender && (
-                <p className="text" style={{ color: "red" }}>
-                  {errors.gender}
-                </p>
-              )}
+              <p className="text" style={{ color: "red" }}>
+                {errors.gender}
+              </p>
+            )}
 
             <div className="inputfield">
               <label>Age</label>
