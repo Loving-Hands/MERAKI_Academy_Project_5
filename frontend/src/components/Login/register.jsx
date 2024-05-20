@@ -169,6 +169,8 @@ const Register = () => {
             <div className="inputfield">
               <button className="btn">Register</button>
             </div>
+            {status ? console.log("true")
+            : message &&<p style={{ color: "red" }}>{message}</p>}
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
                 Continue with Google
