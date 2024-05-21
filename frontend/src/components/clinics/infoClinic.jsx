@@ -17,12 +17,16 @@ export default function InfoClinic() {
   const [userComment, setUserComment] = useState("");
   const dispatch = useDispatch();
 
+  const [commentCount, setCommentCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const commentsPerPage = 2;
+
   const { token } = useSelector((state) => {
     return {
-      token : state.auth.token,
+      token: state.auth.token,
     };
   });
-  console.log(token);
+  // console.log(token);
   const navigate = useNavigate();
   useEffect(() => {
     axios
@@ -44,20 +48,29 @@ export default function InfoClinic() {
       .then((result) => {
         console.log("from rating useEffect", result.data.result);
         setRate(result.data.result);
+        setCommentCount(result.data.result.length);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [id]);
-  
+
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComment = rate.slice(indexOfFirstComment, indexOfLastComment);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   const handleSubmitRating = (e) => {
     e.preventDefault();
-  
+
     const ratingData = {
       rating: userRate,
       comment: userComment,
     };
-  
+
     axios
       .post(`http://localhost:5000/ratings/${id}`, ratingData, {
         headers: {
@@ -82,6 +95,9 @@ export default function InfoClinic() {
     setUserComment(e.target.value);
     console.log(userComment);
   };
+
+ 
+
 
   //======================================================================================
 
@@ -157,35 +173,56 @@ export default function InfoClinic() {
                 </div>
               </>
             )}
-            <div className="comments container">
-              <div className="row">
-                {rate.map((singleRate, index) => (
-                  <div className="col-lg-12 mb-3" key={index}>
-                    <div className="row">
-                      <div className="col-lg-9">
-                        <div className="star">
-                          <Rating initialValue={singleRate.rating} />
+            <h4 className="container">Total Comments: {commentCount}</h4>
+            {currentComment.map((comment, index) => (
+              <div className="comments container">
+                <div className="row">
+                
+                    <div className="col-lg-12 mb-3" key={index}>
+                      <div className="row">
+                        <div className="col-lg-9">
+                          <div className="star">
+                            <Rating initialValue={comment.rating} />
+                          </div>
+                          <h5>Overall Rating</h5>
+                          <h6 className="user_comment">{comment.comment}</h6>
+                          <p className="user_name">
+                            {comment.user_full_name || "Anonymous"}
+                          </p>
+                          <h6 className="rating_date">
+                            {new Date(
+                              comment.rating_date
+                            ).toLocaleDateString()}
+                          </h6>
                         </div>
-                        <h5>Overall Rating</h5>
-                        <h6 className="user_comment">{singleRate.comment}</h6>
-                        <p className="user_name">
-                          {singleRate.user_full_name || "Anonymous"}
-                        </p>
-                        <h6 className="rating_date">
-                          {new Date(
-                            singleRate.rating_date
-                          ).toLocaleDateString()}
-                        </h6>
-                      </div>
-                      <div className="col-lg-3 text-center">
-                        <h3>{singleRate.rating}</h3>
-                        <p>Doctor Rating</p>
+                        <div className="col-lg-3 text-center">
+                          <h3>{comment.rating}</h3>
+                          <p>Doctor Rating</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                </div>
               </div>
-            </div>
+            ))} 
+
+            {/* Pagination */}
+            <nav>
+              <ul className="pagination justify-content-center mt-4">
+                {[...Array(Math.ceil(commentCount / commentsPerPage)).keys()].map(
+                  (number) => (
+                    <li key={number + 1} className="page-item">
+                      <button
+                        onClick={() => paginate(number + 1)}
+                        className="page-link"
+                      >
+                        {number + 1}
+                      </button>
+                    </li>
+                  )
+                )}
+              </ul>
+            </nav>
+            <br/>
             <div className="Rating">
               <div className="row">
                 <div className="col-lg-12">
@@ -198,6 +235,7 @@ export default function InfoClinic() {
                 </div>
               </div>
             </div>
+            <br/>
           </div>
           <div className="col-lg-5 information_appointment">
             <div className="card">
