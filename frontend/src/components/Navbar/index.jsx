@@ -16,6 +16,9 @@ function Navbar() {
     role: state.auth.role,
     username: state.auth.username,
   }));
+  const roleId = localStorage.getItem("roleId");
+  // console.log(roleId);
+  // console.log(isLoggedIn);
 
   const { t, i18n } = useTranslation();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -44,7 +47,7 @@ function Navbar() {
     navigate(`/user/${id}`);
   };
   const handleGoToAppointment = (id) => {
-    navigate(`appointment/user/${id}}`);
+    navigate(`appointment/user/${id}`);
   };
 
   return (
@@ -73,10 +76,10 @@ function Navbar() {
           </form>
 
           <div className="d-flex align-items-center">
-            {isLoggedIn && role === 1 && (
+            {isLoggedIn && roleId == 1 ? (
               <div className="dropdown me-2">
                 <button
-                  className="btn btn-secondary dropdown-toggle"
+                  className="btn btn-secondary dropdown-toggle text-uppercase"
                   type="button"
                   id="dropdownMenuButton"
                   data-bs-toggle="dropdown"
@@ -99,7 +102,7 @@ function Navbar() {
                     <button
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={handleGoToAppointment}
+                      onClick={() => handleGoToAppointment(roleId)}
                     >
                       {t("My Appointments")}
                     </button>
@@ -116,28 +119,32 @@ function Navbar() {
                       {t("Logout")}
                     </button>
                   </li>
-                  <button
-                    className="dropdown-item"
-                    style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                    onClick={handleSpecializationClick}
-                  >
-                    {t("Bayaniati")}
-                  </button>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                      onClick={() => handleSpecializationClick(roleId)}
+                    >
+                      {t("Bayaniati")}
+                    </button>
+                  </li>
                 </ul>
               </div>
+            ) : (
+              <ul className="navbar-nav d-flex align-items-center">
+                <li className="nav-item">
+                  <NavLink to="/login" className="nav-link">
+                    {t("Login")}
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/register" className="nav-link">
+                    {t("Register")}
+                  </NavLink>
+                </li>
+              </ul>
             )}
-
             <ul className="navbar-nav d-flex align-items-center">
-              <li className="nav-item">
-                <NavLink to="/login" className="nav-link">
-                  {t("Login")}
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/register" className="nav-link">
-                  {t("Register")}
-                </NavLink>
-              </li>
               <li className="nav-item">
                 <NavLink to="/contactus" className="nav-link">
                   {t("Contact Us")}
