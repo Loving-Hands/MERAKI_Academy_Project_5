@@ -21,13 +21,19 @@ const Register = () => {
   const [gender, setGender] = useState();
   const [message, setMessage] = useState();
   const [status, setStatus] = useState(false);
-  const [register, setregister] = useState();
+  // const [register, setregister] = useState();
   const [role, setRole] = useState("1");
+  const [errors, setErrors] = useState({});
+
   console.log(fullname, age, phoneNumber, email, password, gender, role);
   // =================================================================
 
   const addNewUser = (e) => {
     e.preventDefault();
+    setErrors(
+      Validation({ fullname, phoneNumber, email, password, gender, age })
+    );
+
     axios
       .post(`http://localhost:5000/users/register`, {
         full_name: fullname,
@@ -51,12 +57,40 @@ const Register = () => {
         // You might want to update state to show an error message to the user
       });
   };
+  const Validation = (values) => {
+    const errors = {};
+    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
+    const phone_pattern = /^\d{10}$/;
+
+    if (!values.fullname) {
+      errors.fullname = "Full Name is Required!";
+    }
+    if (!values.phoneNumber) {
+      errors.phoneNumber = "phone Number is Required!";
+    } else if (!phone_pattern.test(values.phoneNumber)) {
+      errors.phoneNumber = "Phone Number must be 10 digits";
+    }
+    if (!values.email) {
+      errors.email = "Email is Required!";
+    } 
+    // else if (!email_pattern.test(values.email)) {
+    //   errors.email = "Email did not match";
+    // }
+    if (!values.password) {
+      errors.password = "Password is Required!";
+    }
+    if (!values.gender) {
+      errors.gender = "Gender is Required!";
+    }
+    return errors;
+  };
+
   // =================================================================
 
   return (
     <>
       {!isLoggedIn ? (
-        <div className="wrapper">
+        <div className="wrapper_reg">
           <div className="title">Sign Up</div>
           <form className="form" onSubmit={addNewUser}>
             <div className="inputfield">
@@ -66,9 +100,14 @@ const Register = () => {
                 className="input"
                 value={fullname}
                 onChange={(e) => setFullName(e.target.value)}
-                required
               />
+              {errors.fullname && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.fullname}
+                </p>
+              )}
             </div>
+
             <div className="inputfield">
               <label>Phone_Number</label>
               <input
@@ -76,12 +115,14 @@ const Register = () => {
                 className="input"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                required
+                maxLength={10}
               />
+              {errors.phoneNumber && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.phoneNumber}
+                </p>
+              )}
             </div>
-            {status
-              ? message && <div className="SuccessMessage">{message}</div>
-              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Email</label>
               <input
@@ -89,13 +130,13 @@ const Register = () => {
                 className="input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                maxLength={10}
-                required
               />
+              {errors.email && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.email}
+                </p>
+              )}
             </div>
-            {status
-              ? message && <div className="SuccessMessage">{message}</div>
-              : message && <div className="alert"> {message}</div>}
             <div className="inputfield">
               <label>Password</label>
               <input
@@ -103,8 +144,12 @@ const Register = () => {
                 className="input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
               />
+              {errors.password && (
+                <p className="text" style={{ color: "red" }}>
+                  {errors.password}
+                </p>
+              )}
             </div>
             <div className="inputfield">
               <label>Gender</label>
@@ -115,21 +160,25 @@ const Register = () => {
                   name="fav_language"
                   defaultValue="Male"
                   onChange={(e) => setGender(e.target.value)}
-                  required
                 />
+
                 <label htmlFor="html">Male</label>
-                <br />
                 <input
                   type="radio"
                   id="css"
                   name="fav_language"
                   defaultValue="Female"
                   onChange={(e) => setGender(e.target.value)}
-                  required
                 />
                 <label htmlFor="css">Female</label>
               </>
             </div>
+            {errors.gender && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.gender}
+              </p>
+            )}
+
             <div className="inputfield">
               <label>Age</label>
               <input
@@ -137,12 +186,19 @@ const Register = () => {
                 className="input"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                required
               />
             </div>
             <div className="inputfield">
               <button className="btn">Register</button>
             </div>
+
+            {status
+              ? console.log("true")
+              : message && (
+                  <p className="invalid-message-reg" style={{ color: "red" }}>
+                    {message}
+                  </p>
+                )}
             <div className="inputfield">
               <button type="button" className="login-with-google-btn">
                 Continue with Google
@@ -153,14 +209,8 @@ const Register = () => {
       ) : (
         <p>Logout First</p>
       )}
-     
     </>
   );
 };
 
 export default Register;
-
-
-// {success
-//   ? message && <div className="SuccessMessage">{message}</div>
-//   : message && <div class="alert"> {message}</div>}

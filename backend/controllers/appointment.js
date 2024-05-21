@@ -83,16 +83,25 @@ exports.getAllAppointmentByClinicId = (req, res) => {
     });
 };
 exports.getAppointmentByUserId = (req, res) => {
-  const { userId } = req.token;
+  const { userId } = req.params;
 
-  //   ChatGPT Query
   pool
     .query(
       `
-        SELECT a.id, a.date_time, a.status, a.user_id, a.clinic_id, c.name AS clinic_name
-        FROM appointment AS a
-        JOIN clinics AS c ON a.clinic_id = c.id
-        WHERE a.user_id = $1
+        SELECT 
+          a.id, 
+          a.date_time, 
+          a.status, 
+          a.user_id, 
+          a.clinic_id, 
+          c.name AS clinic_name,
+          c.location AS clinic_location
+        FROM 
+          appointment AS a
+        JOIN 
+          clinics AS c ON a.clinic_id = c.id
+        WHERE 
+          a.user_id = $1
       `,
       [userId]
     )
@@ -109,10 +118,11 @@ exports.getAppointmentByUserId = (req, res) => {
         date_time: appointment.date_time,
         status: appointment.status,
         user_id: appointment.user_id,
+        clinic_id: appointment.clinic_id, // Include clinic_id in the response
         clinic_name: appointment.clinic_name,
+        clinic_location: appointment.clinic_location,
       }));
 
-      // Appointments found
       res.status(200).json({
         success: true,
         message: "Appointments retrieved successfully.",
@@ -127,6 +137,7 @@ exports.getAppointmentByUserId = (req, res) => {
       });
     });
 };
+
 exports.deleteAppointmentByClinicId = (req, res) => {
   const { appointmentId } = req.params;
   const { doctorId } = req.token;

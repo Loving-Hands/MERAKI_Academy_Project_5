@@ -7,6 +7,7 @@ import {
   setLogin,
   setUserId,
   setRoleId,
+  setUsername
 } from "../../service/redux/reducers/auth/authSlice";
 import { auth, provider } from "../config";
 import { signInWithPopup } from "firebase/auth";
@@ -31,10 +32,13 @@ const login = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
   const [value, setValue] = useState("");
+  const [errors, setErrors] = useState({});
+
   //===============================================================
   const Login = async (e) => {
     // console.log(isLoggedIn);
     e.preventDefault();
+    setErrors(Validation({ email, password }));
     try {
       const result = await axios.post("http://localhost:5000/users/login", {
         email,
@@ -46,6 +50,7 @@ const login = () => {
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
         dispatch(setRoleId(result.data.role_id));
+        dispatch(setUsername(result.data.username))
       } else throw Error;
     } catch (error) {
       console.log(error);
@@ -88,6 +93,20 @@ const login = () => {
     setValue(localStorage.getItem("email"));
   }, []);
 
+  const Validation = (values) => {
+    const errors = {};
+    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
+
+    if (values.email === "") {
+      errors.email = "Email is Required!";
+    } else if (!email_pattern.test(values.email)) {
+      errors.email = "Email did not match the format";
+    }
+    if (values.password === "") {
+      errors.password = "Password is Required!";
+    }
+    return errors;
+  };
   //===============================================================
   return (
     <>
@@ -102,7 +121,13 @@ const login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.email && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.email}
+              </p>
+            )}
           </div>
+
           <div className="inputfield">
             <label>Password</label>
             <input
@@ -111,10 +136,12 @@ const login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {errors.password && (
+              <p className="inputfield" style={{ color: "red" }}>
+                {errors.password}
+              </p>
+            )}
           </div>
-          {status
-              ? message && <div className="SuccessMessage">{message}</div>
-              : message && <div className="alert"> {message}</div>}
           <div className="inputfield">
             <button
               className="btn"
@@ -125,6 +152,13 @@ const login = () => {
               Login
             </button>
           </div>
+          {status
+            ? console.log("true")
+            : message && (
+                <p className="invalid-message" style={{ color: "red" }}>
+                  {message}
+                </p>
+              )}
           <div className="inputfield">
             <button
               type="button"
