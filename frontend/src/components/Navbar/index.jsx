@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { setLogout } from "../../service/redux/reducers/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "./Logo.png";
-import debounce from 'lodash.debounce';
-import axios from 'axios';
+import debounce from "lodash.debounce";
+import axios from "axios";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -22,11 +22,12 @@ function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (query) => {
-    axios.post('http://localhost:5000/clinic/search', { query })
-      .then(response => {
+    axios
+      .post("http://localhost:5000/clinic/search", { query })
+      .then((response) => {
         console.log(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching search results:", error);
       });
   };
@@ -42,10 +43,15 @@ function Navbar() {
   const handleSpecializationClick = (id) => {
     navigate(`/user/${id}`);
   };
-  
+  const handleGoToAppointment = (id) => {
+    navigate(`appointment/user/${id}}`);
+  };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ backgroundColor: "#1787e0" }}
+    >
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <Link to="/" className="navbar-brand">
@@ -76,24 +82,47 @@ function Navbar() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                   onClick={() => setShowDropdown(!showDropdown)}
-                  style={{ backgroundColor: "#1787e0", color: "#fff", border: "none" }}
+                  style={{
+                    backgroundColor: "#1787e0",
+                    color: "#fff",
+                    border: "none",
+                  }}
                 >
                   {username}
                 </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ backgroundColor: "#1787e0", color: "#fff" }}>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
+                  style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                >
                   <li>
-                    <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={() => console.log("My Appointments clicked")}>
+                    <button
+                      className="dropdown-item"
+                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                      onClick={handleGoToAppointment}
+                    >
                       {t("My Appointments")}
                     </button>
                   </li>
                   <li>
-                    <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={() => { console.log("Logout button clicked"); dispatch(setLogout()); }}>
+                    <button
+                      className="dropdown-item"
+                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                      onClick={() => {
+                        console.log("Logout button clicked");
+                        dispatch(setLogout());
+                      }}
+                    >
                       {t("Logout")}
                     </button>
                   </li>
-                  <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleSpecializationClick}>
-                      {t("Bayaniati")}
-                    </button>
+                  <button
+                    className="dropdown-item"
+                    style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                    onClick={handleSpecializationClick}
+                  >
+                    {t("Bayaniati")}
+                  </button>
                 </ul>
               </div>
             )}

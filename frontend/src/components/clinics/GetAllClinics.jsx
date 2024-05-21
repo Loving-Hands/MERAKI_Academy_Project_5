@@ -54,7 +54,11 @@ export default function ClinicSpecialization() {
           </div>
         </div>
       </section>
-      <h4 className="container">Total Clinics: {clinicCount}</h4>
+      <div className="totalClinics border-bottom">
+        <h4 className="container text-center p-5">
+          Total Clinics: {clinicCount}
+        </h4>
+      </div>
       <section className="doctor container">
         {currentClinics.map((clinic, index) => (
           <Link to={`/infoClinic/${clinic.id}`} key={index}>
