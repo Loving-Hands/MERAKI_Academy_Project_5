@@ -412,3 +412,6 @@ a {
 }
 
 /* ---------Uniqe Appointment End--------- */
+.totalClinics {
+  color: var(--sup-main-color);
+}

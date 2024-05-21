@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import backgroundImage from "./top-clinic.png";
-
 import "./appointment.css";
+
 export default function Appointment() {
   const [appointmentInfo, setAppointmentInfo] = useState([]);
   const { token, userId } = useSelector((state) => ({
@@ -13,14 +13,33 @@ export default function Appointment() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/appointment/user/${userId}`)
+      .get(`http://localhost:5000/appointment/user/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         setAppointmentInfo(response.data.result);
       })
       .catch((error) => {
         console.error("Error fetching appointments:", error);
       });
-  }, [userId]);
+  }, [userId, token]);
+
+  const handleCancelAppointment = (clinicId, appointmentId) => {
+    axios
+      .delete(`http://localhost:5000/appointment/${clinicId}/${appointmentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        setAppointmentInfo((prevAppointments) =>
+          prevAppointments.filter(
+            (appointment) => appointment.id !== appointmentId
+          )
+        );
+      })
+      .catch((error) => {
+        console.error("Error canceling appointment:", error);
+      });
+  };
 
   return (
     <section className="clinic-specialization">
@@ -51,13 +70,23 @@ export default function Appointment() {
           <tbody>
             {appointmentInfo.map((appointment) => (
               <tr key={appointment.id}>
-                <td>{appointment.doctorName}</td>
-                <td>{appointment.location}</td>
-                <td>{appointment.bookingDate}</td>
+                <td>{appointment.clinic_name}</td>
+                <td>{appointment.clinic_location}</td>
+                <td>{appointment.date_time}</td>
                 <td>
-                  <button className="btn btn-danger">Cancel Appointment</button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() =>
+                      handleCancelAppointment(
+                        appointment.clinic_id,
+                        appointment.id
+                      )
+                    }
+                  >
+                    Cancel Appointment
+                  </button>
                 </td>
-                <td>{appointment.details}</td>
+                <td>{appointment.status}</td>
               </tr>
             ))}
           </tbody>
