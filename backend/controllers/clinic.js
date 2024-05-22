@@ -134,6 +134,7 @@ const searchDoctorsAndClinics = (req, res) => {
       doctors.id AS doctor_id,
       doctors.full_name AS doctor_name,
       specialization.name_specialization AS specialization,
+      specialization.image_specialization AS specialization_image,
       'doctor' AS type
     FROM
       doctors
@@ -149,6 +150,7 @@ const searchDoctorsAndClinics = (req, res) => {
       clinics.id AS clinic_id,
       clinics.name AS clinic_name,
       specialization.name_specialization AS specialization,
+      specialization.image_specialization AS specialization_image,
       'clinic' AS type
     FROM
       clinics
@@ -173,6 +175,7 @@ const searchDoctorsAndClinics = (req, res) => {
       res.status(500).send("An error occurred while searching doctors and clinics");
     });
 };
+
 
 
 

@@ -93,8 +93,13 @@ html {
 }
 body {
   font-family: "Roboto", sans-serif;
+  
 }
 
+.customFooter {
+  position: relative !important;
+  bottom: 0% !important;
+}
 /* .justTest {
   background-color: var(--main-color);
 } */

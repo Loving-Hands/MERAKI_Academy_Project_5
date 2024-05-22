@@ -17,12 +17,25 @@ export default function InfoClinic() {
   const [userComment, setUserComment] = useState("");
   const dispatch = useDispatch();
 
+<<<<<<< HEAD
   const { token } = useSelector((state) => {
     return {
       token : state.auth.token,
     };
   });
   console.log(token);
+=======
+  const [commentCount, setCommentCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const commentsPerPage = 2;
+
+  const { token } = useSelector((state) => {
+    return {
+      token: state.auth.token,
+    };
+  });
+  // console.log(token);
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
   const navigate = useNavigate();
   useEffect(() => {
     axios
@@ -44,20 +57,43 @@ export default function InfoClinic() {
       .then((result) => {
         console.log("from rating useEffect", result.data.result);
         setRate(result.data.result);
+<<<<<<< HEAD
+=======
+        setCommentCount(result.data.result.length);
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
       })
       .catch((error) => {
         console.log(error);
       });
   }, [id]);
+<<<<<<< HEAD
   
   const handleSubmitRating = (e) => {
     e.preventDefault();
   
+=======
+
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComment = rate.slice(indexOfFirstComment, indexOfLastComment);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleSubmitRating = (e) => {
+    e.preventDefault();
+
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
     const ratingData = {
       rating: userRate,
       comment: userComment,
     };
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
     axios
       .post(`http://localhost:5000/ratings/${id}`, ratingData, {
         headers: {
@@ -157,13 +193,24 @@ export default function InfoClinic() {
                 </div>
               </>
             )}
+<<<<<<< HEAD
             <div className="comments container">
               <div className="row">
                 {rate.map((singleRate, index) => (
+=======
+            <h4 className="container-Total-Comments">
+              Total Comments: {commentCount}
+            </h4>
+            <hr />
+            {currentComment.map((comment, index) => (
+              <div className="comments container">
+                <div className="row">
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
                   <div className="col-lg-12 mb-3" key={index}>
                     <div className="row">
                       <div className="col-lg-9">
                         <div className="star">
+<<<<<<< HEAD
                           <Rating initialValue={singleRate.rating} />
                         </div>
                         <h5>Overall Rating</h5>
@@ -194,10 +241,109 @@ export default function InfoClinic() {
                     <Rating onClick={handleRating} />
                     <input type="text" onChange={addComment} />
                     <button>Submit</button>
+=======
+                          <Rating initialValue={comment.rating} />
+                        </div>
+                        {/* <h5>Overall Rating</h5> */}
+                        <h6 className="user_comment">
+                          {" "}
+                          Your Comment :{comment.comment}
+                        </h6>
+                        <p
+                          className="user_name"
+                          style={{ marginBottom: "0px" }}
+                        >
+                          {" "}
+                          Your Name :{comment.user_full_name || "Anonymous"}
+                        </p>
+                        <p className="rating_date">
+                          {" "}
+                          Rating Date :
+                          {new Date(comment.rating_date).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="col-lg-3 text-center">
+                        <h3
+                          style={{
+                            display: "block",
+                            backgroundColor: "rgb(23, 135, 224)",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          {comment.rating}
+                        </h3>
+                        <p>Doctor Rating</p>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Pagination */}
+            <nav>
+              <ul className="pagination justify-content-center mt-4">
+                {[
+                  ...Array(Math.ceil(commentCount / commentsPerPage)).keys(),
+                ].map((number) => (
+                  <li key={number + 1} className="page-item">
+                    <button
+                      onClick={() => paginate(number + 1)}
+                      className="page-link"
+                    >
+                      {number + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div
+              className="Rating"
+              style={{ backgroundColor: "rgb(241, 235, 235)", padding: "25px" }}
+            >
+              <div className="row">
+                <div className="col-lg-12">
+                  <form onSubmit={handleSubmitRating}>
+                    <h3>Add Your Comment</h3>
+                    <Rating onClick={handleRating} />
+                    <br />
+                    <input
+                      className="input-add-comment"
+                      type="text"
+                      onChange={addComment}
+                      style={{
+                        borderRadius: "5px",
+                        marginLeft: "5px",
+                        color: " #000000",
+                        border: "none",
+                        padding: "5px",
+                        marginTop: "10px",
+                      }}
+                      placeholder="Add Your Comment"
+                    />
+                    <button
+                      style={{
+                        borderRadius: "5px",
+                        marginLeft: "5px",
+                        backgroundColor: "rgb(23, 135, 224)",
+                        color: " #fff",
+                        border: "none",
+                        padding: "5px",
+                      }}
+                    >
+                      Submit
+                    </button>
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
                   </form>
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
+=======
+            <br />
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
           </div>
           <div className="col-lg-5 information_appointment">
             <div className="card">

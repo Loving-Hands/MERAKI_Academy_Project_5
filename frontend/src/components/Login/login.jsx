@@ -174,7 +174,3 @@ const login = () => {
   );
 };
 export default login;
-
-{
-  /* <div class="Commonstyle__Error-sc-1vgucvm-0 jjNxQN">Email Address is invalid</div> */
-}

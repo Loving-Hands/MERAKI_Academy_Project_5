@@ -9,14 +9,16 @@ export const auth = createSlice({
     message: "",
     success: false,
     role: localStorage.getItem("role") || "",
+
+
     username: localStorage.getItem("username") || "",
   },
   reducers: {
     setLogin: (state, action) => {
       state.token = action.payload;
-      state.role = action.payload;
+
       localStorage.setItem("token", action.payload);
-      localStorage.setItem("role", action.payload);
+
       state.isLoggedIn = true;
     },
     setUserId: (state, action) => {
@@ -43,6 +45,7 @@ export const auth = createSlice({
   },
 });
 
-export const { setLogin, setUserId, setRoleId, setLogout, setUsername } = auth.actions;
+export const { setLogin, setUserId, setRoleId, setLogout, setUsername } =
+  auth.actions;
 
 export default auth.reducer;

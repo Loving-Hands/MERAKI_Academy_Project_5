@@ -7,6 +7,7 @@ import { FaCalendarDays } from "react-icons/fa6";
 
 export default function RegisterAppointmentClinic() {
   const [doctor, setDoctor] = useState({});
+<<<<<<< HEAD
   const [timeDate, setTimeDate] = useState("");
   const [urgent, setUrgent] = useState("No");
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,15 @@ export default function RegisterAppointmentClinic() {
     date.setDate(currentDate.getDate() + i);
     dateRange.push(date);
   }
+=======
+  const [dateFrom, setDate] = useState("");
+  const [timeFrom, setTime] = useState("");
+  const [urgent, setUrgent] = useState("No");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { id } = useParams();
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
 
   const { token } = useSelector((state) => ({
     token: state.auth.token,
@@ -40,11 +50,15 @@ export default function RegisterAppointmentClinic() {
       .get(`http://localhost:5000/clinic/info/${id}`)
       .then((response) => {
         setDoctor(response.data);
+<<<<<<< HEAD
         setClinicDetails({
           time_open: response.data.time_open,
           time_close: response.data.time_close,
           open_days: response.data.open_days,
         });
+=======
+
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
         setLoading(false);
       })
       .catch((error) => {
@@ -80,7 +94,8 @@ export default function RegisterAppointmentClinic() {
     }
 
     const appointmentData = {
-      date_time: timeDate,
+      time: timeFrom,
+      date: dateFrom,
       status: urgent,
     };
 
@@ -95,11 +110,15 @@ export default function RegisterAppointmentClinic() {
         console.log("Appointment booked successfully:", response.data);
       })
       .catch((error) => {
+<<<<<<< HEAD
         alert("Error booking appointment.");
+=======
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
         console.error("Error booking appointment:", error);
       });
   };
 
+<<<<<<< HEAD
   const closingTimeParts = clinicDetails.time_close.split(":");
   const closingTime = closingTimeParts[0] + ":" + closingTimeParts[1];
 
@@ -203,6 +222,104 @@ export default function RegisterAppointmentClinic() {
                     <p className="card-text">{doctor.name_specialization}</p>
                     <p className="text-capitalize">{doctor.description}</p>
                   </div>
+=======
+  // const closingTimeParts = clinicDetails.time_close.split(":");
+  // const closingTime = closingTimeParts[0] + ":" + closingTimeParts[1];
+
+  // const openingTimeParts = clinicDetails.time_open.split(":");
+  // const openingTime = openingTimeParts[0] + ":" + openingTimeParts[1];
+  // const formattedOpenDays = clinicDetails.open_days.join("/");
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-6 col-md-6 col-sm-12">
+          <div className="uniqueAppointment-main-wrapper">
+            <div className="uniqueAppointment-form-wrapper">
+              <form onSubmit={handleSubmitForm}>
+                <label htmlFor="appointment-time">Choose Your Time</label>
+                <p className="text-capitalize fw-bold">
+                  <FaClock />
+                  clinic open between:
+                </p>
+                <p className="text-capitalize fw-bold">
+                  <FaCalendarDays /> clinic Days Opening :
+                </p>
+                <div className="form-group">
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="appointment-time"
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                  <input
+                    type="time"
+                    className="form-control"
+                    id="appointment-time"
+                    onChange={(e) => setTime(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <h2>Urgent Appointment</h2>
+                  <div
+                    className="btn-group"
+                    role="group"
+                    aria-label="Urgent appointment options"
+                  >
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="urgent-radio"
+                      id="urgent-no"
+                      autoComplete="off"
+                      checked={urgent === "No"}
+                      onChange={() => handleSetUrgent("No")}
+                    />
+                    <label
+                      className="btn btn-outline-primary"
+                      htmlFor="urgent-no"
+                    >
+                      No
+                    </label>
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="urgent-radio"
+                      id="urgent-yes"
+                      autoComplete="off"
+                      checked={urgent === "Yes"}
+                      onChange={() => handleSetUrgent("Yes")}
+                    />
+                    <label
+                      className="btn btn-outline-primary"
+                      htmlFor="urgent-yes"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <button className="uniqueAppointment-btn" type="submit">
+                    Book Now
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-6 col-md-6 col-sm-12">
+          <div className="info_clinic">
+            <div className="uniqueAppointment-main-wrapper" key={doctor.id}>
+              <img
+                src={doctor.doctor_image}
+                className="card-img-top"
+                alt="Doctor"
+              />
+              <div className="card-body">
+                <div className="text-section">
+                  <h5 className="card-title">Doctor {doctor.doctor_name}</h5>
+                  <p className="card-text">{doctor.name_specialization}</p>
+                  <p className="text-capitalize">{doctor.description}</p>
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
                 </div>
               </div>
             </div>

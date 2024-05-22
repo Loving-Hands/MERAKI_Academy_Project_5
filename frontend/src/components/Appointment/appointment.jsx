@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import backgroundImage from "./top-clinic.png";
 import "./appointment.css";
+<<<<<<< HEAD
 
 export default function Appointment() {
   const [appointmentInfo, setAppointmentInfo] = useState([]);
@@ -10,6 +11,29 @@ export default function Appointment() {
     token: state.auth.token,
     userId: state.auth.userId,
   }));
+=======
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+
+export default function Appointment() {
+  // ----- modal
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  // ----- modal End
+
+  const [appointmentInfo, setAppointmentInfo] = useState([]);
+
+  const { token, userId, doctorId } = useSelector((state) => ({
+    token: state.auth.token,
+    userId: state.auth.userId,
+    doctorId: state.doc.doctorId,
+  }));
+  const roleId = localStorage.getItem("roleId");
+
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
 
   useEffect(() => {
     axios
@@ -23,12 +47,35 @@ export default function Appointment() {
         console.error("Error fetching appointments:", error);
       });
   }, [userId, token]);
+<<<<<<< HEAD
 
   const handleCancelAppointment = (clinicId, appointmentId) => {
     axios
       .delete(`http://localhost:5000/appointment/${clinicId}/${appointmentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
+=======
+  // ----------convert time to 24Hours-------------
+  const date = new Date();
+  const options = {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  const time = date.toLocaleTimeString("en-US", options);
+  // console.log(time);
+  // ---------------
+
+  const handleCancelAppointment = (clinicId, appointmentId) => {
+    axios
+      .delete(
+        `http://localhost:5000/appointment/${clinicId}/${appointmentId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
       .then(() => {
         setAppointmentInfo((prevAppointments) =>
           prevAppointments.filter(
@@ -40,6 +87,44 @@ export default function Appointment() {
         console.error("Error canceling appointment:", error);
       });
   };
+<<<<<<< HEAD
+=======
+  // --------------------- form
+  const [file, setFile] = useState();
+  const [diagnosis, setDiagnosis] = useState("");
+  function handleDiagonosis(e) {
+    setDiagnosis(e.target.value);
+  }
+
+  function handleChange(e) {
+    // console.log(e.target.files);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
+  const handleFormDiagnosis = (clinic_id, user_id, e) => {
+    e.preventDefault();
+
+    const value = {
+      diagnostics: diagnosis,
+      image_diagnostics: file,
+    };
+    axios
+      .post(
+        `http://localhost:5000/diagnostics/create/${clinic_id}/${user_id}`,
+        value,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((result) => {
+        alert("Dignoses Send");
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  };
+  // --------------------- form End
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
 
   return (
     <section className="clinic-specialization">
@@ -62,7 +147,11 @@ export default function Appointment() {
             <tr>
               <th scope="col">Name Doctor</th>
               <th scope="col">Location</th>
+<<<<<<< HEAD
               <th scope="col">Booking date</th>
+=======
+              <th scope="col">Booking date/time</th>
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
               <th scope="col">Delete Appointment</th>
               <th scope="col">Details</th>
             </tr>
@@ -72,7 +161,13 @@ export default function Appointment() {
               <tr key={appointment.id}>
                 <td>{appointment.clinic_name}</td>
                 <td>{appointment.clinic_location}</td>
+<<<<<<< HEAD
                 <td>{appointment.date_time}</td>
+=======
+                <td>
+                  {appointment.date.split("T")[0]}/{appointment.time}
+                </td>
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
                 <td>
                   <button
                     className="btn btn-danger"
@@ -87,6 +182,68 @@ export default function Appointment() {
                   </button>
                 </td>
                 <td>{appointment.status}</td>
+<<<<<<< HEAD
+=======
+                {}
+                <td>
+                  <Button variant="secondary" onClick={handleShow}>
+                    Send Diagnosis
+                  </Button>
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title className="text-capitalize">
+                        The Patient's diagnosis.
+                      </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Form
+                        onSubmit={(e) => {
+                          handleFormDiagnosis(
+                            appointment.clinic_id,
+                            appointment.user_id,
+                            e
+                          );
+                        }}
+                      >
+                        <Form.Group
+                          className="mb-3"
+                          controlId="exampleForm.ControlTextarea1"
+                        >
+                          <Form.Label className="fw-bold">
+                            Patient Notes
+                          </Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={3}
+                            onChange={handleDiagonosis}
+                          />
+                        </Form.Group>
+
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Label className="fw-bold">
+                            The Diagnosis Image
+                          </Form.Label>
+                          <Form.Control type="file" onChange={handleChange} />
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicCheckbox"
+                        ></Form.Group>
+                        <Button
+                          variant="primary"
+                          type="submit"
+                          className="float-end btn-secondary"
+                        >
+                          Send
+                        </Button>
+                      </Form>
+                    </Modal.Body>
+                  </Modal>
+                </td>
+>>>>>>> befb749df5687171cb392792cc6a38272e4605d4
               </tr>
             ))}
           </tbody>
