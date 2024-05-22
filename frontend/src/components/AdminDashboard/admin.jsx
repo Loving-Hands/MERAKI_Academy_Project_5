@@ -1,56 +1,71 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 //=======================================================================
 export default function admin() {
-  //================== CLINICS TABLE ======================================
+
   const [clinics, setClinics] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [specialization, setSpecialization] = useState([]);
+
+//==========================START FETCH DATA================================================
   useEffect(() => {
+    // Fetch clinics
     axios
       .get(`http://localhost:5000/clinic/`)
-      .then((result) => {
-        console.log(result.data);
-        setClinics(result.data);
+      .then((response) => {
+        setClinics(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching clinics:", error);
       });
-  }, []);
-  useEffect(()=>{
-    axios.delete(``)
-    .then((result)=>{
-      console.log(result.data);
-    }).catch((error)=>{
-    })
-  },[])
-  //=====================================================================
-  //================== USERS TABLE ======================================
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
+
+    // Fetch users
     axios
       .get(`http://localhost:5000/admin/`)
-      .then((result) => {
-        console.log(result.data.result);
-        setUsers(result.data.result);
+      .then((response) => {
+        setUsers(response.data.result);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching users:", error);
       });
-  }, []);
-  //==============================================================================
-  //================== SPECIALIZATION TABLE ======================================
-  const [specialization, setspecialization] = useState([]);
-  useEffect(() => {
+
+    // Fetch specialization
     axios
       .get(`http://localhost:5000/specialization/`)
-      .then((result) => {
-        console.log(result.data.result);
-        setspecialization(result.data.result);
+      .then((response) => {
+        setSpecialization(response.data.result);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching specialization:", error);
       });
   }, []);
-  //==============================================================================
+//===========================END FETCH DATA================================================
+
+//===========================START DELETE DATA=============================================
+const handleDeleteClinic = (id) => {
+  axios.delete(`http://localhost:5000/admin/removeclinic/${id}`)
+  .then((result)=>{
+    console.log(result.data);
+    const newClinics = clinics.filter(clinic=> clinic.id !== id)
+      setClinics(newClinics);
+  }).catch((error)=>{
+console.log(error);
+  })
+};
+const handleDeleteUser = (id) => {
+  axios.delete(`http://localhost:5000/admin/removeuser/${id}`)
+  .then((result)=>{
+    console.log(result.data);
+    const newUsers = users.filter(user=> user.id !== id)
+    setUsers(newUsers);
+  }).catch((error)=>{
+console.log(error);
+  })
+};
+//===========================END DELETE DATA===============================================
+
+//=========================================================================================
   return (
     <>
       <div className="container-fluid">
@@ -175,7 +190,7 @@ export default function admin() {
                                 backgroundColor: "red",
                                 color: "white",
                               }}
-                              onClick={deleteClinic}
+                              onClick={() => handleDeleteClinic(oneClinic.id)}
                             >
                               Delete
                             </button>
@@ -222,6 +237,7 @@ export default function admin() {
                                 backgroundColor: "red",
                                 color: "white",
                               }}
+                              onClick={() => handleDeleteUser(oneUser.id)}
                             >
                               Delete
                             </button>

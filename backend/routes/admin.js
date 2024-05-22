@@ -5,6 +5,8 @@ const adminController = require("../controllers/admin.js");
 adminRouter.post("/register", adminController.registerAdmin);
 adminRouter.post("/login", adminController.loginAdmin);
 adminRouter.get("/", adminController.getAllUsers);
-adminRouter.delete("/removeclinic/:clinicId", adminController.deleteClinic);
+adminRouter.delete("/removeclinic/:clinicId", adminController.deleteClinicById);
+adminRouter.delete("/removeuser/:userId", adminController.deleteUserById);
+
 
 module.exports = adminRouter;
