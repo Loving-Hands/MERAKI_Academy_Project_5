@@ -4,7 +4,7 @@ const { pool } = require("../models/db.js");
 exports.createAppointmentClinicIdByUserId = (req, res) => {
   const { userId } = req.token;
   const { clinicId } = req.params;
-  const { date_time, status } = req.body; // Extract status from req.body
+  const { date, time, status } = req.body;
   const clinicQuery = "SELECT * FROM clinics WHERE id = $1";
 
   pool
@@ -29,20 +29,28 @@ exports.createAppointmentClinicIdByUserId = (req, res) => {
       }
 
       const insertQuery = `
-        INSERT INTO appointment (date_time, status, user_id, clinic_id)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO appointment (date , time, status, user_id, clinic_id)
+        VALUES ($1, $2, $3, $4 , $5)
         RETURNING *
       `;
 
-      const values = [date_time, status, userId, clinicId]; // Include status in values array
+      const values = [date, time, status, userId, clinicId];
 
       return pool.query(insertQuery, values);
     })
     .then((appointmentResult) => {
+      // Modify the appointment object to include date in the desired format
+      const appointment = appointmentResult.rows[0];
+      const formattedAppointment = {
+        ...appointment,
+        date: date.split("T")[0], // Use date from request body
+        time: time.split("T")[0], // Use date from request body
+      };
+
       res.status(201).json({
         success: true,
         message: "Appointment created successfully.",
-        appointment: appointmentResult.rows[0],
+        appointment: formattedAppointment,
       });
     })
     .catch((error) => {
@@ -90,7 +98,8 @@ exports.getAppointmentByUserId = (req, res) => {
       `
         SELECT 
           a.id, 
-          a.date_time, 
+          a.date, 
+          a.time, 
           a.status, 
           a.user_id, 
           a.clinic_id, 
@@ -115,7 +124,8 @@ exports.getAppointmentByUserId = (req, res) => {
       }
       const appointments = result.rows.map((appointment) => ({
         id: appointment.id,
-        date_time: appointment.date_time,
+        date: appointment.date,
+        time: appointment.time,
         status: appointment.status,
         user_id: appointment.user_id,
         clinic_id: appointment.clinic_id, // Include clinic_id in the response

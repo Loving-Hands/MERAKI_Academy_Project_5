@@ -43,10 +43,7 @@ function Navbar() {
     debouncedHandleSearch(query);
   };
 
-  const handleLogout = () => {
-    dispatch(setLogout());
-    navigate('/login');
-  };
+
 
   const handleSpecializationClick = (id) => {
     navigate(`/user/${id}`);
@@ -119,7 +116,12 @@ function Navbar() {
                     <button
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={handleLogout}
+
+                      onClick={() => {
+                        dispatch(setLogout());
+                        navigate("/");
+                      }}
+
                     >
                       {t("Logout")}
                     </button>
