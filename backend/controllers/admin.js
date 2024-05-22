@@ -96,3 +96,21 @@ exports. getAllUsers = (req, res) => {
       });
     });
 };
+exports. deleteClinic = (req, res) => {
+  const {clinicId} = req.params;
+  pool
+    .query(`DELETE FROM "public"."clinics" WHERE id = $1`, [clinicId])
+    .then((result) => {
+        res.status(200).json({
+          success: true,
+          message: "Clinic deleted successfully",
+        })
+      })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete clinic",
+        error: error,
+      });
+    });
+};

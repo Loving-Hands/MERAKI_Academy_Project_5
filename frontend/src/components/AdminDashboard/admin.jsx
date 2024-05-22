@@ -15,6 +15,13 @@ export default function admin() {
         console.log(error);
       });
   }, []);
+  useEffect(()=>{
+    axios.delete(``)
+    .then((result)=>{
+      console.log(result.data);
+    }).catch((error)=>{
+    })
+  },[])
   //=====================================================================
   //================== USERS TABLE ======================================
   const [users, setUsers] = useState([]);
@@ -168,6 +175,7 @@ export default function admin() {
                                 backgroundColor: "red",
                                 color: "white",
                               }}
+                              onClick={deleteClinic}
                             >
                               Delete
                             </button>
