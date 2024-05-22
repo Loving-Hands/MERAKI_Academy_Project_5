@@ -12,7 +12,7 @@ const [clinics, setClinics] = useState([]);
     useEffect(()=>{
         axios.get(`http://localhost:5000/clinic/`)
         .then((result)=>{
-            console.log(result);
+            console.log(result.data);
             setClinics(result.data)
         })
         .catch((error)=>{
@@ -23,10 +23,23 @@ const [clinics, setClinics] = useState([]);
 //================== USERS TABLE ======================================
 const [users, setUsers] = useState([]);
     useEffect(()=>{
-        axios.get(`http://localhost:5000/clinic/`)
+        axios.get(`http://localhost:5000/admin/`)
         .then((result)=>{
-            console.log(result);
-            setUsers(result.data)
+            console.log(result.data.result);
+            setUsers(result.data.result)
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    },[])
+//=====================================================================
+//================== SPECIALIZATION TABLE ======================================
+const [specialization, setspecialization] = useState([]);
+    useEffect(()=>{
+        axios.get(`http://localhost:5000/specialization/`)
+        .then((result)=>{
+            console.log(result.data);
+            setspecialization(result.data)
         })
         .catch((error)=>{
             console.log(error);
@@ -109,8 +122,8 @@ const [users, setUsers] = useState([]);
                     <thead>
                       <tr>
                         {/* <th scope="col">#</th> */}
-                        <th scope="col">Clinic Name</th>
-                        <th scope="col">Doctor Name</th>
+                        <th scope="col">Clinic_Name</th>
+                        <th scope="col">Doctor_Name</th>
                         <th scope="col">Location</th>
                         <th scope="col">Specialization</th>
                         <th scope="col">Update</th>
@@ -165,38 +178,26 @@ const [users, setUsers] = useState([]);
                     <thead>
                       <tr>
                         {/* <th scope="col">#</th> */}
-                        <th scope="col">Clinic Name</th>
-                        <th scope="col">Doctor Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Specialization</th>
-                        <th scope="col">Update</th>
+                        <th scope="col">User_Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone_Number</th>
+                        <th scope="col">Gender</th>
                         <th scope="col">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
-                        {clinics.length &&clinics.map((oneClinic,index)=>{
+                        {users.length > 0 && users.map((oneUser,index)=>{
                             return(
-                            <tr key={oneClinic.id}>
+                            <tr key={oneUser.id}>
                         {/* <th scope="row"></th> */}
-                        <td>{oneClinic.name}</td>
-                        <td>{oneClinic.doctor_name}</td>
-                        <td>{oneClinic.location}</td>
-                        <td>{oneClinic.specialization_name}</td>
+                        <td>{oneUser.full_name}</td>
+                        <td>{oneUser.age}</td>
+                        <td>{oneUser.email}</td>
+                        <td>{oneUser.phone_number}</td>
+                        <td>{oneUser.gender}</td>
                         <td>
-                          <button
-                            style={{
-                              padding: "3px",
-                              border: "none",
-                              borderRadius: "5px",
-                              backgroundColor: "rgb(23, 135, 224)",
-                              color: "white",
-                            }}
-                          >
-                            Update
-                          </button>
-                        </td>
-                        <td>
-                          <button
+                        <button
                             style={{
                               padding: "3px",
                               border: "none",
