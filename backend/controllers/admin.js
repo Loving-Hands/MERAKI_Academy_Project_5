@@ -78,3 +78,21 @@ exports.loginAdmin = (req, res) => {
       });
     });
 };
+exports. getAllUsers = (req, res) => {
+  pool
+    .query(`SELECT * FROM "public"."users" LIMIT 100`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: "All Users get success",
+        result: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Faild Get All Users",
+        error,error
+      });
+    });
+};
