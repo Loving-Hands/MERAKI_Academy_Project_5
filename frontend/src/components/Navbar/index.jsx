@@ -17,18 +17,18 @@ function Navbar() {
     username: state.auth.username,
   }));
   const roleId = localStorage.getItem("roleId");
-  // console.log(roleId);
-  // console.log(isLoggedIn);
+  const userId = localStorage.getItem("userId");
 
   const { t, i18n } = useTranslation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (query) => {
     axios
       .post("http://localhost:5000/clinic/search", { query })
       .then((response) => {
-        console.log(response.data);
+        setSearchResults(response.data);
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
@@ -43,18 +43,18 @@ function Navbar() {
     debouncedHandleSearch(query);
   };
 
+
+
   const handleSpecializationClick = (id) => {
     navigate(`/user/${id}`);
   };
+
   const handleGoToAppointment = (id) => {
     navigate(`appointment/user/${id}`);
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark"
-      style={{ backgroundColor: "#1787e0" }}
-    >
+    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <Link to="/" className="navbar-brand">
@@ -72,6 +72,11 @@ function Navbar() {
                 value={searchQuery}
                 onChange={handleInputChange}
               />
+              <div className="input-group-append">
+                <button className="btn btn-outline-light" type="button" onClick={() => handleSearch(searchQuery)}>
+                  {t("Search")}
+                </button>
+              </div>
             </div>
           </form>
 
@@ -111,10 +116,12 @@ function Navbar() {
                     <button
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
+
                       onClick={() => {
                         dispatch(setLogout());
                         navigate("/");
                       }}
+
                     >
                       {t("Logout")}
                     </button>
@@ -123,7 +130,7 @@ function Navbar() {
                     <button
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => handleSpecializationClick(roleId)}
+                      onClick={() => handleSpecializationClick(userId)}
                     >
                       {t("Bayaniati")}
                     </button>
@@ -158,6 +165,17 @@ function Navbar() {
             </ul>
           </div>
         </div>
+        {searchResults.length > 0 && (
+          <div className="search-results">
+            <ul>
+              {searchResults.map((result) => (
+                <li key={result.id} onClick={() => navigate(`/clinic/${result.id}`)}>
+                  {result.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );
