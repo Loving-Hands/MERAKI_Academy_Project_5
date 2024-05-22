@@ -3,12 +3,11 @@ import axios from "axios";
 
 //=======================================================================
 export default function admin() {
-
   const [clinics, setClinics] = useState([]);
   const [users, setUsers] = useState([]);
   const [specialization, setSpecialization] = useState([]);
 
-//==========================START FETCH DATA================================================
+  //==========================START FETCH DATA================================================
   useEffect(() => {
     // Fetch clinics
     axios
@@ -40,32 +39,48 @@ export default function admin() {
         console.error("Error fetching specialization:", error);
       });
   }, []);
-//===========================END FETCH DATA================================================
+  //===========================END FETCH DATA================================================
 
-//===========================START DELETE DATA=============================================
-const handleDeleteClinic = (id) => {
-  axios.delete(`http://localhost:5000/admin/removeclinic/${id}`)
-  .then((result)=>{
-    console.log(result.data);
-    const newClinics = clinics.filter(clinic=> clinic.id !== id)
-      setClinics(newClinics);
-  }).catch((error)=>{
-console.log(error);
-  })
-};
-const handleDeleteUser = (id) => {
-  axios.delete(`http://localhost:5000/admin/removeuser/${id}`)
-  .then((result)=>{
-    console.log(result.data);
-    const newUsers = users.filter(user=> user.id !== id)
-    setUsers(newUsers);
-  }).catch((error)=>{
-console.log(error);
-  })
-};
-//===========================END DELETE DATA===============================================
+  //===========================START DELETE DATA=============================================
+  const handleDeleteClinic = (id) => {
+    axios
+      .delete(`http://localhost:5000/admin/removeclinic/${id}`)
+      .then((result) => {
+        console.log(result.data);
+        const newClinics = clinics.filter((clinic) => clinic.id !== id);
+        setClinics(newClinics);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleDeleteUser = (id) => {
+    axios
+      .delete(`http://localhost:5000/admin/removeuser/${id}`)
+      .then((result) => {
+        console.log(result.data);
+        const newUsers = users.filter((user) => user.id !== id);
+        setUsers(newUsers);
+      })
+      .catch((error) => {
+      console.log(error);
+      });
+  };
+  const handleDeleteSpecialization = (id) => {
+    axios
+      .delete(`http://localhost:5000/admin/removespecialization/${id}`)
+      .then((result) => {
+        console.log(result.data);
+        const newSpecialization =specialization.filter((singleSpecialization) => singleSpecialization.id !== id);
+        setSpecialization(newSpecialization);
+      })
+      .catch((error) => {
+      console.log(error);
+      });
+  };
+  //===========================END DELETE DATA===============================================
 
-//=========================================================================================
+  //=========================================================================================
   return (
     <>
       <div className="container-fluid">
@@ -292,6 +307,9 @@ console.log(error);
                                 backgroundColor: "red",
                                 color: "white",
                               }}
+                              onClick={() =>
+                                handleDeleteSpecialization(oneSpecialization.id)
+                              }
                             >
                               Delete
                             </button>
