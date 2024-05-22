@@ -12,6 +12,7 @@ import RegisterDoc from "../pages/doctorRegister";
 import RegisterAppointmentClinic from "../pages/registerAppointmentClinic.jsx";
 import InformationUsers from "../pages/informationUsers.jsx";
 import AppointmentInfo from "../pages/appointment.jsx";
+import AdminDashboard from "../components/AdminDashboard/admin.jsx"
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
       {
         path: "appointment/user/:userId",
         element: <AppointmentInfo />,
+      },
+      {
+        path: "adminDashboard",
+        element: <AdminDashboard />,
       },
     ],
   },
