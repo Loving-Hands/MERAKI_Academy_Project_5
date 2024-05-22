@@ -112,8 +112,8 @@ function Navbar() {
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
                       onClick={() => {
-                        console.log("Logout button clicked");
                         dispatch(setLogout());
+                        navigate("/");
                       }}
                     >
                       {t("Logout")}

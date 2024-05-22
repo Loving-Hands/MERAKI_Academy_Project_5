@@ -255,11 +255,12 @@ export default function InfoClinic() {
                       style={{
                         borderRadius: "5px",
                         marginLeft: "5px",
-                        color: " #fff",
+                        color: " #000000",
                         border: "none",
                         padding: "5px",
                         marginTop: "10px",
                       }}
+                      placeholder="Add Your Comment"
                     />
                     <button
                       style={{
