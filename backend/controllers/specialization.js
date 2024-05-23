@@ -108,3 +108,29 @@ exports.editSpecializationById = (req, res) => {
       });
     });
 };
+exports.searchSpecializations = (req, res) => {
+  const { query } = req.query;
+
+  const searchQuery = `
+    SELECT 
+      id AS specialization_id,
+      name_specialization AS specialization,
+      'specialization' AS type
+    FROM
+      specialization
+    WHERE 
+      name_specialization ILIKE $1
+  `;
+
+  const values = [`%${query}%`]; 
+
+  pool.query(searchQuery, values)
+    .then((result) => {
+      const searchResults = result.rows;
+      res.status(200).json(searchResults);
+    })
+    .catch((error) => {
+      console.error("Error searching specializations:", error);
+      res.status(500).send("An error occurred while searching specializations");
+    });
+};
