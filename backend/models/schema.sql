@@ -56,7 +56,8 @@ CREATE TABLE clinics (
 
 CREATE TABLE appointment (
     id SERIAL PRIMARY KEY,
-    date_time TIMESTAMP,
+    time TIME,
+    date DATE,
     status VARCHAR(255),
     user_id INT, 
     clinic_id INT, 
