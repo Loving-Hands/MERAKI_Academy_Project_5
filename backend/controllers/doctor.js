@@ -23,8 +23,7 @@ exports.registerDoctor = async (req, res) => {
   ) {
     return res.status(400).json({
       success: false,
-      message:
-        "All fields are required",
+      message: "All fields are required",
     });
   }
   const encryptedPassword = await bcryptjs.hash(password, 9);
@@ -79,6 +78,7 @@ exports.loginDoctor = (req, res) => {
               doctorId: result.rows[0].id,
               country: result.rows[0].country,
               role: result.rows[0].role_id,
+              docName: result.rows[0].full_name,
             };
             const options = { expiresIn: "1d" };
             const secret = process.env.SECRET;
@@ -89,7 +89,8 @@ exports.loginDoctor = (req, res) => {
                 success: true,
                 message: `Login Successfully`,
                 doctorId: result.rows[0].id,
-                role_id: result.rows[0].role_id
+                role_id: result.rows[0].role_id,
+                docName: result.rows[0].full_name,
               });
             } else {
               throw Error;

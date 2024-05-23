@@ -36,8 +36,35 @@ const getAllDiagnosticsWithDoctorNames = (req, res) => {
       res.status(500).send("An error occurred while retrieving diagnostics");
     });
 };
+const getAllDiagnosticsByClinicId = (req, res) => {
+  const userId = req.token.userId;
+  console.log(userId);
+  const clinicId = req.params.clinicId;
+  console.log(clinicId);
+
+  const query = `
+  SELECT * FROM diagnostics 
+  WHERE user_id = $1 AND clinic_id = $2
+`;
+
+  pool
+    .query(query, [userId, clinicId])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "No diagnostics found for this clinic and user" });
+      }
+      res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error executing query", error.stack);
+      res.status(500).json({ message: "Internal Server Error" });
+    });
+};
 
 module.exports = {
   createDiginstoics,
   getAllDiagnosticsWithDoctorNames,
+  getAllDiagnosticsByClinicId,
 };

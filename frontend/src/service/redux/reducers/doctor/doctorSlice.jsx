@@ -8,6 +8,7 @@ export const doc = createSlice({
     message: "",
     status: false,
     role: localStorage.getItem("role") || "",
+    docName: "",
   },
   reducers: {
     setLogin: (state, action) => {
@@ -21,18 +22,23 @@ export const doc = createSlice({
         localStorage.setItem("doctorId", action.payload);
     },
     setRoleId: (state, action) => {
-        (state.role = action.payload),
-          localStorage.setItem("roleId", action.payload);
-      },
+      (state.role = action.payload),
+        localStorage.setItem("roleId", action.payload);
+    },
     setLogoutDoc: (state, action) => {
       (state.token = null),
         (state.doctorId = null),
         (state.isLoggedIn = false),
         localStorage.clear();
     },
+    setDocName: (state, action) => {
+      state.docName = action.payload;
+      localStorage.setItem("docName", action.payload);
+    },
   },
 });
 
-export const { setLogin, setDoctorId, setLogoutDoc, setRoleId } = doc.actions;
+export const { setLogin, setDoctorId, setLogoutDoc, setRoleId, setDocName } =
+  doc.actions;
 
 export default doc.reducer;

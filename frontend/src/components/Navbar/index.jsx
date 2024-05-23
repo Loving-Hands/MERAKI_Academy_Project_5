@@ -11,24 +11,26 @@ import axios from "axios";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn, role, username } = useSelector((state) => ({
+  const { isLoggedIn, role, username, docName } = useSelector((state) => ({
     isLoggedIn: state.auth.isLoggedIn,
     role: state.auth.role,
     username: state.auth.username,
+    docName: state.doc.docName,
   }));
+
   const roleId = localStorage.getItem("roleId");
-  // console.log(roleId);
-  // console.log(isLoggedIn);
+  const userId = localStorage.getItem("userId");
 
   const { t, i18n } = useTranslation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (query) => {
     axios
       .post("http://localhost:5000/clinic/search", { query })
       .then((response) => {
-        console.log(response.data);
+        setSearchResults(response.data);
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
@@ -46,6 +48,7 @@ function Navbar() {
   const handleSpecializationClick = (id) => {
     navigate(`/user/${id}`);
   };
+
   const handleGoToAppointment = (id) => {
     navigate(`appointment/user/${id}`);
   };
@@ -72,11 +75,20 @@ function Navbar() {
                 value={searchQuery}
                 onChange={handleInputChange}
               />
+              <div className="input-group-append">
+                <button
+                  className="btn btn-outline-light"
+                  type="button"
+                  onClick={() => handleSearch(searchQuery)}
+                >
+                  {t("Search")}
+                </button>
+              </div>
             </div>
           </form>
 
           <div className="d-flex align-items-center">
-            {isLoggedIn && roleId == 1 ? (
+            {(isLoggedIn && roleId == 1) || roleId == 2 ? (
               <div className="dropdown me-2">
                 <button
                   className="btn btn-secondary dropdown-toggle text-uppercase"
@@ -112,8 +124,8 @@ function Navbar() {
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
                       onClick={() => {
-                        console.log("Logout button clicked");
                         dispatch(setLogout());
+                        navigate("/");
                       }}
                     >
                       {t("Logout")}
@@ -123,7 +135,7 @@ function Navbar() {
                     <button
                       className="dropdown-item"
                       style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => handleSpecializationClick(roleId)}
+                      onClick={() => handleSpecializationClick(userId)}
                     >
                       {t("Bayaniati")}
                     </button>
@@ -158,6 +170,20 @@ function Navbar() {
             </ul>
           </div>
         </div>
+        {searchResults.length > 0 && (
+          <div className="search-results">
+            <ul>
+              {searchResults.map((result) => (
+                <li
+                  key={result.id}
+                  onClick={() => navigate(`/clinic/${result.id}`)}
+                >
+                  {result.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );

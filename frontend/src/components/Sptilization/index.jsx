@@ -60,7 +60,7 @@ function Index() {
       .catch((err) => {
         console.log(err);
       });
-  }, [dispatch]);
+  }, []);
 
   const handleSelect = (selectedIndex, e) => {
     setCurrentIndex(selectedIndex);
@@ -88,7 +88,7 @@ function Index() {
           onSelect={handleSelect}
           style={{ margin: "0 auto", width: "80%" }}
         >
-          {clinic.map((item, index) =>
+          {clinic && clinic.map((item, index) =>
             index % itemsPerSlide === 0 ? (
               <Carousel.Item key={index}>
                 <div className="d-flex justify-content-between">
