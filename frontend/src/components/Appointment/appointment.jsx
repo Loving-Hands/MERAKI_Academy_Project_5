@@ -8,46 +8,31 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 export default function Appointment() {
-  // ----- modal
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  // ----- modal End
-
   const [appointmentInfo, setAppointmentInfo] = useState([]);
+  const [file, setFile] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
+  const [resultDiagnostics, setResultDiagnostics] = useState([]);
 
   const { token, userId, doctorId } = useSelector((state) => ({
     token: state.auth.token,
     userId: state.auth.userId,
     doctorId: state.doc.doctorId,
   }));
-  const roleId = localStorage.getItem("roleId");
 
+  const roleId = localStorage.getItem("roleId");
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/appointment/user/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((response) => {
-        setAppointmentInfo(response.data.result);
-      })
-      .catch((error) => {
-        console.error("Error fetching appointments:", error);
-      });
+      .then((response) => setAppointmentInfo(response.data.result))
+      .catch((error) => console.error("Error fetching appointments:", error));
   }, [userId, token]);
-  // ----------convert time to 24Hours-------------
-  const date = new Date();
-  const options = {
-    hour12: false,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  };
-  const time = date.toLocaleTimeString("en-US", options);
-  // console.log(time);
-  // ---------------
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleCancelAppointment = (clinicId, appointmentId) => {
     axios
@@ -64,45 +49,47 @@ export default function Appointment() {
           )
         );
       })
-      .catch((error) => {
-        console.error("Error canceling appointment:", error);
-      });
+      .catch((error) => console.error("Error canceling appointment:", error));
   };
-  // --------------------- form
-  const [file, setFile] = useState();
-  const [diagnosis, setDiagnosis] = useState("");
-  function handleDiagonosis(e) {
-    setDiagnosis(e.target.value);
-  }
 
-  function handleChange(e) {
-    // console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
-  }
-  const handleFormDiagnosis = (clinic_id, user_id, e) => {
+  const handleDiagnosisChange = (e) => setDiagnosis(e.target.value);
+
+  const saveImage = () => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "project_5");
+    data.append("cloud_name", "dobvkevkw");
+
+    axios
+      .post(`https://api.cloudinary.com/v1_1/dobvkevkw/image/upload`, data)
+      .then((result) => setFile(result.data.url))
+      .catch((error) => console.error("Error uploading image:", error));
+  };
+
+  const handleFormDiagnosis = (clinicId, userId, e) => {
     e.preventDefault();
+    const value = { diagnostics: diagnosis, image_diagnostics: file };
 
-    const value = {
-      diagnostics: diagnosis,
-      image_diagnostics: file,
-    };
     axios
       .post(
-        `http://localhost:5000/diagnostics/create/${clinic_id}/${user_id}`,
+        `http://localhost:5000/diagnostics/create/${clinicId}/${userId}`,
         value,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
-      .then((result) => {
-        alert("Dignoses Send");
-      })
-      .catch((error) => {
-        console.log(error);
-        throw error;
-      });
+      .then((result) => console.log("Diagnosis submitted successfully"))
+      .catch((error) => console.error("Error submitting diagnosis:", error));
   };
-  // --------------------- form End
+
+  const handleDiagnosisResult = (clinicId) => {
+    axios
+      .get(`http://localhost:5000/diagnostics/${clinicId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((result) => setResultDiagnostics(result.data[0]))
+      .catch((error) => console.error("Error fetching diagnosis:", error));
+  };
 
   return (
     <section className="clinic-specialization">
@@ -118,7 +105,6 @@ export default function Appointment() {
           </div>
         </div>
       </div>
-
       <div className="p-5 appointmentPage">
         <table>
           <thead className="text-capitalize">
@@ -128,6 +114,7 @@ export default function Appointment() {
               <th scope="col">Booking date/time</th>
               <th scope="col">Delete Appointment</th>
               <th scope="col">Details</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -139,8 +126,8 @@ export default function Appointment() {
                   {appointment.date.split("T")[0]}/{appointment.time}
                 </td>
                 <td>
-                  <button
-                    className="btn btn-danger"
+                  <Button
+                    variant="danger"
                     onClick={() =>
                       handleCancelAppointment(
                         appointment.clinic_id,
@@ -149,67 +136,96 @@ export default function Appointment() {
                     }
                   >
                     Cancel Appointment
-                  </button>
+                  </Button>
                 </td>
                 <td>{appointment.status}</td>
-                {}
                 <td>
-                  <Button variant="secondary" onClick={handleShow}>
-                    Send Diagnosis
-                  </Button>
-                  <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title className="text-capitalize">
-                        The Patient's diagnosis.
-                      </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Form
-                        onSubmit={(e) => {
-                          handleFormDiagnosis(
-                            appointment.clinic_id,
-                            appointment.user_id,
-                            e
-                          );
+                  {roleId == "2" ? (
+                    <div>
+                      <Button variant="secondary" onClick={handleShow}>
+                        Send Diagnosis
+                      </Button>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title className="text-capitalize">
+                            The Patient's diagnosis
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form
+                            onSubmit={(e) =>
+                              handleFormDiagnosis(
+                                appointment.clinic_id,
+                                appointment.user_id,
+                                e
+                              )
+                            }
+                          >
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlTextarea1"
+                            >
+                              <Form.Label className="fw-bold">
+                                Patient Notes
+                              </Form.Label>
+                              <Form.Control
+                                as="textarea"
+                                rows={3}
+                                onChange={handleDiagnosisChange}
+                              />
+                            </Form.Group>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="formBasicPassword"
+                            >
+                              <Form.Label className="fw-bold">
+                                The Diagnosis Image
+                              </Form.Label>
+                              <Form.Control
+                                type="file"
+                                onChange={(e) => setFile(e.target.files[0])}
+                              />
+                            </Form.Group>
+                            <Button
+                              variant="primary"
+                              type="submit"
+                              className="float-end btn-secondary"
+                              onClick={saveImage}
+                            >
+                              Send
+                            </Button>
+                          </Form>
+                        </Modal.Body>
+                      </Modal>
+                    </div>
+                  ) : (
+                    <div>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          handleShow();
+                          handleDiagnosisResult(appointment.clinic_id);
                         }}
                       >
-                        <Form.Group
-                          className="mb-3"
-                          controlId="exampleForm.ControlTextarea1"
-                        >
-                          <Form.Label className="fw-bold">
-                            Patient Notes
-                          </Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            rows={3}
-                            onChange={handleDiagonosis}
+                        Show Diagnosis
+                      </Button>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title className="text-capitalize">
+                            Your Diagnosis Is:
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <p>{resultDiagnostics.diagnostics}</p>
+                          <img
+                            src={resultDiagnostics.image_diagnostics}
+                            style={{ width: "100%", height: "100%" }}
+                            alt="Diagnosis"
                           />
-                        </Form.Group>
-
-                        <Form.Group
-                          className="mb-3"
-                          controlId="formBasicPassword"
-                        >
-                          <Form.Label className="fw-bold">
-                            The Diagnosis Image
-                          </Form.Label>
-                          <Form.Control type="file" onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Group
-                          className="mb-3"
-                          controlId="formBasicCheckbox"
-                        ></Form.Group>
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="float-end btn-secondary"
-                        >
-                          Send
-                        </Button>
-                      </Form>
-                    </Modal.Body>
-                  </Modal>
+                        </Modal.Body>
+                      </Modal>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

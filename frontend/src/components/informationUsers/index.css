@@ -51,11 +51,7 @@
     background-color: #0056b3;
   }
   
-  p {
-    color: #dc3545;
-    margin-top: 10px;
-    font-size: 14px;
-  }
+
   
   .unique-row {
     display: flex;
