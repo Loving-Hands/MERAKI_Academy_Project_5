@@ -96,15 +96,26 @@ exports. getAllUsers = (req, res) => {
       });
     });
 };
- exports.deleteClinicById = async (req, res) => {
+exports.deleteClinicById = async (req, res) => {
   try {
     const { clinicId } = req.params;
-    const result = await pool.query(`DELETE FROM "public"."clinics" WHERE id = $1`, [clinicId]);
 
-    if (result.rowCount > 0) {
+    // Step 1: استعلم عن المواعيد المرتبطة بالعيادة
+    const appointmentsResult = await pool.query(`SELECT id FROM "public"."appointment" WHERE clinic_id = $1`, [clinicId]);
+
+    // Step 2: حذف المواعيد المرتبطة بالعيادة
+    if (appointmentsResult.rowCount > 0) {
+      const appointmentIds = appointmentsResult.rows.map(row => row.id);
+      await pool.query(`DELETE FROM "public"."appointment" WHERE id IN (${appointmentIds.join(',')})`);
+    }
+
+    // Step 3: حذف العيادة نفسها
+    const clinicDeleteResult = await pool.query(`DELETE FROM "public"."clinics" WHERE id = $1`, [clinicId]);
+
+    if (clinicDeleteResult.rowCount > 0) {
       res.status(200).json({
         success: true,
-        message: "Clinic deleted successfully",
+        message: "Clinic and associated appointments deleted successfully",
       });
     } else {
       res.status(404).json({
@@ -129,7 +140,7 @@ exports. getAllUsers = (req, res) => {
       });
     }
   }
-};
+}
 exports.deleteUserById = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -199,3 +210,6 @@ exports.deletespecializationById = async (req, res) => {
     }
   }
 };
+
+
+

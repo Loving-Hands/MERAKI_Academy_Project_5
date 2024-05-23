@@ -6,38 +6,52 @@ export default function admin() {
   const [clinics, setClinics] = useState([]);
   const [users, setUsers] = useState([]);
   const [specialization, setSpecialization] = useState([]);
+  const [nameSpecialization, setNameSpecialization] = useState("");
+  const [imageSpecialization, setImageSpecialization] = useState("");
+  const [updateSpecializationId, setUpdateSpecializationId] = useState(null);
+  // const role_id = localStorage.getItem("roleId");
+  // console.log(role_id);
 
   //==========================START FETCH DATA================================================
-  useEffect(() => {
-    // Fetch clinics
+  const clinicData = ()=>{
     axios
-      .get(`http://localhost:5000/clinic/`)
-      .then((response) => {
-        setClinics(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching clinics:", error);
-      });
-
-    // Fetch users
+    .get(`http://localhost:5000/clinic/`)
+    .then((response) => {
+      setClinics(response.data);
+    })
+    .catch((error) => {
+      console.log("Error fetching clinics:", error);
+    });
+  }
+  const userData = ()=>{
     axios
       .get(`http://localhost:5000/admin/`)
       .then((response) => {
         setUsers(response.data.result);
       })
       .catch((error) => {
-        console.error("Error fetching users:", error);
+        console.log("Error fetching users:", error);
       });
 
-    // Fetch specialization
+  }
+
+  const specializationData = ()=>{
     axios
-      .get(`http://localhost:5000/specialization/`)
-      .then((response) => {
-        setSpecialization(response.data.result);
-      })
-      .catch((error) => {
-        console.error("Error fetching specialization:", error);
-      });
+    .get(`http://localhost:5000/specialization/`)
+    .then((response) => {
+      setSpecialization(response.data.result);
+    })
+    .catch((error) => {
+   console.log("Error fetching specialization:", error);
+    });
+  }
+  useEffect(() => {
+    // Fetch clinics
+    clinicData();
+    // Fetch users
+    userData();
+    // Fetch specialization
+    specializationData();
   }, []);
   //===========================END FETCH DATA================================================
 
@@ -63,7 +77,7 @@ export default function admin() {
         setUsers(newUsers);
       })
       .catch((error) => {
-      console.log(error);
+        console.log(error);
       });
   };
   const handleDeleteSpecialization = (id) => {
@@ -71,19 +85,60 @@ export default function admin() {
       .delete(`http://localhost:5000/admin/removespecialization/${id}`)
       .then((result) => {
         console.log(result.data);
-        const newSpecialization =specialization.filter((singleSpecialization) => singleSpecialization.id !== id);
+        const newSpecialization = specialization.filter(
+          (singleSpecialization) => singleSpecialization.id !== id
+        );
         setSpecialization(newSpecialization);
       })
       .catch((error) => {
-      console.log(error);
+        console.log(error);
       });
   };
   //===========================END DELETE DATA===============================================
 
   //===========================START Update DATA=============================================
-  
-  //============================END Update DATA===============================================
+  const handleUpdateSpecialization = (id) => {
+    const updatedData = {
+      name_specialization: nameSpecialization,
+      image_specialization: imageSpecialization,
+    };
+    axios
+      .put(`http://localhost:5000/specialization/${id}`, updatedData)
+      .then((result) => {
+        console.log(result.data);
+        // Refresh data after successful update
+        axios
+          .get(`http://localhost:5000/specialization/`)
+          .then((response) => {
+            setSpecialization(response.data.result);
+          })
+          .catch((error) => {
+            console.error("Error fetching specialization:", error);
+          });
+        // Reset update state and data
+        setNameSpecialization("");
+        setImageSpecialization("");
+        setUpdateSpecializationId(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleEdit = (id, name, image) => {
+    // Set the ID of the specialization to be updated
+    setUpdateSpecializationId(id);
+    // Set the initial values for the inputs
+    setNameSpecialization(name);
+    setImageSpecialization(image);
+  };
+  const handleCancelEdit = () => {
+    // Reset update state and data
+    setUpdateSpecializationId(null);
+    setNameSpecialization("");
+    setImageSpecialization("");
+  };
 
+  //============================END Update DATA===============================================
 
   //=========================================================================================
   return (
@@ -283,45 +338,99 @@ export default function admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialization.length > 0 &&
-                    specialization.map((oneSpecialization, index) => {
-                      return (
-                        <tr key={oneSpecialization.id}>
-                          {/* <th scope="row"></th> */}
-                          <td>{oneSpecialization.name_specialization}</td>
-                          <td>{oneSpecialization.image_specialization}</td>
-                          <td>
+                  {specialization.map((specialization) => (
+                    <tr key={specialization.id}>
+                      <td>
+                        {updateSpecializationId === specialization.id ? (
+                          <input
+                            type="text"
+                            value={nameSpecialization}
+                            onChange={(e) =>
+                              setNameSpecialization(e.target.value)
+                            }
+                          />
+                        ) : (
+                          specialization.name_specialization
+                        )}
+                      </td>
+                      <td>
+                        {updateSpecializationId === specialization.id ? (
+                          <input
+                            type="text"
+                            value={imageSpecialization}
+                            onChange={(e) =>
+                              setImageSpecialization(e.target.value)
+                            }
+                          />
+                        ) : (
+                          specialization.image_specialization
+                        )}
+                      </td>
+                      <td>
+                        {updateSpecializationId === specialization.id ? (
+                          <>
                             <button
-                              style={{
-                                padding: "3px",
-                                border: "none",
-                                borderRadius: "5px",
-                                backgroundColor: "rgb(23, 135, 224)",
-                                color: "white",
-                              }}
-                            >
-                              Update
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                              style={{
-                                padding: "3px",
-                                border: "none",
-                                borderRadius: "5px",
-                                backgroundColor: "red",
-                                color: "white",
-                              }}
+                            style={{
+                              padding: "3px",
+                              border: "none",
+                              borderRadius: "5px",
+                              backgroundColor: "rgb(23, 135, 224)",
+                              color: "white",
+                            }}
                               onClick={() =>
-                                handleDeleteSpecialization(oneSpecialization.id)
+                                handleUpdateSpecialization(specialization.id)
                               }
                             >
-                              Delete
+                              Save
                             </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                            <button style={{
+                            padding: "3px",
+                            border: "none",
+                            borderRadius: "5px",
+                            backgroundColor: "rgb(23, 135, 224)",
+                            color: "white",
+                          }}
+                           onClick={handleCancelEdit}>Cancel</button>
+                          </>
+                        ) : (
+                          <button
+                          style={{
+                            padding: "3px",
+                            border: "none",
+                            borderRadius: "5px",
+                            backgroundColor: "rgb(23, 135, 224)",
+                            color: "white",
+                          }}
+                            onClick={() =>
+                              handleEdit(
+                                specialization.id,
+                                specialization.name_specialization,
+                                specialization.image_specialization
+                              )
+                            }
+                          >
+                            Update
+                          </button>
+                        )}
+                      </td>
+                      <td>
+                        <button
+                          style={{
+                            padding: "3px",
+                            border: "none",
+                            borderRadius: "5px",
+                            backgroundColor: "red",
+                            color: "white",
+                          }}
+                          onClick={() =>
+                            handleDeleteSpecialization(specialization.id)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
