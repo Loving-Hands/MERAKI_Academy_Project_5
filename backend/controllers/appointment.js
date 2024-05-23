@@ -98,7 +98,6 @@ exports.getAppointmentByUserId = (req, res) => {
       `
         SELECT 
           a.id, 
-          a.date_time, 
           a.date, 
           a.time, 
           a.status, 
