@@ -10,7 +10,7 @@ specializationRouter.post(
 specializationRouter.get("/", specializationController.getAllSpecialization);
 specializationRouter.put(
   "/:id",
-  authentication,
+ 
   specializationController.editSpecializationById
 );
 module.exports = specializationRouter;
