@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 export const doc = createSlice({
   name: "doc",
   initialState: {
@@ -8,31 +9,37 @@ export const doc = createSlice({
     message: "",
     status: false,
     role: localStorage.getItem("role") || "",
+    username: localStorage.getItem("username"),
   },
   reducers: {
     setLogin: (state, action) => {
-      console.log(action.payload);
-      (state.token = action.payload),
-        localStorage.setItem("token", action.payload),
-        (state.isLoggedIn = true);
+      state.token = action.payload;
+      localStorage.setItem("token", action.payload);
+      state.isLoggedIn = true;
     },
     setDoctorId: (state, action) => {
-      (state.doctorId = action.payload),
-        localStorage.setItem("doctorId", action.payload);
+      state.doctorId = action.payload;
+      localStorage.setItem("doctorId", action.payload);
     },
     setRoleId: (state, action) => {
-        (state.role = action.payload),
-          localStorage.setItem("roleId", action.payload);
-      },
-    setLogoutDoc: (state, action) => {
-      (state.token = null),
-        (state.doctorId = null),
-        (state.isLoggedIn = false),
-        localStorage.clear();
+      state.role = action.payload;
+      localStorage.setItem("roleId", action.payload);
+    },
+    setLogoutDoc: (state) => {
+      state.token = "";
+      state.doctorId = "";
+      state.isLoggedIn = false;
+      state.role = "";
+      state.username = "";
+      localStorage.clear();
+    },
+    setUsername: (state, action) => {
+      state.username = action.payload;
+      localStorage.setItem("username", action.payload);
     },
   },
 });
 
-export const { setLogin, setDoctorId, setLogoutDoc, setRoleId } = doc.actions;
+export const { setLogin, setDoctorId, setLogoutDoc, setRoleId, setUsername } = doc.actions;
 
 export default doc.reducer;

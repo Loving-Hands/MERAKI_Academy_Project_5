@@ -11,11 +11,13 @@ import axios from "axios";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn, role, username } = useSelector((state) => ({
+  const { isLoggedIn, role, username, usernameDoc } = useSelector((state) => ({
     isLoggedIn: state.auth.isLoggedIn,
     role: state.auth.role,
     username: state.auth.username,
+    usernameDoc: state.doc.usernameDoc,
   }));
+
   const roleId = localStorage.getItem("roleId");
   const userId = localStorage.getItem("userId");
 
@@ -43,8 +45,6 @@ function Navbar() {
     debouncedHandleSearch(query);
   };
 
-
-
   const handleSpecializationClick = (id) => {
     navigate(`/user/${id}`);
   };
@@ -53,8 +53,15 @@ function Navbar() {
     navigate(`appointment/user/${id}`);
   };
 
+  const handleAdminClick = () => {
+    navigate("/admin");
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ backgroundColor: "#1787e0" }}
+    >
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <Link to="/" className="navbar-brand">
@@ -73,7 +80,11 @@ function Navbar() {
                 onChange={handleInputChange}
               />
               <div className="input-group-append">
-                <button className="btn btn-outline-light" type="button" onClick={() => handleSearch(searchQuery)}>
+                <button
+                  className="btn btn-outline-light"
+                  type="button"
+                  onClick={() => handleSearch(searchQuery)}
+                >
                   {t("Search")}
                 </button>
               </div>
@@ -81,7 +92,7 @@ function Navbar() {
           </form>
 
           <div className="d-flex align-items-center">
-            {isLoggedIn && roleId == 1 ? (
+            {isLoggedIn && (roleId == 1 || roleId == 2) ? (
               <div className="dropdown me-2">
                 <button
                   className="btn btn-secondary dropdown-toggle text-uppercase"
@@ -103,38 +114,64 @@ function Navbar() {
                   aria-labelledby="dropdownMenuButton"
                   style={{ backgroundColor: "#1787e0", color: "#fff" }}
                 >
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => handleGoToAppointment(roleId)}
-                    >
-                      {t("My Appointments")}
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
-
-                      onClick={() => {
-                        dispatch(setLogout());
-                        navigate("/");
-                      }}
-
-                    >
-                      {t("Logout")}
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => handleSpecializationClick(userId)}
-                    >
-                      {t("Bayaniati")}
-                    </button>
-                  </li>
+                  {roleId == 2 ? (
+                    <>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleAdminClick}
+                        >
+                          {t("Admin")}
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => {
+                            dispatch(setLogout());
+                            navigate("/");
+                          }}
+                        >
+                          {t("Logout")}
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleGoToAppointment(roleId)}
+                        >
+                          {t("My Appointments")}
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => {
+                            dispatch(setLogout());
+                            navigate("/");
+                          }}
+                        >
+                          {t("Logout")}
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleSpecializationClick(userId)}
+                        >
+                          {t("Bayaniati")}
+                        </button>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             ) : (
@@ -169,7 +206,10 @@ function Navbar() {
           <div className="search-results">
             <ul>
               {searchResults.map((result) => (
-                <li key={result.id} onClick={() => navigate(`/clinic/${result.id}`)}>
+                <li
+                  key={result.id}
+                  onClick={() => navigate(`/clinic/${result.id}`)}
+                >
                   {result.name}
                 </li>
               ))}

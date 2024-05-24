@@ -7,6 +7,8 @@ import {
   setLogin,
   setDoctorId,
   setRoleId,
+  setUsername
+  
 } from "../../service/redux/reducers/doctor/doctorSlice";
 
 //====================================================================
@@ -21,6 +23,7 @@ const loginDoc = () => {
       isLoggedInDoc: state.doc.isLoggedIn,
       doctorId: state.doc.doctorId,
       roleDoc: state.doc.role,
+
     };
   });
 
@@ -46,6 +49,8 @@ const loginDoc = () => {
         dispatch(setLogin(result.data.token));
         dispatch(setDoctorId(result.data.doctorId));
         dispatch(setRoleId(result.data.role_id));
+        dispatch(setUsername(result.data.username))
+
       } else throw Error;
     } catch (error) {
       console.log(error);

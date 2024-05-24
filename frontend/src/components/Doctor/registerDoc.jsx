@@ -276,6 +276,8 @@ const registerDoc = () => {
               defaultValue="Register"
               className="btn"
               onClick={addNewUser}
+              
+              
             />
           </div>
           {status
