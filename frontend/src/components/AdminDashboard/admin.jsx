@@ -150,7 +150,6 @@ export default function admin() {
             <div
               className="left-sidebar"
               style={{
-                position: "-webkit-sticky",
                 position: "sticky",
                 top: "0px",
               }}
