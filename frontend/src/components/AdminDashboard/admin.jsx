@@ -13,17 +13,17 @@ export default function admin() {
   // console.log(role_id);
 
   //==========================START FETCH DATA================================================
-  const clinicData = ()=>{
+  const clinicData = () => {
     axios
-    .get(`http://localhost:5000/clinic/`)
-    .then((response) => {
-      setClinics(response.data);
-    })
-    .catch((error) => {
-      console.log("Error fetching clinics:", error);
-    });
-  }
-  const userData = ()=>{
+      .get(`http://localhost:5000/clinic/`)
+      .then((response) => {
+        setClinics(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching clinics:", error);
+      });
+  };
+  const userData = () => {
     axios
       .get(`http://localhost:5000/admin/`)
       .then((response) => {
@@ -32,19 +32,18 @@ export default function admin() {
       .catch((error) => {
         console.log("Error fetching users:", error);
       });
+  };
 
-  }
-
-  const specializationData = ()=>{
+  const specializationData = () => {
     axios
-    .get(`http://localhost:5000/specialization/`)
-    .then((response) => {
-      setSpecialization(response.data.result);
-    })
-    .catch((error) => {
-   console.log("Error fetching specialization:", error);
-    });
-  }
+      .get(`http://localhost:5000/specialization/`)
+      .then((response) => {
+        setSpecialization(response.data.result);
+      })
+      .catch((error) => {
+        console.log("Error fetching specialization:", error);
+      });
+  };
   useEffect(() => {
     // Fetch clinics
     clinicData();
@@ -150,7 +149,7 @@ export default function admin() {
             <div
               className="left-sidebar"
               style={{
-                position: "-webkit-sticky",
+                // position: "-webkit-sticky",
                 position: "sticky",
                 top: "0px",
               }}
@@ -370,6 +369,34 @@ export default function admin() {
                         {updateSpecializationId === specialization.id ? (
                           <>
                             <button
+                              style={{
+                                padding: "3px",
+                                border: "none",
+                                borderRadius: "5px",
+                                backgroundColor: "rgb(23, 135, 224)",
+                                color: "white",
+                              }}
+                              onClick={() =>
+                                handleUpdateSpecialization(specialization.id)
+                              }
+                            >
+                              Save
+                            </button>
+                            <button
+                              style={{
+                                padding: "3px",
+                                border: "none",
+                                borderRadius: "5px",
+                                backgroundColor: "rgb(23, 135, 224)",
+                                color: "white",
+                              }}
+                              onClick={handleCancelEdit}
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          <button
                             style={{
                               padding: "3px",
                               border: "none",
@@ -377,30 +404,6 @@ export default function admin() {
                               backgroundColor: "rgb(23, 135, 224)",
                               color: "white",
                             }}
-                              onClick={() =>
-                                handleUpdateSpecialization(specialization.id)
-                              }
-                            >
-                              Save
-                            </button>
-                            <button style={{
-                            padding: "3px",
-                            border: "none",
-                            borderRadius: "5px",
-                            backgroundColor: "rgb(23, 135, 224)",
-                            color: "white",
-                          }}
-                           onClick={handleCancelEdit}>Cancel</button>
-                          </>
-                        ) : (
-                          <button
-                          style={{
-                            padding: "3px",
-                            border: "none",
-                            borderRadius: "5px",
-                            backgroundColor: "rgb(23, 135, 224)",
-                            color: "white",
-                          }}
                             onClick={() =>
                               handleEdit(
                                 specialization.id,
