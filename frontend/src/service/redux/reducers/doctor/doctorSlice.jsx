@@ -10,6 +10,8 @@ export const doc = createSlice({
     status: false,
     role: localStorage.getItem("role") || "",
     username: localStorage.getItem("username"),
+
+    docName: "",
   },
   reducers: {
     setLogin: (state, action) => {
@@ -36,10 +38,24 @@ export const doc = createSlice({
     setUsername: (state, action) => {
       state.username = action.payload;
       localStorage.setItem("username", action.payload);
+
+      (state.role = action.payload),
+        localStorage.setItem("roleId", action.payload);
+    },
+    setLogoutDoc: (state, action) => {
+      (state.token = null),
+        (state.doctorId = null),
+        (state.isLoggedIn = false),
+        localStorage.clear();
+    },
+    setDocName: (state, action) => {
+      state.docName = action.payload;
+      localStorage.setItem("docName", action.payload);
     },
   },
 });
 
 export const { setLogin, setDoctorId, setLogoutDoc, setRoleId, setUsername } = doc.actions;
+
 
 export default doc.reducer;

@@ -16,6 +16,12 @@ function Navbar() {
     role: state.auth.role,
     username: state.auth.username,
     usernameDoc: state.doc.usernameDoc,
+
+  const { isLoggedIn, role, username, docName } = useSelector((state) => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    role: state.auth.role,
+    username: state.auth.username,
+    docName: state.doc.docName,
   }));
 
   const roleId = localStorage.getItem("roleId");
@@ -93,6 +99,8 @@ function Navbar() {
 
           <div className="d-flex align-items-center">
             {isLoggedIn && (roleId == 1 || roleId == 2) ? (
+
+            {(isLoggedIn && roleId == 1) || roleId == 2 ? (
               <div className="dropdown me-2">
                 <button
                   className="btn btn-secondary dropdown-toggle text-uppercase"
@@ -172,6 +180,37 @@ function Navbar() {
                       </li>
                     </>
                   )}
+
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                      onClick={() => handleGoToAppointment(roleId)}
+                    >
+                      {t("My Appointments")}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                      onClick={() => {
+                        dispatch(setLogout());
+                        navigate("/");
+                      }}
+                    >
+                      {t("Logout")}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                      onClick={() => handleSpecializationClick(userId)}
+                    >
+                      {t("Bayaniati")}
+                    </button>
+                  </li>
                 </ul>
               </div>
             ) : (

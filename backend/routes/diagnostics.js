@@ -4,6 +4,7 @@ const routerDignostics = express.Router();
 const {
   createDiginstoics,
   getAllDiagnosticsWithDoctorNames,
+  getAllDiagnosticsByClinicId,
 } = require("../controllers/diagnostics");
 const authentication = require("../middleware/authentication");
 
@@ -13,5 +14,10 @@ routerDignostics.post(
   createDiginstoics
 );
 routerDignostics.get("/", authentication, getAllDiagnosticsWithDoctorNames);
+routerDignostics.get(
+  "/:clinicId",
+  authentication,
+  getAllDiagnosticsByClinicId
+);
 
 module.exports = routerDignostics;

@@ -5,8 +5,9 @@ const { register,login,getUser,changePassword} = require("../controllers/users")
 
 userRouter.post("/register", register);
 userRouter.post("/login", login);
-userRouter.get('/:id',getUser)
+userRouter.get('/:id',getUser);
 userRouter.post('/change-password', changePassword);
+
 
 module.exports = userRouter;
 

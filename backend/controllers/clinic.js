@@ -14,7 +14,6 @@ const createClinic = (req, res) => {
     open_days,
   } = req.body;
   const doctorId = req.token.doctorId;
-  console.log(req.token);
 
   const query = `
     INSERT INTO clinics (name, location, image_clinic, description,long_description, time_open, time_close, specialization, open_days, doctor_id)
@@ -38,7 +37,9 @@ const createClinic = (req, res) => {
   pool
     .query(query, values)
     .then((result) => {
-      res.status(201).json({ message: "created clinic" });
+      res
+        .status(201)
+        .json({ message: "created clinic", result: result.rows[0] });
     })
     .catch((err) => {
       res.status(500).send("an error occurred while adding the clinic");
@@ -128,9 +129,19 @@ const getAllClinicsBySpecializationId = (req, res) => {
 
 
 
-
-
-
+  pool
+    .query(searchQuery, values)
+    .then((result) => {
+      const searchResults = result.rows;
+      res.status(200).json(searchResults);
+    })
+    .catch((error) => {
+      console.error("Error searching doctors and clinics:", error);
+      res
+        .status(500)
+        .send("An error occurred while searching doctors and clinics");
+    });
+};
 
 module.exports = {
   createClinic,
@@ -138,6 +149,5 @@ module.exports = {
   getClinicById,
   getAllClinicsBySpecializationId,
   
+  searchDoctorsAndClinics,
 };
-
-

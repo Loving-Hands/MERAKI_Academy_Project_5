@@ -15,6 +15,8 @@ exports.createAppointmentClinicIdByUserId = (req, res) => {
           success: false,
           message: `Clinic with ID ${clinicId} not found.`,
         });
+      } else {
+        console.log("error");
       }
 
       const userQuery = "SELECT * FROM users WHERE id = $1";

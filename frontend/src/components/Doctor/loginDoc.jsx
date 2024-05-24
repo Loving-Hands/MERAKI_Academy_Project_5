@@ -9,6 +9,7 @@ import {
   setRoleId,
   setUsername
   
+  setDocName,
 } from "../../service/redux/reducers/doctor/doctorSlice";
 
 //====================================================================
@@ -27,30 +28,45 @@ const loginDoc = () => {
     };
   });
 
+  const { isLoggedInDoc, doctorId, roleDoc, setDocName } = useSelector(
+    (state) => {
+      return {
+        // token : state.doc.token,
+        isLoggedInDoc: state.doc.isLoggedIn,
+        doctorId: state.doc.doctorId,
+        roleDoc: state.doc.role,
+        setDocName: state.doc.docName,
+      };
+    }
+  );
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(false);
-  const [errors ,setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   //===============================================================
   const Login = async (e) => {
     // console.log(isLoggedInDoc);
     e.preventDefault();
-    setErrors(Validation({email,password}));
+    setErrors(Validation({ email, password }));
     try {
       const result = await axios.post("http://localhost:5000/doctor/login", {
         email,
         password,
       });
       if (result.data) {
-        console.log("token from doctor login", result.data);
+        //  back
+        console.log(result.data.docName);
         setMessage("");
         dispatch(setLogin(result.data.token));
         dispatch(setDoctorId(result.data.doctorId));
         dispatch(setRoleId(result.data.role_id));
         dispatch(setUsername(result.data.username))
 
+
+        // dispatch(setDocName(result.data.full_name));
       } else throw Error;
     } catch (error) {
       console.log(error);
@@ -112,7 +128,7 @@ const loginDoc = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-             {errors.password && (
+            {errors.password && (
               <p className="inputfield" style={{ color: "red" }}>
                 {errors.password}
               </p>
