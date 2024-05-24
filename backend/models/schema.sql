@@ -119,4 +119,4 @@ CREATE TABLE admins (
 --     <input type="checkbox" name="days[]" value="Friday"> Friday<br>
 --     <button type="submit">Save</button>
 -- </form>
--------------
+---------------
