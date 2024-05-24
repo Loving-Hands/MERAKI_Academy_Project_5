@@ -7,6 +7,8 @@ import {
   setLogin,
   setDoctorId,
   setRoleId,
+  setUsername
+  
   setDocName,
 } from "../../service/redux/reducers/doctor/doctorSlice";
 
@@ -15,6 +17,16 @@ import {
 const loginDoc = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { isLoggedInDoc, doctorId, roleDoc } = useSelector((state) => {
+    return {
+      // token : state.doc.token,
+      isLoggedInDoc: state.doc.isLoggedIn,
+      doctorId: state.doc.doctorId,
+      roleDoc: state.doc.role,
+
+    };
+  });
 
   const { isLoggedInDoc, doctorId, roleDoc, setDocName } = useSelector(
     (state) => {
@@ -51,6 +63,9 @@ const loginDoc = () => {
         dispatch(setLogin(result.data.token));
         dispatch(setDoctorId(result.data.doctorId));
         dispatch(setRoleId(result.data.role_id));
+        dispatch(setUsername(result.data.username))
+
+
         // dispatch(setDocName(result.data.full_name));
       } else throw Error;
     } catch (error) {

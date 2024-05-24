@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 export default function footer() {
   return (
@@ -71,9 +72,9 @@ export default function footer() {
               <h5 className="text-white">هل أنت طبيب ؟</h5>
               <ul className="list-unstyled">
                 <li>
-                  <a href="#" className="text-white">
-                    انضم الى أطباء فيزيتا
-                  </a>
+                <NavLink to="/registerDoc" className="nav-link">
+                  انضم الى فريق الأطباء
+                  </NavLink>
                 </li>
               </ul>
               <h5 className="text-white">تحتاج للمساعدة ؟</h5>

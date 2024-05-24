@@ -127,42 +127,7 @@ const getAllClinicsBySpecializationId = (req, res) => {
     });
 };
 
-const searchDoctorsAndClinics = (req, res) => {
-  const { query } = req.body;
 
-  const searchQuery = `
-    SELECT 
-      doctors.id AS doctor_id,
-      doctors.full_name AS doctor_name,
-      specialization.name_specialization AS specialization,
-      'doctor' AS type
-    FROM
-      doctors
-    LEFT JOIN
-      specialization
-    ON 
-      doctors.specialization_doctor = specialization.id
-    WHERE 
-      doctors.full_name ILIKE $1 OR
-      specialization.name_specialization ILIKE $1
-    UNION
-    SELECT 
-      clinics.id AS clinic_id,
-      clinics.name AS clinic_name,
-      specialization.name_specialization AS specialization,
-      'clinic' AS type
-    FROM
-      clinics
-    LEFT JOIN
-      specialization
-    ON 
-      clinics.specialization = specialization.id
-    WHERE 
-      clinics.name ILIKE $1 OR
-      specialization.name_specialization ILIKE $1
-  `;
-
-  const values = [`%${query}%`];
 
   pool
     .query(searchQuery, values)
@@ -183,5 +148,6 @@ module.exports = {
   getAllClinic,
   getClinicById,
   getAllClinicsBySpecializationId,
+  
   searchDoctorsAndClinics,
 };

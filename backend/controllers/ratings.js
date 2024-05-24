@@ -81,24 +81,36 @@ const getAverageRatingByClinicId = (req, res) => {
 // بدنا نجيب العيادات من الاعلى تقييم إلى الاقل تقييم ضمن الاختصاص الواحد
 const getClinicsByTopRating = (req, res) => {
   const specializationId = req.params.specializationId;
+  const order = req.query.order || 'desc'; // افتراضيا يكون ترتيب التصنيف تنازلي
+  
+  let orderByClause = 'ORDER BY ratings.rating DESC'; // ترتيب تصنيف التقييم بشكل افتراضي تنازلي
+
+  if (order === 'asc') {
+    orderByClause = 'ORDER BY ratings.rating ASC'; // ترتيب تصنيف التقييم بشكل تصاعدي
+  }
+
   const query = `
-  SELECT clinics.specialization, specialization. name_specialization ,ratings.* FROM ratings
-   full outer join clinics On ratings.clinic_id= clinics.id full outer join specialization On clinics. specialization =  specialization. id where specialization. id = $1 ORDER BY rating desc
+    SELECT clinics.specialization, specialization.name_specialization, ratings.*
+    FROM ratings
+    INNER JOIN clinics ON ratings.clinic_id = clinics.id
+    INNER JOIN specialization ON clinics.specialization = specialization.id
+    WHERE specialization.id = $1
+    ${orderByClause} -- استخدم الاستعلام الشرطي هنا لتحديد ترتيب الفرز
   `;
+
   pool
     .query(query, [specializationId])
     .then((result) => {
-      // console.log(result.rows[4].id);
-      if (result.rows.specialization === null) {
+      if (result.rows.length === 0) {
         res.status(404).json({
           success: false,
-          message: `No ratings found for clinic with ID ${specializationId}`,
+          message: `No ratings found for clinics with specialization ID ${specializationId}`,
           result: null,
         });
       } else {
         res.status(200).json({
           success: true,
-          message: `Clinics From Higher Rating To Lower Rating`,
+          message: `Clinics sorted by rating in ${order} order`,
           result: result.rows,
         });
       }
@@ -112,6 +124,8 @@ const getClinicsByTopRating = (req, res) => {
       });
     });
 };
+
+
 
 const getAllClinicsById = (req, res) => {
   const { clinicid } = req.params;

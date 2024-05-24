@@ -13,4 +13,5 @@ specializationRouter.put(
  
   specializationController.editSpecializationById
 );
+specializationRouter.get('/search',specializationController.searchSpecializations)
 module.exports = specializationRouter;

@@ -11,6 +11,12 @@ import axios from "axios";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn, role, username, usernameDoc } = useSelector((state) => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    role: state.auth.role,
+    username: state.auth.username,
+    usernameDoc: state.doc.usernameDoc,
+
   const { isLoggedIn, role, username, docName } = useSelector((state) => ({
     isLoggedIn: state.auth.isLoggedIn,
     role: state.auth.role,
@@ -53,6 +59,10 @@ function Navbar() {
     navigate(`appointment/user/${id}`);
   };
 
+  const handleAdminClick = () => {
+    navigate("/admin");
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark"
@@ -88,6 +98,8 @@ function Navbar() {
           </form>
 
           <div className="d-flex align-items-center">
+            {isLoggedIn && (roleId == 1 || roleId == 2) ? (
+
             {(isLoggedIn && roleId == 1) || roleId == 2 ? (
               <div className="dropdown me-2">
                 <button
@@ -110,6 +122,65 @@ function Navbar() {
                   aria-labelledby="dropdownMenuButton"
                   style={{ backgroundColor: "#1787e0", color: "#fff" }}
                 >
+                  {roleId == 2 ? (
+                    <>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleAdminClick}
+                        >
+                          {t("Admin")}
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => {
+                            dispatch(setLogout());
+                            navigate("/");
+                          }}
+                        >
+                          {t("Logout")}
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleGoToAppointment(roleId)}
+                        >
+                          {t("My Appointments")}
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => {
+                            dispatch(setLogout());
+                            navigate("/");
+                          }}
+                        >
+                          {t("Logout")}
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleSpecializationClick(userId)}
+                        >
+                          {t("Bayaniati")}
+                        </button>
+                      </li>
+                    </>
+                  )}
+
                   <li>
                     <button
                       className="dropdown-item"
