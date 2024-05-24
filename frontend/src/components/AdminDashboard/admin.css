@@ -1,0 +1,61 @@
+/* Custom styles for the table */
+.table-dark-custom {
+    background-color: #343a40;
+    color: #ffffff;
+    border: 3px solid rgb(8, 184, 243) /* Border color */;
+    border-collapse: collapse;
+  }
+  
+  .table-dark-custom th,
+  .table-dark-custom td {
+    border-color: black;
+    border: 2px solid rgb(8, 184, 243); /* Border for cells */
+
+  }
+  
+  .table-dark-custom th {
+    background-color: #b7d3ea;
+  }
+  
+  .table-dark-custom tbody tr:nth-of-type(odd) {
+    background-color: #343a40;
+  }
+  
+  .table-dark-custom tbody tr:hover {
+    background-color: #495057;
+  }
+  
+  .table-dark-custom th,
+  .table-dark-custom td {
+    padding: 8px 12px;
+  }
+  
+  .table-dark-custom th:first-child,
+  .table-dark-custom td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .table-dark-custom th:last-child,
+  .table-dark-custom td:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  /* Custom styles for buttons */
+  .button-custom {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  
+  .button-custom.update {
+    background-color: #1777e0;
+  }
+  
+  .button-custom.delete {
+    background-color: #e03131;
+  }
+  

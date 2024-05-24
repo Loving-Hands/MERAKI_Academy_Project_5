@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './admin.css';
 
 //=======================================================================
 export default function admin() {
@@ -150,7 +151,6 @@ export default function admin() {
             <div
               className="left-sidebar"
               style={{
-                position: "-webkit-sticky",
                 position: "sticky",
                 top: "0px",
               }}
@@ -221,7 +221,7 @@ export default function admin() {
             <hr />
             {/*---------------------------CLINICS TABLE----------------------- */}
             <div className="table-responsive">
-              <table className="table table-dark">
+              <table className="table table-dark-custom" >
                 <thead>
                   <tr>
                     {/* <th scope="col">#</th> */}
@@ -229,7 +229,7 @@ export default function admin() {
                     <th scope="col">Doctor_Name</th>
                     <th scope="col">Location</th>
                     <th scope="col">Specialization</th>
-                    <th scope="col">Update</th>
+                    {/* <th scope="col">Update</th> */}
                     <th scope="col">Delete</th>
                   </tr>
                 </thead>
@@ -243,7 +243,7 @@ export default function admin() {
                           <td>{oneClinic.doctor_name}</td>
                           <td>{oneClinic.location}</td>
                           <td>{oneClinic.specialization_name}</td>
-                          <td>
+                          {/* <td>
                             <button
                               style={{
                                 padding: "3px",
@@ -255,7 +255,7 @@ export default function admin() {
                             >
                               Update
                             </button>
-                          </td>
+                          </td> */}
                           <td>
                             <button
                               style={{
@@ -280,7 +280,7 @@ export default function admin() {
             <hr />
             {/*---------------------------USERS TABLE----------------------- */}
             <div className="table-responsive">
-              <table className="table table-dark">
+              <table className="table table-dark-custom">
                 <thead>
                   <tr>
                     {/* <th scope="col">#</th> */}
@@ -327,7 +327,7 @@ export default function admin() {
             <hr />
             {/*------------------------SPECIALIZATION TABLE-----------------*/}
             <div className="table-responsive">
-              <table className="table table-dark">
+              <table className="table table-dark-custom">
                 <thead>
                   <tr>
                     {/* <th scope="col">#</th> */}
