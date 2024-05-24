@@ -1,12 +1,12 @@
 const { pool } = require("../models/db.js");
 exports.createNewSpecialization = (req, res) => {
-  const { role } = req.token;
-  if (role !== 3) {
-    return res.status(403).json({
-      success: false,
-      message: "You are not Admin ",
-    });
-  }
+  // const { role } = req.token;
+  // if (role !== 3) {
+  //   return res.status(403).json({
+  //     success: false,
+  //     message: "You are not Admin ",
+  //   });
+  // }
   const { name_specialization, image_specialization } = req.body;
   const query = `INSERT INTO specialization (name_specialization, image_specialization) VALUES ($1,$2) RETURNING *`;
   const data = [name_specialization, image_specialization];
@@ -56,13 +56,13 @@ exports.getAllSpecialization = (req, res) => {
 
 exports.editSpecializationById = (req, res) => {
   const { id } = req.params;
-  const { role } = req.token;
-  if (role !== 3) {
-    return res.status(403).json({
-      success: false,
-      message: "You are not Admin ",
-    });
-  }
+  // const { role } = req.token;
+  // if (role !== 3) {
+  //   return res.status(403).json({
+  //     success: false,
+  //     message: "You are not Admin ",
+  //   });
+  // }
 
   const specializationId = parseInt(id);
   if (isNaN(specializationId) || specializationId <= 0) {

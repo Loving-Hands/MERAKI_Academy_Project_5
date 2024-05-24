@@ -4,13 +4,13 @@ const specializationController = require("../controllers/specialization.js");
 const authentication = require("../middleware/authentication");
 specializationRouter.post(
   "/create",
-  authentication,
+ // authentication,
   specializationController.createNewSpecialization
 );
 specializationRouter.get("/", specializationController.getAllSpecialization);
 specializationRouter.put(
   "/:id",
-  authentication,
+ // authentication,
   specializationController.editSpecializationById
 );
 module.exports = specializationRouter;
