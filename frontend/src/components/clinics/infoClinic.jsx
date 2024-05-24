@@ -108,9 +108,7 @@ export default function InfoClinic() {
     } else {
       setRate(rate.slice().sort((a, b) => a.rating - b.rating)); // ترتيب تصاعدي
     }
-};
-
-
+  };
 
   return (
     <>
@@ -192,194 +190,193 @@ export default function InfoClinic() {
             <div className="sort-dropdown">
               <label htmlFor="sortOrder">Sort by Rating: </label>
               <select
-  id="sortOrder"
-  value={sortOrder}
-  onChange={handleSortOrderChange}
->
-  <option value="desc">Highest to Lowest</option>
-  <option value="asc">Lowest to Highest</option>
-</select>
+                id="sortOrder"
+                value={sortOrder}
+                onChange={handleSortOrderChange}
+              >
+                <option value="desc">Highest to Lowest</option>
+                <option value="asc">Lowest to Highest</option>
+              </select>
+            </div>
+            <hr />
 
-                    </div>
-                          <hr />
-              
-                          {currentComment.map((comment, index) => (
-                            <div className="comments container" key={index}>
-                              <div className="row">
-                                <div className="col-lg-12 mb-3">
-                                  <div className="row">
-                                    <div className="col-lg-9">
-                                      <div className="star">
-                                        <Rating initialValue={comment.rating} />
-                                      </div>
-                                      <h6 className="user_comment">
-                                        Your Comment: {comment.comment}
-                                      </h6>
-                                      <p className="user_name" style={{ marginBottom: "0px" }}>
-                                        Your Name: {comment.user_full_name || "Anonymous"}
-                                      </p>
-                                      <p className="rating_date">
-                                        Rating Date:{" "}
-                                        {new Date(comment.rating_date).toLocaleDateString()}
-                                      </p>
-                                    </div>
-                                    <div className="col-lg-3 text-center">
-                                      <h3
-                                        style={{
-                                          display: "block",
-                                          backgroundColor: "rgb(23, 135, 224)",
-                                          borderRadius: "5px",
-                                        }}
-                                      >
-                                        {comment.rating}
-                                      </h3>
-                                      <p>Doctor Rating</p>
-                                    </div>
-                                  </div>
-                                  <hr />
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-              
-                          <nav>
-                            <ul className="pagination justify-content-center mt-4">
-                              {[
-                                ...Array(Math.ceil(commentCount / commentsPerPage)).keys(),
-                              ].map((number) => (
-                                <li key={number + 1} className="page-item">
-                                  <button
-                                    onClick={() => paginate(number + 1)}
-                                    className="page-link"
-                                  >
-                                    {number + 1}
-                                  </button>
-                                </li>
-                              ))}
-                            </ul>
-                          </nav>
-              
-                          <div
-                            className="Rating"
-                            style={{ backgroundColor: "rgb(241, 235, 235)", padding: "25px" }}
-                          >
-                            <div className="row">
-                              <div className="col-lg-12">
-                                <form onSubmit={handleSubmitRating}>
-                                  <h3>Add Your Comment</h3>
-                                  <Rating onClick={handleRating} />
-                                  <br />
-                                  <input
-                                    className="input-add-comment"
-                                    type="text"
-                                    onChange={addComment}
-                                    style={{
-                                      borderRadius: "5px",
-                                      marginLeft: "5px",
-                                      color: " #000000",
-                                      border: "none",
-                                      padding: "5px",
-                                      marginTop: "10px",
-                                    }}
-                                    placeholder="Add Your Comment"
-                                  />
-                                  <button
-                                    style={{
-                                      borderRadius: "5px",
-                                      marginLeft: "5px",
-                                      backgroundColor: "rgb(23, 135, 224)",
-                                      color: " #fff",
-                                      border: "none",
-                                      padding: "5px",
-                                    }}
-                                  >
-                                    Submit
-                                  </button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                          <br />
+            {currentComment.map((comment, index) => (
+              <div className="comments container" key={index}>
+                <div className="row">
+                  <div className="col-lg-12 mb-3">
+                    <div className="row">
+                      <div className="col-lg-9">
+                        <div className="star">
+                          <Rating initialValue={comment.rating} />
                         </div>
-                        <div className="col-lg-5 information_appointment">
-                          <div className="card">
-                            <div className="card-head">
-                              <p className="text-center text-capitalize">
-                                Information Appointment
-                              </p>
-                            </div>
-                            <div className="card-body-appintment">
-                              <p className="text-center">
-                                Book <br />A medical
-                              </p>
-                              <hr />
-                              <div className="text-center text-capitalize">
-                                <IoLocation />
-                                <span>
-                                  {clinicData.location} <br />{" "}
-                                  <span className="appointspan">appointment now</span>
-                                </span>
-                              </div>
-                              <hr />
-                              <h5 className="text-center text-capitalize">
-                                choose Appointment now
-                              </h5>
-                              <div className="row edit-width">
-                                <div className="col-6">
-                                  <div className="appointment-box">
-                                    <h6 className="text-center">Today</h6>
-                                    <div className="time-info text-center">
-                                      <strong>From:</strong>
-                                      {clinicData.time_open}
-                                      <br />
-                                      <strong>To:</strong> {clinicData.time_close}
-                                    </div>
-                                    <div className="footer">
-                                      <button
-                                        className="book-button"
-                                        onClick={handleBookPage}
-                                      >
-                                        Book
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-6">
-                                  <div className="appointment-box">
-                                    <h6 className="text-center">Tomorrow</h6>
-                                    <div className="time-info text-center">
-                                      <strong>From:</strong>
-                                      {clinicData.time_open}
-                                      <br />
-                                      <strong>To:</strong> {clinicData.time_close}
-                                    </div>
-                                    <div className="footer">
-                                      <button
-                                        className="book-button"
-                                        onClick={handleBookPage}
-                                      >
-                                        Book
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <hr />
-                              <div
-                                  className="signInNow text-center text-capitalize">
-                                              <p>sign in for first</p>
-                                            </div>
-                                          </div>
-                                          <div className="card-footer text-capitalize text-center">
-                                            <FaCalendarAlt size={25} />
-                                            appointment online <br /> now and pay in clinic
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </section>
-                                </>
-                              );
-                            }
-                            
-              
+                        <h6 className="user_comment">
+                          Your Comment: {comment.comment}
+                        </h6>
+                        <p
+                          className="user_name"
+                          style={{ marginBottom: "0px" }}
+                        >
+                          Your Name: {comment.user_full_name || "Anonymous"}
+                        </p>
+                        <p className="rating_date">
+                          Rating Date:{" "}
+                          {new Date(comment.rating_date).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="col-lg-3 text-center">
+                        <h3
+                          style={{
+                            display: "block",
+                            backgroundColor: "rgb(23, 135, 224)",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          {comment.rating}
+                        </h3>
+                        <p>Doctor Rating</p>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <nav>
+              <ul className="pagination justify-content-center mt-4">
+                {[
+                  ...Array(Math.ceil(commentCount / commentsPerPage)).keys(),
+                ].map((number) => (
+                  <li key={number + 1} className="page-item">
+                    <button
+                      onClick={() => paginate(number + 1)}
+                      className="page-link"
+                    >
+                      {number + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div
+              className="Rating"
+              style={{ backgroundColor: "rgb(241, 235, 235)", padding: "25px" }}
+            >
+              <div className="row">
+                <div className="col-lg-12">
+                  <form onSubmit={handleSubmitRating}>
+                    <h3>Add Your Comment</h3>
+                    <Rating onClick={handleRating} />
+                    <br />
+                    <input
+                      className="input-add-comment"
+                      type="text"
+                      onChange={addComment}
+                      style={{
+                        borderRadius: "5px",
+                        marginLeft: "5px",
+                        color: " #000000",
+                        border: "none",
+                        padding: "5px",
+                        marginTop: "10px",
+                      }}
+                      placeholder="Add Your Comment"
+                    />
+                    <button
+                      style={{
+                        borderRadius: "5px",
+                        marginLeft: "5px",
+                        backgroundColor: "rgb(23, 135, 224)",
+                        color: " #fff",
+                        border: "none",
+                        padding: "5px",
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+          <div className="col-lg-5 information_appointment">
+            <div className="card">
+              <div className="card-head">
+                <p className="text-center text-capitalize">
+                  Information Appointment
+                </p>
+              </div>
+              <div className="card-body-appintment">
+                <p className="text-center">
+                  Book <br />A medical
+                </p>
+                <hr />
+                <div className="text-center text-capitalize">
+                  <IoLocation />
+                  <span>
+                    {clinicData.location} <br />{" "}
+                    <span className="appointspan">appointment now</span>
+                  </span>
+                </div>
+                <hr />
+                <h5 className="text-center text-capitalize">
+                  choose Appointment now
+                </h5>
+                <div className="row edit-width">
+                  <div className="col-6">
+                    <div className="appointment-box">
+                      <h6 className="text-center">Today</h6>
+                      <div className="time-info text-center">
+                        <strong>From:</strong>
+                        {clinicData.time_open}
+                        <br />
+                        <strong>To:</strong> {clinicData.time_close}
+                      </div>
+                      <div className="footer">
+                        <button
+                          className="book-button"
+                          onClick={handleBookPage}
+                        >
+                          Book
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-6">
+                    <div className="appointment-box">
+                      <h6 className="text-center">Tomorrow</h6>
+                      <div className="time-info text-center">
+                        <strong>From:</strong>
+                        {clinicData.time_open}
+                        <br />
+                        <strong>To:</strong> {clinicData.time_close}
+                      </div>
+                      <div className="footer">
+                        <button
+                          className="book-button"
+                          onClick={handleBookPage}
+                        >
+                          Book
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <div className="signInNow text-center text-capitalize">
+                  <p>sign in for first</p>
+                </div>
+              </div>
+              <div className="card-footer text-capitalize text-center">
+                <FaCalendarAlt size={25} />
+                appointment online <br /> now and pay in clinic
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

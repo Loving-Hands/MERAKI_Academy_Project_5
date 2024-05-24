@@ -156,7 +156,7 @@ a {
   max-width: 100%;
   flex-direction: row;
   border: 0;
-  /* box-shadow: 0 7px 7px var(--sup-main-color); */
+  box-shadow: 0 7px 7px var(--sup-main-color);
   margin: 3em auto;
 }
 
@@ -410,7 +410,6 @@ a {
 .uniqueAppointment-form-wrapper label {
   color: var(--sup-main-color);
 }
-
 
 .totalClinics {
   color: var(--sup-main-color);

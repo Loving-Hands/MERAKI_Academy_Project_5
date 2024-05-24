@@ -16,7 +16,7 @@ export default function ClinicSpecialization() {
 
   const [clinicCount, setClinicCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const clinicsPerPage = 2;
+  const clinicsPerPage = 5;
 
   useEffect(() => {
     axios
