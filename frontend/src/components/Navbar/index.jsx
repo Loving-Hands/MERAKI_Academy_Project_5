@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
@@ -11,9 +11,8 @@ import axios from "axios";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn, role, username, docName } = useSelector((state) => ({
+  const { isLoggedIn, username, docName } = useSelector((state) => ({
     isLoggedIn: state.auth.isLoggedIn,
-    role: state.auth.role,
     username: state.auth.username,
     docName: state.doc.docName,
   }));
@@ -21,10 +20,33 @@ function Navbar() {
   const roleId = localStorage.getItem("roleId");
   const userId = localStorage.getItem("userId");
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showLoginDropdown, setShowLoginDropdown] = useState(false);
+  const [showRegisterDropdown, setShowRegisterDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [fullname, setFullname] = useState("");
+
+  useEffect(() => {
+    switch (roleId) {
+      case "1":
+        setFullname(username);
+        break;
+      case "2":
+        setFullname(docName);
+        break;
+      case "3":
+        setFullname(username);
+        break;
+      default:
+        setFullname("");
+    }
+  }, [username, docName, roleId]);
+
+  const handleLoginSuccess = () => {
+    setFullname(username);
+  };
 
   const handleSearch = (query) => {
     axios
@@ -49,15 +71,25 @@ function Navbar() {
     navigate(`/user/${id}`);
   };
 
-  const handleGoToAppointment = (id) => {
-    navigate(`appointment/user/${id}`);
+  const handleGoToAppointment = () => {
+    navigate(`/appointment/user/${userId}`);
+  };
+
+  const handleAdminClick = () => {
+    navigate("/admin");
+  };
+
+  const handleAdminDashboardClick = () => {
+    navigate("/adminDashboard");
+  };
+
+  const handleLogout = () => {
+    dispatch(setLogout());
+    navigate("/");
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark"
-      style={{ backgroundColor: "#1787e0" }}
-    >
+    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <Link to="/" className="navbar-brand">
@@ -76,11 +108,7 @@ function Navbar() {
                 onChange={handleInputChange}
               />
               <div className="input-group-append">
-                <button
-                  className="btn btn-outline-light"
-                  type="button"
-                  onClick={() => handleSearch(searchQuery)}
-                >
+                <button className="btn btn-outline-light" type="button" onClick={() => handleSearch(searchQuery)}>
                   {t("Search")}
                 </button>
               </div>
@@ -88,14 +116,14 @@ function Navbar() {
           </form>
 
           <div className="d-flex align-items-center">
-            {(isLoggedIn && roleId == 1) || roleId == 2 ? (
+            {isLoggedIn ? (
               <div className="dropdown me-2">
                 <button
                   className="btn btn-secondary dropdown-toggle text-uppercase"
                   type="button"
                   id="dropdownMenuButton"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  aria-expanded={showDropdown}
                   onClick={() => setShowDropdown(!showDropdown)}
                   style={{
                     backgroundColor: "#1787e0",
@@ -103,56 +131,113 @@ function Navbar() {
                     border: "none",
                   }}
                 >
-                  {username}
+                  {fullname}
                 </button>
                 <ul
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton"
                   style={{ backgroundColor: "#1787e0", color: "#fff" }}
                 >
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => handleGoToAppointment(roleId)}
-                    >
-                      {t("My Appointments")}
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => {
-                        dispatch(setLogout());
-                        navigate("/");
-                      }}
-                    >
-                      {t("Logout")}
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ backgroundColor: "#1787e0", color: "#fff" }}
-                      onClick={() => handleSpecializationClick(userId)}
-                    >
-                      {t("Bayaniati")}
-                    </button>
-                  </li>
+                  {roleId === "1" && (
+                    <>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleGoToAppointment}>
+                          {t("My Appointments")}
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={() => handleSpecializationClick(userId)}>
+                          {t("Bayaniati")}
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleLogout}>
+                          {t("Logout")}
+                        </button>
+                      </li>
+                    </>
+                  )}
+                  {roleId === "2" && (
+                    <>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleAdminClick}>
+                          {t("Admin")}
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleLogout}>
+                          {t("Logout")}
+                        </button>
+                      </li>
+                    </>
+                  )}
+                  {roleId === "3" && (
+                    <>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleAdminDashboardClick}>
+                          {t("Admin Dashboard")}
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleLogout}>
+                          {t("Logout")}
+                        </button>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             ) : (
               <ul className="navbar-nav d-flex align-items-center">
-                <li className="nav-item">
-                  <NavLink to="/login" className="nav-link">
+                <li className="nav-item dropdown">
+                  <NavLink
+                    to="#"
+                    className="nav-link dropdown-toggle"
+                    id="loginDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded={showLoginDropdown}
+                    onClick={() => setShowLoginDropdown(!showLoginDropdown)}
+                  >
                     {t("Login")}
                   </NavLink>
+                  <ul className="dropdown-menu" aria-labelledby="loginDropdown" style={{ backgroundColor: "#1787e0", color: "#fff" }}>
+                    <li>
+                      <NavLink to="login" className="dropdown-item">
+                        {t("Login as User")}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="loginDoc" className="dropdown-item">
+                        {t("Login as Doctor")}
+                      </NavLink>
+                    </li>
+                  </ul>
                 </li>
-                <li className="nav-item">
-                  <NavLink to="/register" className="nav-link">
+                <li className="nav-item dropdown">
+                  <NavLink
+                    to="#"
+                    className="nav-link dropdown-toggle"
+                    id="registerDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded={showRegisterDropdown}
+                    onClick={() => setShowRegisterDropdown(!showRegisterDropdown)}
+                  >
                     {t("Register")}
                   </NavLink>
+                  <ul className="dropdown-menu" aria-labelledby="registerDropdown" style={{ backgroundColor: "#1787e0", color: "#fff" }}>
+                    <li>
+                      <NavLink to="register" className="dropdown-item">
+                        {t("Register as User")}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="registerDoc" className="dropdown-item">
+                        {t("Register as Doctor")}
+                      </NavLink>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             )}
@@ -174,10 +259,7 @@ function Navbar() {
           <div className="search-results">
             <ul>
               {searchResults.map((result) => (
-                <li
-                  key={result.id}
-                  onClick={() => navigate(`/clinic/${result.id}`)}
-                >
+                <li key={result.id} onClick={() => navigate(`/clinic/${result.id}`)}>
                   {result.name}
                 </li>
               ))}
@@ -190,3 +272,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
