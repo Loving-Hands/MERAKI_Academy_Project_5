@@ -273,7 +273,7 @@ a {
 .info_clinic .img-clinic img {
   height: 100%;
   border-radius: 0;
-  max-width: none;
+  max-width: 300px;
   padding: 0;
 }
 /* -----card appointment------- */

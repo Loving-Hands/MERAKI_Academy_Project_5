@@ -1,0 +1,62 @@
+.aboutUsPage {
+  padding-top: 5%;
+}
+.aboutUsPage .about {
+  cursor: pointer;
+  background-color: var(--main-color);
+  color: #ffffff;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.aboutUsPage .about h1 {
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.aboutUsPage .about h2 {
+  opacity: 0.8;
+}
+
+.aboutUsPage .about span {
+  display: block;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  margin: auto;
+  border-radius: 50%;
+  font-size: 40px;
+  color: #ffffff;
+  opacity: 0.7;
+  background-color: var(--main-color);
+  border: 2px solid white;
+
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.aboutUsPage .about-item:hover span {
+  opacity: 1;
+  border: 2px solid white;
+  font-size: 42px;
+  -webkit-transform: scale(1.1, 1.1) rotate(360deg);
+  -moz-transform: scale(1.1, 1.1) rotate(360deg);
+  -o-transform: scale(1.1, 1.1) rotate(360deg);
+  transform: scale(1.1, 1.1) rotate(360deg);
+}
+
+.aboutUsPage .about-item:hover h2 {
+  opacity: 1;
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+  -o-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+}
+
+.aboutUsPage .about .lead {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}

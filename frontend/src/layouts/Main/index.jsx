@@ -11,7 +11,7 @@ export default function Main() {
       <main>
         <Outlet />
       </main>
-      <footer>
+      <footer style={{ paddingTop: "40vh" }}>
         <Footer />
       </footer>
     </div>

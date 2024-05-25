@@ -1,6 +1,8 @@
 import React from "react";
 
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import logo from "./NewLogo3.png";
 
 export default function footer() {
   return (
@@ -8,99 +10,112 @@ export default function footer() {
       <footer className="footer mt-auto py-3 bg-primary text-white customFooter">
         <div className="container">
           <div className="row">
-            <div className="col-md-3">
-              <h5 className="text-white">vezeeta-logo</h5>
+            <div className="col-md-3" style={{ lineHeight: "2" }}>
+              <img src={logo} alt="logo" style={{ width: "160px" }} />
               <div>
                 {" "}
-                <FaFacebook style={{ marginRight: "10px" }} />
-                <FaInstagram style={{ marginRight: "10px" }} />
-                <FaTwitter />
-              </div>{" "}
+                <Link to="https://www.facebook.com/">
+                  <FaFacebook
+                    style={{ marginRight: "10px", color: "#ffffff" }}
+                  />
+                </Link>
+                <Link to="https://www.instagram.com/">
+                  <FaInstagram
+                    style={{ marginRight: "10px", color: "#ffffff" }}
+                  />
+                </Link>
+                <Link
+                  to="https://x.com/"
+                  style={{ marginRight: "10px", color: "#ffffff" }}
+                >
+                  <FaTwitter />
+                </Link>
+              </div>
             </div>
             <div className="col-md-3">
-              <h5 className="text-white">من نحن</h5>
+              <h5 className="text-white">About Us</h5>
               <ul className="list-unstyled text-white">
                 <li>
                   <a href="#" className="text-white">
-                    فريق فيزيتا
+                    Our Team
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    وظائف
+                    Careers
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    الصحافة
+                    Press
                   </a>
                 </li>
               </ul>
             </div>
-            <div className="col-md-3">
-              <h5 className="text-white">ابحث عن طريق</h5>
+            <div className="col-md-3" style={{ lineHeight: "2" }}>
+              <h5 className="text-white">Search By</h5>
               <ul className="list-unstyled text-white">
                 <li>
                   <a href="#" className="text-white">
-                    التخصص
+                    Speciality
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    المنطقة
+                    Area
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    التأمين
+                    Insurance
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    المستشفى
+                    Hospital
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    المركز
+                    Center
                   </a>
                 </li>
               </ul>
             </div>
-            <div className="col-md-3">
-              <h5 className="text-white">هل أنت طبيب ؟</h5>
+            <div className="col-md-3" style={{ lineHeight: "2" }}>
+              <h5 className="text-white">Are You A Doctor ?</h5>
               <ul className="list-unstyled">
                 <li>
                   <a href="#" className="text-white">
-                    انضم الى أطباء فيزيتا
+                    Join Vezeeta Doctors{" "}
                   </a>
                 </li>
               </ul>
-              <h5 className="text-white">تحتاج للمساعدة ؟</h5>
+              <h5 className="text-white">Need Help?</h5>
               <ul className="list-unstyled">
                 <li>
                   <a href="#" className="text-white">
-                    مكتبة طبية
+                    Medical Library{" "}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    اتصل بنا
+                    Contact Us{" "}
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    شروط الاستخدام
+                    Terms Of Use
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    اتفاقية الخصوصية
+                    Privacy Policy
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white">
-                    اتفاقية الخصوصية للأطباء
+                    Doctors Privacy Policy
                   </a>
                 </li>
               </ul>

@@ -28,20 +28,51 @@ function Navbar() {
   const [searchResults, setSearchResults] = useState([]);
   const [fullname, setFullname] = useState("");
 
+  function reloadPage() {
+    // The last "domLoading" Time //
+
+    var currentDocumentTimestamp = new Date(
+      performance.timing.domLoading
+    ).getTime();
+
+    // Current Time //
+
+    var now = Date.now();
+
+    // Ten Seconds //
+
+    var tenSec = 10 * 1000;
+
+    // Plus Ten Seconds //
+
+    var plusTenSec = currentDocumentTimestamp + tenSec;
+
+    if (now > plusTenSec) {
+      location.reload();
+    } else {
+      ("");
+    }
+  }
+
   useEffect(() => {
     switch (roleId) {
       case "1":
-      case "3":
         setFullname(username);
         break;
       case "2":
         setFullname(docName);
+        reloadPage();
+        navigate("/");
+        break;
+      case "3":
+        reloadPage();
+        setFullname(username);
+        navigate("/");
         break;
       default:
         setFullname("");
     }
   }, [username, docName, roleId]);
-
   const handleLoginSuccess = () => {
     setFullname(username);
   };
@@ -70,7 +101,7 @@ function Navbar() {
   };
 
   const handleAdminClick = () => {
-    navigate("/admin");
+    navigate("/createClinic");
   };
 
   const handleAdminDashboardClick = () => {
@@ -92,7 +123,10 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#1787e0" }}>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ backgroundColor: "#1787e0" }}
+    >
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <Link to="/" className="navbar-brand">
@@ -104,7 +138,7 @@ function Navbar() {
               <input
                 className="form-control"
                 type="search"
-                placeholder={t("Search")}
+                placeholder="Search"
                 aria-label="Search"
                 style={{ width: "250px" }}
                 value={searchQuery}
@@ -116,7 +150,7 @@ function Navbar() {
                   type="button"
                   onClick={() => handleSearch(searchQuery)}
                 >
-                  {t("Search")}
+                  Search
                 </button>
               </div>
             </div>
@@ -153,7 +187,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={() => handleGoToAppointment(roleId)}
                         >
-                          {t("My Appointments")}
+                          My Appointments
                         </button>
                       </li>
                       <li>
@@ -162,7 +196,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={() => handleSpecializationClick(userId)}
                         >
-                          {t("Bayaniati")}
+                          My Information
                         </button>
                       </li>
                       <li>
@@ -171,7 +205,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={handleLogout}
                         >
-                          {t("Logout")}
+                          Logout
                         </button>
                       </li>
                     </>
@@ -184,7 +218,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={handleAdminClick}
                         >
-                          {t("Admin")}
+                          Create Clinic
                         </button>
                       </li>
                       <li>
@@ -193,7 +227,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={handleLogout}
                         >
-                          {t("Logout")}
+                          Logout
                         </button>
                       </li>
                     </>
@@ -206,7 +240,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={handleAdminDashboardClick}
                         >
-                          {t("Admin Dashboard")}
+                          Admin Dashboard
                         </button>
                       </li>
                       <li>
@@ -215,7 +249,7 @@ function Navbar() {
                           style={{ backgroundColor: "#1787e0", color: "#fff" }}
                           onClick={handleLogout}
                         >
-                          {t("Logout")}
+                          Logout
                         </button>
                       </li>
                     </>
@@ -234,21 +268,25 @@ function Navbar() {
                     aria-expanded={showLoginDropdown}
                     onClick={() => setShowLoginDropdown(!showLoginDropdown)}
                   >
-                    {t("Login")}
+                    Login
                   </NavLink>
                   <ul
                     className="dropdown-menu"
                     aria-labelledby="loginDropdown"
-                    style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                    style={{ backgroundColor: "#1787e0" }}
                   >
                     <li>
-                      <NavLink to="login" className="dropdown-item">
-                        {t("Login as User")}
+                      <NavLink
+                        to="login"
+                        className="dropdown-item"
+                        style={{ color: "" }}
+                      >
+                        Login as User
                       </NavLink>
                     </li>
                     <li>
                       <NavLink to="loginDoc" className="dropdown-item">
-                        {t("Login as Doctor")}
+                        Login as Doctor
                       </NavLink>
                     </li>
                   </ul>
@@ -261,9 +299,11 @@ function Navbar() {
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded={showRegisterDropdown}
-                    onClick={() => setShowRegisterDropdown(!showRegisterDropdown)}
+                    onClick={() =>
+                      setShowRegisterDropdown(!showRegisterDropdown)
+                    }
                   >
-                    {t("Register")}
+                    Register
                   </NavLink>
                   <ul
                     className="dropdown-menu"
@@ -272,12 +312,12 @@ function Navbar() {
                   >
                     <li>
                       <NavLink to="register" className="dropdown-item">
-                        {t("Register as User")}
+                        Register as User
                       </NavLink>
                     </li>
                     <li>
                       <NavLink to="registerDoc" className="dropdown-item">
-                        {t("Register as Doctor")}
+                        Register as Doctor
                       </NavLink>
                     </li>
                   </ul>
@@ -287,12 +327,17 @@ function Navbar() {
             <ul className="navbar-nav d-flex align-items-center">
               <li className="nav-item">
                 <NavLink to="/contactus" className="nav-link">
-                  {t("Contact Us")}
+                  Contact Us
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/aboutUs" className="nav-link">
+                  About Us
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink to="/allClinics" className="nav-link">
-                  {t("Clinics")}
+                  Clinics
                 </NavLink>
               </li>
             </ul>
@@ -302,7 +347,10 @@ function Navbar() {
           <div className="search-results">
             <ul>
               {searchResults.map((result) => (
-                <li key={result.id} onClick={() => navigate(`/clinic/${result.id}`)}>
+                <li
+                  key={result.id}
+                  onClick={() => navigate(`/clinic/${result.id}`)}
+                >
                   {result.name}
                 </li>
               ))}
