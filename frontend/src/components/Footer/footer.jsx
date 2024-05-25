@@ -87,7 +87,7 @@ export default function footer() {
               <ul className="list-unstyled">
                 <li>
                   <a href="#" className="text-white">
-                    Join Vezeeta Doctors{" "}
+                    Join Loving Hands Doctors{" "}
                   </a>
                 </li>
               </ul>
