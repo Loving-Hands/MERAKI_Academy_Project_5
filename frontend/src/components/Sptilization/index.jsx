@@ -157,7 +157,7 @@ function Index() {
                 </h3>
                 <h5 style={{ lineHeight: "1.3" }}>
                   Doctor ratings are from patients who booked and visited the
-                  doctor through Vezeeta.
+                  doctor through Loving Hands.
                 </h5>
               </div>
               <div className="col-3">
@@ -182,7 +182,7 @@ function Index() {
                   Book for free, and pay in the clinic
                 </h3>
                 <h5 style={{ lineHeight: "1.3" }}>
-                  The consultation fees stated on Vezeeta are the actual
+                  The consultation fees stated on Loving Hands are the actual
                   doctor's fees with no extra charges.
                 </h5>
               </div>
