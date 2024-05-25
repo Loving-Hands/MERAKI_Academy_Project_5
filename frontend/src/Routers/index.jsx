@@ -12,8 +12,9 @@ import RegisterDoc from "../pages/doctorRegister";
 import RegisterAppointmentClinic from "../pages/registerAppointmentClinic.jsx";
 import InformationUsers from "../pages/informationUsers.jsx";
 import AppointmentInfo from "../pages/appointment.jsx";
-import AdminDashboard from "../components/AdminDashboard/admin.jsx"
+import AdminDashboard from "../components/AdminDashboard/admin.jsx";
 import CreateClinic from "../pages/createClinic.jsx";
+import Admin from "../pages/admin.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -69,13 +70,20 @@ export const router = createBrowserRouter([
         element: <AppointmentInfo />,
       },
       {
-
+        path: "appointment/doctor/:doctorId",
+        element: <AppointmentInfo />,
+      },
+      {
         path: "adminDashboard",
         element: <AdminDashboard />,
       },
       {
         path: "createClinic",
         element: <CreateClinic />,
+      },
+      {
+        path: "loginAdmin",
+        element: <Admin />,
       },
     ],
   },

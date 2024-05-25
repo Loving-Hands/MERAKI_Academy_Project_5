@@ -7,7 +7,8 @@ import {
   setLogin,
   setDoctorId,
   setRoleId,
-  setDocName,
+  setDocName
+  
 } from "../../service/redux/reducers/doctor/doctorSlice";
 
 //====================================================================
@@ -16,14 +17,14 @@ const loginDoc = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedInDoc, doctorId, roleDoc, setDocName } = useSelector(
+  const { isLoggedInDoc, doctorId, roleDoc, username } = useSelector(
     (state) => {
       return {
         // token : state.doc.token,
         isLoggedInDoc: state.doc.isLoggedIn,
         doctorId: state.doc.doctorId,
         roleDoc: state.doc.role,
-        setDocName: state.doc.docName,
+        username: state.doc.username
       };
     }
   );
@@ -51,7 +52,7 @@ const loginDoc = () => {
         dispatch(setLogin(result.data.token));
         dispatch(setDoctorId(result.data.doctorId));
         dispatch(setRoleId(result.data.role_id));
-        // dispatch(setDocName(result.data.full_name));
+       dispatch(setDocName(result.data.username));
       } else throw Error;
     } catch (error) {
       console.log(error);
@@ -89,7 +90,7 @@ const loginDoc = () => {
   return (
     <>
       <div className="wrapper">
-        <div className="title">Doctor_Login</div>
+        <div className="title">Doctor Login</div>
         <div className="form" onSubmit={Login}>
           <div className="inputfield">
             <label>Email</label>

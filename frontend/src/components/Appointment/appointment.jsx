@@ -6,13 +6,16 @@ import "./appointment.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
+import { ToastContainer, toast } from "react-toastify";
+import "../../../node_modules/react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "react-scroll-to-top";
 export default function Appointment() {
   const [show, setShow] = useState(false);
   const [appointmentInfo, setAppointmentInfo] = useState([]);
   const [file, setFile] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
-  const [resultDiagnostics, setResultDiagnostics] = useState([]);
+  const [resultDiagnostics, setResultDiagnostics] = useState({});
+  const [appointmentDoctor, setAppointmentDoctor] = useState({});
 
   const { token, userId, doctorId } = useSelector((state) => ({
     token: state.auth.token,
@@ -23,12 +26,44 @@ export default function Appointment() {
   const roleId = localStorage.getItem("roleId");
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/appointment/user/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => setAppointmentInfo(response.data.result))
-      .catch((error) => console.error("Error fetching appointments:", error));
+    if (token) {
+      axios
+        .get("http://localhost:5000/appointment/clinicApp", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          setAppointmentDoctor(result.data.data);
+          notifySuccess();
+          // console.log(result.data.data);
+        })
+
+        .catch((error) => {
+          console.error("Error fetching clinic appointments:", error);
+        });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token && userId) {
+      axios
+        .get(`http://localhost:5000/appointment/user/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (Array.isArray(response.data.result)) {
+            setAppointmentInfo(response.data.result);
+          } else {
+            console.error(
+              "Expected an array from API but got",
+              response.data.result
+            );
+            setAppointmentInfo([]);
+          }
+        })
+        .catch((error) =>
+          console.error("Error fetching user appointments:", error)
+        );
+    }
   }, [userId, token]);
 
   const handleClose = () => setShow(false);
@@ -48,6 +83,7 @@ export default function Appointment() {
             (appointment) => appointment.id !== appointmentId
           )
         );
+        notifySuccess();
       })
       .catch((error) => console.error("Error canceling appointment:", error));
   };
@@ -78,8 +114,12 @@ export default function Appointment() {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
-      .then((result) => console.log("Diagnosis submitted successfully"))
-      .catch((error) => console.error("Error submitting diagnosis:", error));
+      .then((result) => {
+        notifySuccess();
+      })
+      .catch((error) => {
+        notifyError();
+      });
   };
 
   const handleDiagnosisResult = (clinicId) => {
@@ -87,119 +127,106 @@ export default function Appointment() {
       .get(`http://localhost:5000/diagnostics/${clinicId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((result) => setResultDiagnostics(result.data[0]))
-      .catch((error) => console.error("Error fetching diagnosis:", error));
+      .then((result) => {
+        setResultDiagnostics(result.data[0]);
+        notifySuccess();
+      })
+      .catch((error) => {
+        console.error("Error fetching diagnosis:", error);
+        notifyError();
+      });
   };
+  // ---------------- Notify
+  const notifySuccess = () =>
+    toast.success("Success", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+  const notifyError = () =>
+    toast.error("Falid", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  // ---------------- Notify End
 
   return (
-    <section className="clinic-specialization">
-      <div
-        className="all-title-box"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      >
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <h3 className="text-center">Your Appointments</h3>
+    <>
+      <ToastContainer />
+
+      <section className="clinic-specialization">
+        <div
+          className="all-title-box"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        >
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <h3 className="text-center">Your Appointments</h3>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="p-5 appointmentPage">
-        <table>
-          <thead className="text-capitalize">
-            <tr>
-              <th scope="col">Name Doctor</th>
-              <th scope="col">Location</th>
-              <th scope="col">Booking date/time</th>
-              <th scope="col">Delete Appointment</th>
-              <th scope="col">Details</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {appointmentInfo.map((appointment) => (
-              <tr key={appointment.id}>
-                <td>{appointment.clinic_name}</td>
-                <td>{appointment.clinic_location}</td>
-                <td>
-                  {appointment.date.split("T")[0]}/{appointment.time}
-                </td>
-                <td>
-                  <Button
-                    variant="danger"
-                    onClick={() =>
-                      handleCancelAppointment(
-                        appointment.clinic_id,
-                        appointment.id
-                      )
-                    }
-                  >
-                    Cancel Appointment
-                  </Button>
-                </td>
-                <td>{appointment.status}</td>
-                <td>
-                  {roleId == "2" ? (
-                    <div>
-                      <Button variant="secondary" onClick={handleShow}>
-                        Send Diagnosis
+        <div className="p-5 appointmentPage">
+          <table>
+            <thead className="text-capitalize">
+              {roleId === "1" ? (
+                <tr>
+                  <th scope="col">Name Doctor</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Booking date/time</th>
+                  <th scope="col">Delete Appointment</th>
+                  <th scope="col">Details</th>
+                  <th scope="col">Action</th>
+                </tr>
+              ) : (
+                <tr>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Booking date/time</th>
+                  <th scope="col">Delete Appointment</th>
+                  <th scope="col">Urgent</th>
+                  <th scope="col">Action</th>
+                </tr>
+              )}
+            </thead>
+            {roleId === "1" ? (
+              <tbody>
+                {appointmentInfo.map((appointment) => (
+                  <tr key={appointment.id}>
+                    <td>{appointment.clinic_name}</td>
+                    <td>{appointment.clinic_location}</td>
+                    <td>
+                      {appointment.date.split("T")[0]} / {appointment.time}
+                    </td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() =>
+                          handleCancelAppointment(
+                            appointment.clinic_id,
+                            appointment.id
+                          )
+                        }
+                      >
+                        Cancel Appointment
                       </Button>
-                      <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                          <Modal.Title className="text-capitalize">
-                            The Patient's diagnosis
-                          </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form
-                            onSubmit={(e) =>
-                              handleFormDiagnosis(
-                                appointment.clinic_id,
-                                appointment.user_id,
-                                e
-                              )
-                            }
-                          >
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlTextarea1"
-                            >
-                              <Form.Label className="fw-bold">
-                                Patient Notes
-                              </Form.Label>
-                              <Form.Control
-                                as="textarea"
-                                rows={3}
-                                onChange={handleDiagnosisChange}
-                              />
-                            </Form.Group>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicPassword"
-                            >
-                              <Form.Label className="fw-bold">
-                                The Diagnosis Image
-                              </Form.Label>
-                              <Form.Control
-                                type="file"
-                                onChange={(e) => setFile(e.target.files[0])}
-                              />
-                            </Form.Group>
-                            <Button
-                              variant="primary"
-                              type="submit"
-                              className="float-end btn-secondary"
-                              onClick={saveImage}
-                            >
-                              Send
-                            </Button>
-                          </Form>
-                        </Modal.Body>
-                      </Modal>
-                    </div>
-                  ) : (
-                    <div>
+                    </td>
+                    <td>{appointment.status}</td>
+                    <td>
                       <Button
                         variant="secondary"
                         onClick={() => {
@@ -224,15 +251,103 @@ export default function Appointment() {
                           />
                         </Modal.Body>
                       </Modal>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              <tbody>
+                {appointmentDoctor &&
+                  Array.isArray(appointmentDoctor) &&
+                  appointmentDoctor.length > 0 &&
+                  appointmentDoctor.map((appointmentDoc) => (
+                    <tr key={appointmentDoc.id}>
+                      <td>{appointmentDoc.full_name}</td>
+                      <td>{appointmentDoc.email}</td>
+                      <td>{appointmentDoc.phone_number}</td>
+                      <td>{appointmentDoc.date}</td>
+                      <td>
+                        {" "}
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            handleCancelAppointment(
+                              appointmentDoc.clinic_id,
+                              appointmentDoc.id
+                            )
+                          }
+                        >
+                          Cancel Appointment
+                        </Button>
+                      </td>
+                      <td>{appointmentDoc.status}</td>
+                      <td>
+                        <div>
+                          <Button variant="secondary" onClick={handleShow}>
+                            Send Diagnosis
+                          </Button>
+                          <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                              <Modal.Title className="text-capitalize">
+                                The Patient's diagnosis
+                              </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <Form
+                                onSubmit={(e) =>
+                                  handleFormDiagnosis(
+                                    appointmentDoc.clinic_id,
+                                    appointmentDoc.user_id,
+                                    e
+                                  )
+                                }
+                              >
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlTextarea1"
+                                >
+                                  <Form.Label className="fw-bold">
+                                    Patient Notes
+                                  </Form.Label>
+                                  <Form.Control
+                                    as="textarea"
+                                    rows={3}
+                                    onChange={handleDiagnosisChange}
+                                  />
+                                </Form.Group>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="formBasicPassword"
+                                >
+                                  <Form.Label className="fw-bold">
+                                    The Diagnosis Image
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="file"
+                                    onChange={(e) => setFile(e.target.files[0])}
+                                  />
+                                </Form.Group>
+                                <Button
+                                  variant="primary"
+                                  type="submit"
+                                  className="float-end btn-secondary"
+                                  onClick={saveImage}
+                                >
+                                  Send
+                                </Button>
+                              </Form>
+                            </Modal.Body>
+                          </Modal>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            )}
+          </table>
+        </div>
+      </section>
+      <ScrollToTop smooth />
+    </>
   );
 }
-

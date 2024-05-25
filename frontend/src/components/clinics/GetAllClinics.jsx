@@ -7,7 +7,7 @@ import { FaUserMd } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import backgroundImage from "./top-clinic.png";
-
+import ScrollToTop from "react-scroll-to-top";
 import "./clinic.css";
 
 export default function ClinicSpecialization() {
@@ -16,7 +16,7 @@ export default function ClinicSpecialization() {
 
   const [clinicCount, setClinicCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const clinicsPerPage = 2;
+  const clinicsPerPage = 5;
 
   useEffect(() => {
     axios
@@ -48,7 +48,7 @@ export default function ClinicSpecialization() {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <h2 className="text-center">Clinic Specialization</h2>
+                <h2 className="text-center">All Clinics</h2>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@ export default function ClinicSpecialization() {
       </section>
       <div className="totalClinics border-bottom">
         <h4 className="container text-center p-5">
-          Total Clinics: {clinicCount}
+          Avaliable Clinics: {clinicCount}
         </h4>
       </div>
       <section className="doctor container">
@@ -155,6 +155,7 @@ export default function ClinicSpecialization() {
           </ul>
         </nav>
       </section>
+      <ScrollToTop smooth />
     </>
   );
 }

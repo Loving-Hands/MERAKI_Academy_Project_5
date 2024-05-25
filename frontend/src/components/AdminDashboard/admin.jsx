@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./admin.css";
 
+
+import ScrollToTop from "react-scroll-to-top";
+
+
 //=======================================================================
 export default function admin() {
   const [clinics, setClinics] = useState([]);
@@ -500,6 +504,7 @@ export default function admin() {
         </div>
       </div>
       <br />
+      <ScrollToTop smooth />
     </>
   );
 }

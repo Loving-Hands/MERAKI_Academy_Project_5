@@ -78,7 +78,7 @@ exports.loginDoctor = (req, res) => {
               doctorId: result.rows[0].id,
               country: result.rows[0].country,
               role: result.rows[0].role_id,
-              docName: result.rows[0].full_name,
+              username: result.rows[0].full_name,
             };
             const options = { expiresIn: "1d" };
             const secret = process.env.SECRET;
@@ -90,7 +90,7 @@ exports.loginDoctor = (req, res) => {
                 message: `Login Successfully`,
                 doctorId: result.rows[0].id,
                 role_id: result.rows[0].role_id,
-                docName: result.rows[0].full_name,
+               username:result.rows[0].full_name
               });
             } else {
               throw Error;

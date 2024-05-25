@@ -10,7 +10,8 @@ appointmentRouter.post(
   appointmentController.createAppointmentClinicIdByUserId
 );
 appointmentRouter.get(
-  "/:clinicId",
+  "/clinicApp",
+  authentication,
   appointmentController.getAllAppointmentByClinicId
 );
 
