@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './admin.css';
+import "./admin.css";
+import ScrollToTop from "react-scroll-to-top";
 
 //=======================================================================
 export default function admin() {
@@ -14,17 +15,17 @@ export default function admin() {
   // console.log(role_id);
 
   //==========================START FETCH DATA================================================
-  const clinicData = ()=>{
+  const clinicData = () => {
     axios
-    .get(`http://localhost:5000/clinic/`)
-    .then((response) => {
-      setClinics(response.data);
-    })
-    .catch((error) => {
-      console.log("Error fetching clinics:", error);
-    });
-  }
-  const userData = ()=>{
+      .get(`http://localhost:5000/clinic/`)
+      .then((response) => {
+        setClinics(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching clinics:", error);
+      });
+  };
+  const userData = () => {
     axios
       .get(`http://localhost:5000/admin/`)
       .then((response) => {
@@ -33,19 +34,18 @@ export default function admin() {
       .catch((error) => {
         console.log("Error fetching users:", error);
       });
+  };
 
-  }
-
-  const specializationData = ()=>{
+  const specializationData = () => {
     axios
-    .get(`http://localhost:5000/specialization/`)
-    .then((response) => {
-      setSpecialization(response.data.result);
-    })
-    .catch((error) => {
-   console.log("Error fetching specialization:", error);
-    });
-  }
+      .get(`http://localhost:5000/specialization/`)
+      .then((response) => {
+        setSpecialization(response.data.result);
+      })
+      .catch((error) => {
+        console.log("Error fetching specialization:", error);
+      });
+  };
   useEffect(() => {
     // Fetch clinics
     clinicData();
@@ -221,7 +221,7 @@ export default function admin() {
             <hr />
             {/*---------------------------CLINICS TABLE----------------------- */}
             <div className="table-responsive">
-              <table className="table table-dark-custom" >
+              <table className="table table-dark-custom">
                 <thead>
                   <tr>
                     {/* <th scope="col">#</th> */}
@@ -370,6 +370,34 @@ export default function admin() {
                         {updateSpecializationId === specialization.id ? (
                           <>
                             <button
+                              style={{
+                                padding: "3px",
+                                border: "none",
+                                borderRadius: "5px",
+                                backgroundColor: "rgb(23, 135, 224)",
+                                color: "white",
+                              }}
+                              onClick={() =>
+                                handleUpdateSpecialization(specialization.id)
+                              }
+                            >
+                              Save
+                            </button>
+                            <button
+                              style={{
+                                padding: "3px",
+                                border: "none",
+                                borderRadius: "5px",
+                                backgroundColor: "rgb(23, 135, 224)",
+                                color: "white",
+                              }}
+                              onClick={handleCancelEdit}
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          <button
                             style={{
                               padding: "3px",
                               border: "none",
@@ -377,30 +405,6 @@ export default function admin() {
                               backgroundColor: "rgb(23, 135, 224)",
                               color: "white",
                             }}
-                              onClick={() =>
-                                handleUpdateSpecialization(specialization.id)
-                              }
-                            >
-                              Save
-                            </button>
-                            <button style={{
-                            padding: "3px",
-                            border: "none",
-                            borderRadius: "5px",
-                            backgroundColor: "rgb(23, 135, 224)",
-                            color: "white",
-                          }}
-                           onClick={handleCancelEdit}>Cancel</button>
-                          </>
-                        ) : (
-                          <button
-                          style={{
-                            padding: "3px",
-                            border: "none",
-                            borderRadius: "5px",
-                            backgroundColor: "rgb(23, 135, 224)",
-                            color: "white",
-                          }}
                             onClick={() =>
                               handleEdit(
                                 specialization.id,
@@ -438,6 +442,7 @@ export default function admin() {
         </div>
       </div>
       <br />
+      <ScrollToTop smooth />
     </>
   );
 }

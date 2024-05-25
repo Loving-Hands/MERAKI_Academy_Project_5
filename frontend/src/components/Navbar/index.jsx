@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useTranslation } from "react-i18next";
 import { setLogout } from "../../service/redux/reducers/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "./Logo.png";
+import logo from "./NewLogo3.png";
 import debounce from "lodash.debounce";
 import axios from "axios";
 
@@ -50,7 +50,12 @@ function Navbar() {
   };
 
   const handleGoToAppointment = (id) => {
-    navigate(`appointment/user/${id}`);
+    if (id == 1) {
+      navigate(`appointment/user/${id}`);
+    } else {
+      const doctorId = localStorage.getItem("doctorId");
+      navigate(`appointment/doctor/${doctorId}`);
+    }
   };
 
   return (
@@ -61,7 +66,7 @@ function Navbar() {
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center w-100">
           <Link to="/" className="navbar-brand">
-            <img src={logo} style={{ width: "130px" }} alt="Logo" />
+            <img src={logo} style={{ width: "160px" }} alt="Logo" />
           </Link>
 
           <form className="d-flex mx-auto">

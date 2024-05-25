@@ -96,7 +96,7 @@ const registerDoc = () => {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.json())
+      .then((response) => response.json(console.log(response)))
       .then((data) => {
         setImageDoctor(data.secure_url);
       });
@@ -117,7 +117,7 @@ const registerDoc = () => {
     }
     if (!values.email) {
       errors.email = "Email is Required!";
-    } 
+    }
     // else if (!email_pattern.test(values.email)) {
     //   errors.email = "Email did not match";
     // }
@@ -127,11 +127,11 @@ const registerDoc = () => {
     if (!values.gender) {
       errors.gender = "Gender is Required!";
     }
-    if(!values.imageDoctor){
-      errors.imageDoctor = "Your Image is Required"
+    if (!values.imageDoctor) {
+      errors.imageDoctor = "Your Image is Required";
     }
-    if(!values.specializationDoctor){
-      errors.specializationDoctor = "your specialization is Required"
+    if (!values.specializationDoctor) {
+      errors.specializationDoctor = "your specialization is Required";
     }
     return errors;
   };
@@ -152,13 +152,13 @@ const registerDoc = () => {
               required
             />
             {errors.fullname && (
-                <p className="text" style={{ color: "red" }}>
-                  {errors.fullname}
-                </p>
-              )}
+              <p className="text" style={{ color: "red" }}>
+                {errors.fullname}
+              </p>
+            )}
           </div>
           <div className="inputfield">
-            <label>Phone_Number</label>
+            <label>Phone Number</label>
             <input
               type="text"
               className="input"
@@ -167,11 +167,11 @@ const registerDoc = () => {
               maxLength={10}
               required
             />
-             {errors.phoneNumber && (
-                <p className="text" style={{ color: "red" }}>
-                  {errors.phoneNumber}
-                </p>
-              )}
+            {errors.phoneNumber && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.phoneNumber}
+              </p>
+            )}
           </div>
           <div className="inputfield">
             <label>Email</label>
@@ -183,10 +183,10 @@ const registerDoc = () => {
               required
             />
             {errors.email && (
-                <p className="text" style={{ color: "red" }}>
-                  {errors.email}
-                </p>
-              )}
+              <p className="text" style={{ color: "red" }}>
+                {errors.email}
+              </p>
+            )}
           </div>
           <div className="inputfield">
             <label>Password</label>
@@ -197,43 +197,47 @@ const registerDoc = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-             {errors.password && (
-                <p className="text" style={{ color: "red" }}>
-                  {errors.password}
-                </p>
-              )}
+            {errors.password && (
+              <p className="text" style={{ color: "red" }}>
+                {errors.password}
+              </p>
+            )}
           </div>
           <div className="inputfield">
             <label>Gender</label>
             <>
-              <input
-                type="radio"
-                id="html"
-                name="fav_language"
-                defaultValue="Male"
-                onChange={(e) => setGender(e.target.value)}
-                required
-              />
+              <div style={{ padding: "10px" }}>
+                <input
+                  type="radio"
+                  id="html"
+                  name="fav_language"
+                  defaultValue="Male"
+                  onChange={(e) => setGender(e.target.value)}
+                  required
+                />
+              </div>
               <label htmlFor="html">Male</label>
               <br />
-              <input
-                type="radio"
-                id="css"
-                name="fav_language"
-                defaultValue="Female"
-                onChange={(e) => setGender(e.target.value)}
-                required
-              />
+              <div style={{ padding: "10px" }}>
+                <input
+                  type="radio"
+                  id="css"
+                  name="fav_language"
+                  defaultValue="Female"
+                  onChange={(e) => setGender(e.target.value)}
+                  required
+                />
+              </div>
               <label htmlFor="css">Female</label>
             </>
           </div>
           {errors.gender && (
-              <p className="text" style={{ color: "red" }}>
-                {errors.gender}
-              </p>
-            )}
+            <p className="text" style={{ color: "red" }}>
+              {errors.gender}
+            </p>
+          )}
           <div className="inputfield">
-            <label>Your_Image</label>
+            <label>URL IMAGE</label>
             <form>
               <input
                 type="file"
@@ -266,10 +270,10 @@ const registerDoc = () => {
             </select>
           </div>
           {errors.specializationDoctor && (
-              <p className="text" style={{ color: "red" }}>
-                {errors.specializationDoctor}
-              </p>
-            )}
+            <p className="text" style={{ color: "red" }}>
+              {errors.specializationDoctor}
+            </p>
+          )}
           <div className="inputfield">
             <input
               type="submit"
@@ -279,12 +283,12 @@ const registerDoc = () => {
             />
           </div>
           {status
-              ? console.log("true")
-              : message && (
-                  <p className="invalid-message-reg" style={{ color: "red" }}>
-                    {message}
-                  </p>
-                )}
+            ? console.log("true")
+            : message && (
+                <p className="invalid-message-reg" style={{ color: "red" }}>
+                  {message}
+                </p>
+              )}
           <div className="inputfield">
             <button type="button" className="login-with-google-btn">
               Continue with Google

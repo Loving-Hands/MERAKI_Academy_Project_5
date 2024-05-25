@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import ScrollToTop from "react-scroll-to-top";
 export default function CreateClinicDoctor() {
   const [formData, setFormData] = useState({
     name: "",
@@ -78,154 +78,157 @@ export default function CreateClinicDoctor() {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="container mt-4">
-      <div className="form-group">
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          className="form-control"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Location:</label>
-        <input
-          type="text"
-          name="location"
-          className="form-control"
-          value={formData.location}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Image URL:a</label>
-        <input
-          type="text"
-          name="image_clinic"
-          className="form-control"
-          value={formData.image_clinic}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Description:</label>
-        <input
-          type="text"
-          name="description"
-          className="form-control"
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Long Description:</label>
-        <textarea
-          name="long_description"
-          className="form-control"
-          value={formData.long_description}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Time Open:</label>
-        <input
-          type="time"
-          name="time_open"
-          className="form-control"
-          value={formData.time_open}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Time Close:</label>
-        <input
-          type="time"
-          name="time_close"
-          className="form-control"
-          value={formData.time_close}
-          onChange={handleChange}
-        />
-      </div>
+    <>
+      <form onSubmit={handleSubmit} className="container mt-4">
+        <div className="form-group">
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={formData.name}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Location:</label>
+          <input
+            type="text"
+            name="location"
+            className="form-control"
+            value={formData.location}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Image URL:a</label>
+          <input
+            type="text"
+            name="image_clinic"
+            className="form-control"
+            value={formData.image_clinic}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Description:</label>
+          <input
+            type="text"
+            name="description"
+            className="form-control"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Long Description:</label>
+          <textarea
+            name="long_description"
+            className="form-control"
+            value={formData.long_description}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Time Open:</label>
+          <input
+            type="time"
+            name="time_open"
+            className="form-control"
+            value={formData.time_open}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Time Close:</label>
+          <input
+            type="time"
+            name="time_close"
+            className="form-control"
+            value={formData.time_close}
+            onChange={handleChange}
+          />
+        </div>
 
-      <div className="form-group">
-        <label>Specialization:</label>
-        <select
-          name="specialization"
-          className="form-control"
-          value={formData.specialization}
-          onChange={handleChange}
-        >
-          <option value="">Select Specialization</option>
-          {specializationApi.map((specialization) => (
-            <option key={specialization.id} value={specialization.id}>
-              {specialization.name_specialization}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <label>Open Days:</label>
-        <div className="form-check">
-          <input
-            type="checkbox"
-            name="open_days"
-            value="Sunday"
-            className="form-check-input"
-            checked={formData.open_days.includes("Sunday")}
-            onChange={handleDaysChange}
-          />
-          <label className="form-check-label">Sunday</label>
+        <div className="form-group">
+          <label>Specialization:</label>
+          <select
+            name="specialization"
+            className="form-control"
+            value={formData.specialization}
+            onChange={handleChange}
+          >
+            <option value="">Select Specialization</option>
+            {specializationApi.map((specialization) => (
+              <option key={specialization.id} value={specialization.id}>
+                {specialization.name_specialization}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="form-check">
-          <input
-            type="checkbox"
-            name="open_days"
-            value="Monday"
-            className="form-check-input"
-            checked={formData.open_days.includes("Monday")}
-            onChange={handleDaysChange}
-          />
-          <label className="form-check-label">Monday</label>
+        <div className="form-group d-flex">
+          <label>Open Days:</label>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="open_days"
+              value="Sunday"
+              className="form-check-input"
+              checked={formData.open_days.includes("Sunday")}
+              onChange={handleDaysChange}
+            />
+            <label className="form-check-label">Sunday</label>
+          </div>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="open_days"
+              value="Monday"
+              className="form-check-input"
+              checked={formData.open_days.includes("Monday")}
+              onChange={handleDaysChange}
+            />
+            <label className="form-check-label">Monday</label>
+          </div>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="open_days"
+              value="Tuesday"
+              className="form-check-input"
+              checked={formData.open_days.includes("Tuesday")}
+              onChange={handleDaysChange}
+            />
+            <label className="form-check-label">Tuesday</label>
+          </div>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="open_days"
+              value="Wednesday"
+              className="form-check-input"
+              checked={formData.open_days.includes("Wednesday")}
+              onChange={handleDaysChange}
+            />
+            <label className="form-check-label">Wednesday</label>
+          </div>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="open_days"
+              value="Thursday"
+              className="form-check-input"
+              checked={formData.open_days.includes("Thursday")}
+              onChange={handleDaysChange}
+            />
+            <label className="form-check-label">Thursday</label>
+          </div>
         </div>
-        <div className="form-check">
-          <input
-            type="checkbox"
-            name="open_days"
-            value="Tuesday"
-            className="form-check-input"
-            checked={formData.open_days.includes("Tuesday")}
-            onChange={handleDaysChange}
-          />
-          <label className="form-check-label">Tuesday</label>
-        </div>
-        <div className="form-check">
-          <input
-            type="checkbox"
-            name="open_days"
-            value="Wednesday"
-            className="form-check-input"
-            checked={formData.open_days.includes("Wednesday")}
-            onChange={handleDaysChange}
-          />
-          <label className="form-check-label">Wednesday</label>
-        </div>
-        <div className="form-check">
-          <input
-            type="checkbox"
-            name="open_days"
-            value="Thursday"
-            className="form-check-input"
-            checked={formData.open_days.includes("Thursday")}
-            onChange={handleDaysChange}
-          />
-          <label className="form-check-label">Thursday</label>
-        </div>
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
-    </form>
+        <button type="submit" className="btn btn-primary w-100 m-3">
+          Submit
+        </button>
+      </form>
+      <ScrollToTop smooth />
+    </>
   );
 }

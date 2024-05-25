@@ -12,7 +12,7 @@ body {
   width: 100%;
   background: #fff;
   margin: 50px auto;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
+  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.125);
   padding: 30px;
 }
 
@@ -23,6 +23,7 @@ body {
   background: #1787e0;
   text-transform: uppercase;
   text-align: center;
+  color: #ffffff;
 }
 
 .wrapper .form {
@@ -120,7 +121,7 @@ body {
   outline: none;
 }
 .wrapper .form .inputfield .btn:hover {
-  background: #58ff7f;
+  background: var(--main-color) !important;
 }
 
 .wrapper .form .inputfield:last-child {
@@ -165,7 +166,7 @@ body {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
   }
 }
-.invalid-message{
+.invalid-message {
   display: flex;
   width: 300px;
   margin-left: 80px;
