@@ -7,7 +7,7 @@ import {
   setLogin,
   setUserId,
   setRoleId,
-  setUsername
+  setUsername,
 } from "../../service/redux/reducers/auth/authSlice";
 import { auth, provider } from "../config";
 import { signInWithPopup } from "firebase/auth";
@@ -50,7 +50,7 @@ const login = () => {
         dispatch(setLogin(result.data.token));
         dispatch(setUserId(result.data.userId));
         dispatch(setRoleId(result.data.role_id));
-        dispatch(setUsername(result.data.username))
+        dispatch(setUsername(result.data.username));
       } else throw Error;
     } catch (error) {
       console.log(error);
@@ -111,7 +111,7 @@ const login = () => {
   return (
     <>
       <div className="wrapper">
-        <div className="title">User_Login</div>
+        <div className="title">User Login</div>
         <div className="form" onSubmit={Login}>
           <div className="inputfield">
             <label>Email</label>

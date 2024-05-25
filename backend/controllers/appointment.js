@@ -66,32 +66,48 @@ exports.createAppointmentClinicIdByUserId = (req, res) => {
 };
 
 exports.getAllAppointmentByClinicId = (req, res) => {
-  const { clinicId } = req.params;
+  const { doctorId } = req.token;
+  console.log(doctorId);
+
   pool
-    .query(`SELECT * FROM appointment WHERE clinic_id=${clinicId}`)
+    .query(`SELECT id FROM clinics WHERE doctor_id=$1`, [doctorId])
     .then((result) => {
       if (result.rows.length === 0) {
-        res.status(201).json({
-          success: true,
-          message: `No Appointment For this Clinic`,
-          result: result.rows,
-        });
-      } else {
-        res.status(200).json({
-          success: true,
-          message: `All Appointment for this clinic is`,
-          result: result.rows,
-        });
+        throw new Error("No clinic found for the given doctor ID");
       }
+      const clinicId = result.rows[0].id;
+      return pool.query(
+        `SELECT 
+          appointment.id,
+          appointment.time,
+          appointment.date,
+          appointment.status,
+          appointment.user_id,
+          appointment.clinic_id,
+          users.full_name,
+          users.phone_number,
+          users.email
+        FROM appointment
+        JOIN users ON appointment.user_id = users.id
+        WHERE appointment.clinic_id = $1`,
+        [clinicId]
+      );
     })
-    .catch((err) => {
+    .then((appointmentsResult) => {
+      res.status(200).json({
+        success: true,
+        data: appointmentsResult.rows,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
       res.status(500).json({
         success: false,
-        message: "Internal server error.",
-        error: err.message,
+        message: "An error occurred while retrieving appointments.",
       });
     });
 };
+
 exports.getAppointmentByUserId = (req, res) => {
   const { userId } = req.params;
 

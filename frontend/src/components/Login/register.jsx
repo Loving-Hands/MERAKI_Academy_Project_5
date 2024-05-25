@@ -72,7 +72,7 @@ const Register = () => {
     }
     if (!values.email) {
       errors.email = "Email is Required!";
-    } 
+    }
     // else if (!email_pattern.test(values.email)) {
     //   errors.email = "Email did not match";
     // }
@@ -154,23 +154,30 @@ const Register = () => {
             <div className="inputfield">
               <label>Gender</label>
               <>
-                <input
-                  type="radio"
-                  id="html"
-                  name="fav_language"
-                  defaultValue="Male"
-                  onChange={(e) => setGender(e.target.value)}
-                />
-
-                <label htmlFor="html">Male</label>
-                <input
-                  type="radio"
-                  id="css"
-                  name="fav_language"
-                  defaultValue="Female"
-                  onChange={(e) => setGender(e.target.value)}
-                />
-                <label htmlFor="css">Female</label>
+                <div style={{ padding: "10px" }}>
+                  <input
+                    type="radio"
+                    id="html"
+                    name="fav_language"
+                    defaultValue="Male"
+                    onChange={(e) => setGender(e.target.value)}
+                  />
+                  <label htmlFor="html" style={{ paddingLeft: "5px" }}>
+                    Male
+                  </label>
+                </div>
+                <div style={{ padding: "10px" }}>
+                  <input
+                    type="radio"
+                    id="css"
+                    name="fav_language"
+                    defaultValue="Female"
+                    onChange={(e) => setGender(e.target.value)}
+                  />
+                  <label htmlFor="css" style={{ paddingLeft: "5px" }}>
+                    Female
+                  </label>
+                </div>
               </>
             </div>
             {errors.gender && (
