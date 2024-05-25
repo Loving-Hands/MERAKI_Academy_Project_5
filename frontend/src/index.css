@@ -92,8 +92,13 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  font-family: "Roboto", sans-serif;
-  
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  font-family: "Roboto", sans-serif !important;
+  list-style-type: none !important;
 }
 
 .customFooter {

@@ -90,7 +90,7 @@ const loginDoc = () => {
   return (
     <>
       <div className="wrapper">
-        <div className="title">Doctor_Login</div>
+        <div className="title">Doctor Login</div>
         <div className="form" onSubmit={Login}>
           <div className="inputfield">
             <label>Email</label>

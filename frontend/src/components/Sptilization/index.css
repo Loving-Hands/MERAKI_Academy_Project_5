@@ -58,9 +58,9 @@
   border-radius: 4px;
   color: var(--sup-main-color) !important;
 }
-.customCategory a:hover {
+/* .customCategory a:hover {
   background-color: #fff;
-}
+} */
 .customCategory h3 {
   color: var(--sup-main-color);
   padding: 10px;

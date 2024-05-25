@@ -6,6 +6,7 @@ import { FaUserMd } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import backgroundImage from "./top-clinic.png";
 import { Link } from "react-router-dom";
+import ScrollToTop from "react-scroll-to-top";
 
 export default function SpecializationDetails() {
   const [clinics, setClinics] = useState([]);
@@ -13,7 +14,7 @@ export default function SpecializationDetails() {
   const [clinicCount, setClinicCount] = useState(0);
   const [specializationName, setSpecializationName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const clinicPage = 2;
+  const clinicPage = 5;
 
   useEffect(() => {
     axios
@@ -40,6 +41,7 @@ export default function SpecializationDetails() {
 
   return (
     <>
+      <ScrollToTop smooth />
       <section className="clinic-specialization">
         <div
           className="all-title-box"
@@ -48,16 +50,14 @@ export default function SpecializationDetails() {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                {/* <h2 className="text-center">Clinics {specializationName}</h2> */}
+                <h2 className="text-center">Clinics {specializationName}</h2>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <div className="container d-flex">
-        <h1 className="countClinics">
-          Avaliable Clinics {specializationName} {clinicCount}
-        </h1>
+      <div className="container text-center p-5">
+        <h4 className="countClinics ">Avaliable Clinics ({clinicCount})</h4>
       </div>
       <section className="doctor container">
         {currentClinics.map((clinic, index) => (

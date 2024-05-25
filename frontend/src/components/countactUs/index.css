@@ -35,7 +35,7 @@ input {
 }
 
 .contact-sec {
-  align-item: center;
+  align-items: center;
   display: flex;
   background-color: #5cbde466;
 }
@@ -153,6 +153,9 @@ form.contFrm {
   cursor: pointer;
   width: 100%;
   max-width: 200px;
+}
+.inptBtn:hover {
+  background: var(--main-color);
 }
 
 /* Responcive css Start */

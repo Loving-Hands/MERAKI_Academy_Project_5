@@ -70,6 +70,10 @@ export const router = createBrowserRouter([
         element: <AppointmentInfo />,
       },
       {
+        path: "appointment/doctor/:doctorId",
+        element: <AppointmentInfo />,
+      },
+      {
         path: "adminDashboard",
         element: <AdminDashboard />,
       },
