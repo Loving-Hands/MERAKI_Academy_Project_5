@@ -15,6 +15,7 @@ import AppointmentInfo from "../pages/appointment.jsx";
 import AdminDashboard from "../components/AdminDashboard/admin.jsx";
 import CreateClinic from "../pages/createClinic.jsx";
 import Admin from "../pages/admin.jsx";
+import AboutUs from '../components/about-us/aboutUs.jsx'
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: "loginAdmin",
         element: <Admin />,
+      },
+      {
+        path: "aboutUs",
+        element: <AboutUs />,
       },
     ],
   },

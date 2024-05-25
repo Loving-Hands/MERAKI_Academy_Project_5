@@ -25,3 +25,10 @@
 .collapse {
   text-align: right;
 }
+
+/* .dropdown-menu .customColorNavBtn {
+  color: #ffffff !important;
+}
+.customColorNavBtn:hover {
+  color: var(--main-color);
+} */

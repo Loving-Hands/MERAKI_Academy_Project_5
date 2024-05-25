@@ -105,6 +105,10 @@ body {
   position: relative !important;
   bottom: 0% !important;
 }
+.nav-item .nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+}
 /* .justTest {
   background-color: var(--main-color);
 } */
