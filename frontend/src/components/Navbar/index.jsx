@@ -31,13 +31,11 @@ function Navbar() {
   useEffect(() => {
     switch (roleId) {
       case "1":
+      case "3":
         setFullname(username);
         break;
       case "2":
         setFullname(docName);
-        break;
-      case "3":
-        setFullname(username);
         break;
       default:
         setFullname("");
@@ -71,8 +69,6 @@ function Navbar() {
     navigate(`/user/${id}`);
   };
 
-
-
   const handleAdminClick = () => {
     navigate("/admin");
   };
@@ -81,17 +77,18 @@ function Navbar() {
     navigate("/adminDashboard");
   };
 
-  const handleLogout = () => {
-    dispatch(setLogout());
-    navigate("/");
-
   const handleGoToAppointment = (id) => {
-    if (id == 1) {
+    if (id === "1") {
       navigate(`appointment/user/${id}`);
     } else {
       const doctorId = localStorage.getItem("doctorId");
       navigate(`appointment/doctor/${doctorId}`);
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(setLogout());
+    navigate("/");
   };
 
   return (
@@ -114,7 +111,11 @@ function Navbar() {
                 onChange={handleInputChange}
               />
               <div className="input-group-append">
-                <button className="btn btn-outline-light" type="button" onClick={() => handleSearch(searchQuery)}>
+                <button
+                  className="btn btn-outline-light"
+                  type="button"
+                  onClick={() => handleSearch(searchQuery)}
+                >
                   {t("Search")}
                 </button>
               </div>
@@ -147,17 +148,29 @@ function Navbar() {
                   {roleId === "1" && (
                     <>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleGoToAppointment}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleGoToAppointment(roleId)}
+                        >
                           {t("My Appointments")}
                         </button>
                       </li>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={() => handleSpecializationClick(userId)}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleSpecializationClick(userId)}
+                        >
                           {t("Bayaniati")}
                         </button>
                       </li>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleLogout}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleLogout}
+                        >
                           {t("Logout")}
                         </button>
                       </li>
@@ -166,12 +179,20 @@ function Navbar() {
                   {roleId === "2" && (
                     <>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleAdminClick}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleAdminClick}
+                        >
                           {t("Admin")}
                         </button>
                       </li>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleLogout}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleLogout}
+                        >
                           {t("Logout")}
                         </button>
                       </li>
@@ -180,12 +201,20 @@ function Navbar() {
                   {roleId === "3" && (
                     <>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleAdminDashboardClick}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleAdminDashboardClick}
+                        >
                           {t("Admin Dashboard")}
                         </button>
                       </li>
                       <li>
-                        <button className="dropdown-item" style={{ backgroundColor: "#1787e0", color: "#fff" }} onClick={handleLogout}>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={handleLogout}
+                        >
                           {t("Logout")}
                         </button>
                       </li>
@@ -207,7 +236,11 @@ function Navbar() {
                   >
                     {t("Login")}
                   </NavLink>
-                  <ul className="dropdown-menu" aria-labelledby="loginDropdown" style={{ backgroundColor: "#1787e0", color: "#fff" }}>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="loginDropdown"
+                    style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                  >
                     <li>
                       <NavLink to="login" className="dropdown-item">
                         {t("Login as User")}
@@ -232,7 +265,11 @@ function Navbar() {
                   >
                     {t("Register")}
                   </NavLink>
-                  <ul className="dropdown-menu" aria-labelledby="registerDropdown" style={{ backgroundColor: "#1787e0", color: "#fff" }}>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="registerDropdown"
+                    style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                  >
                     <li>
                       <NavLink to="register" className="dropdown-item">
                         {t("Register as User")}
@@ -278,4 +315,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
