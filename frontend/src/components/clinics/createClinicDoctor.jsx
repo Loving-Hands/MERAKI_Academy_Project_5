@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ScrollToTop from "react-scroll-to-top";
+
 export default function CreateClinicDoctor() {
   const [formData, setFormData] = useState({
     name: "",
@@ -15,6 +16,8 @@ export default function CreateClinicDoctor() {
     specialization: "",
     open_days: [],
   });
+
+  const [imageFile, setImageFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,18 +37,48 @@ export default function CreateClinicDoctor() {
     }
   };
 
-  // form submit
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const uploadImage = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "project_5");
+    data.append("cloud_name", "dobvkevkw");
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dobvkevkw/image/upload",
+        data
+      );
+      console.log(data);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
+  };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { doctorId, token } = useSelector((state) => {
-    return {
-      token: state.doc.token,
-      doctorId: state.doc.doctorId,
-    };
-  });
+  const { doctorId, token } = useSelector((state) => ({
+    token: state.doc.token,
+    doctorId: state.doc.doctorId,
+  }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (imageFile) {
+      const imageUrl = await uploadImage(imageFile);
+      if (imageUrl) {
+        formData.image_clinic = imageUrl;
+      } else {
+        alert("Image upload failed. Please try again.");
+        return;
+      }
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/clinic/create/",
@@ -64,7 +97,6 @@ export default function CreateClinicDoctor() {
     }
   };
 
-  // get specialization
   const [specializationApi, setSpecializationApi] = useState([]);
   useEffect(() => {
     axios
@@ -81,7 +113,7 @@ export default function CreateClinicDoctor() {
     <>
       <form onSubmit={handleSubmit} className="container mt-4">
         <div className="form-group">
-          <label>Name:</label>
+          <label>Name Clinic:</label>
           <input
             type="text"
             name="name"
@@ -101,13 +133,12 @@ export default function CreateClinicDoctor() {
           />
         </div>
         <div className="form-group">
-          <label>Image URL:a</label>
+          <label>Image:</label>
           <input
-            type="text"
+            type="file"
             name="image_clinic"
             className="form-control"
-            value={formData.image_clinic}
-            onChange={handleChange}
+            onChange={handleImageChange}
           />
         </div>
         <div className="form-group">

@@ -88,17 +88,20 @@ export default function Appointment() {
       .catch((error) => console.error("Error canceling appointment:", error));
   };
 
+  const [newImage, setNewImage] = useState();
   const handleDiagnosisChange = (e) => setDiagnosis(e.target.value);
-
-  const saveImage = () => {
+  const handleDiagnosisImage = (e) => {
+    const imageFile = e.target.files[0]; // Access the selected file from the event
     const data = new FormData();
-    data.append("file", file);
+    data.append("file", imageFile); // Use the selected file
     data.append("upload_preset", "project_5");
     data.append("cloud_name", "dobvkevkw");
-
     axios
       .post(`https://api.cloudinary.com/v1_1/dobvkevkw/image/upload`, data)
-      .then((result) => setFile(result.data.url))
+      .then((result) => {
+        setFile(result.data.url);
+        console.log(result.data.url); // Log the uploaded image URL
+      })
       .catch((error) => console.error("Error uploading image:", error));
   };
 
@@ -129,6 +132,7 @@ export default function Appointment() {
       })
       .then((result) => {
         setResultDiagnostics(result.data[0]);
+        console.log(resultDiagnostics);
         notifySuccess();
       })
       .catch((error) => {
@@ -324,14 +328,13 @@ export default function Appointment() {
                                   </Form.Label>
                                   <Form.Control
                                     type="file"
-                                    onChange={(e) => setFile(e.target.files[0])}
+                                    onChange={handleDiagnosisImage}
                                   />
                                 </Form.Group>
                                 <Button
                                   variant="primary"
                                   type="submit"
                                   className="float-end btn-secondary"
-                                  onClick={saveImage}
                                 >
                                   Send
                                 </Button>
