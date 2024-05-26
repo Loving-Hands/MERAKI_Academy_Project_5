@@ -20,6 +20,7 @@ export default function SpecializationDetails() {
     axios
       .get(`http://localhost:5000/clinic/${id}`)
       .then((res) => {
+        console.log(res.data);
         setClinics(res.data);
         setClinicCount(res.data.length);
         if (res.data.length > 0) {
@@ -73,7 +74,7 @@ export default function SpecializationDetails() {
                   <h5 className="card-title fw-bold text-capitalize">
                     <span>Clinic</span> <a href="#">{clinic.name}</a>
                   </h5>
-                  <p className="card-text">Doctor {clinic.doctor_name}</p>
+                  <p className="card-text">Dr. {clinic.doctor_name}</p>
                   <div className="star">
                     <Rating initialValue={clinic.average_rating} />
                   </div>

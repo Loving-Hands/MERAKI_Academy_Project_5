@@ -237,7 +237,7 @@ const registerDoc = () => {
             </p>
           )}
           <div className="inputfield">
-            <label>URL IMAGE</label>
+            <label>Doctor Image</label>
             <form>
               <input
                 type="file"

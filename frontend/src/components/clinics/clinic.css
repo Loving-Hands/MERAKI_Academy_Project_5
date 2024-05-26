@@ -184,6 +184,7 @@ a {
   /* margin: auto; */
   padding: 30px 40px;
   border-radius: 50%;
+  max-height: 150px;
 }
 .info_clinic .card-body {
   display: flex;
@@ -355,7 +356,9 @@ a {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
 }
-
+.uniqueAppointment-main-wrapper img{
+  max-height: 600px;
+}
 .uniqueAppointment-form-wrapper {
   padding: 20px;
   background-color: #fff;

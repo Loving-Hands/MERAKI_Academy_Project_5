@@ -159,21 +159,39 @@ function Navbar() {
           <div className="d-flex align-items-center">
             {isLoggedIn ? (
               <div className="dropdown me-2">
-                <button
-                  className="btn btn-secondary dropdown-toggle text-uppercase"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded={showDropdown}
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  style={{
-                    backgroundColor: "#1787e0",
-                    color: "#fff",
-                    border: "none",
-                  }}
-                >
-                  {fullname}
-                </button>
+                {roleId == "1" ? (
+                  <button
+                    className="btn btn-secondary dropdown-toggle text-uppercase"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded={showDropdown}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    style={{
+                      backgroundColor: "#1787e0",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                  >
+                    {fullname}
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-secondary dropdown-toggle text-uppercase"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded={showDropdown}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    style={{
+                      backgroundColor: "#1787e0",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                  >
+                    Dr.{fullname}
+                  </button>
+                )}
                 <ul
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton"
@@ -212,6 +230,15 @@ function Navbar() {
                   )}
                   {roleId === "2" && (
                     <>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          style={{ backgroundColor: "#1787e0", color: "#fff" }}
+                          onClick={() => handleGoToAppointment(roleId)}
+                        >
+                          Your Clinic Appointment
+                        </button>
+                      </li>
                       <li>
                         <button
                           className="dropdown-item"

@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import backgroundImage from "./top-clinic.png";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollToTop from "react-scroll-to-top";
+import { ToastContainer, toast } from "react-toastify";
+import "../../../node_modules/react-toastify/dist/ReactToastify.css";
 
 export default function InfoClinic() {
   const { id } = useParams();
@@ -31,7 +33,29 @@ export default function InfoClinic() {
   });
 
   const navigate = useNavigate();
+  const notifySuccess = () =>
+    toast.success("Thanks For Rating", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
+  const notifyError = () =>
+    toast.error("You Must Login", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   useEffect(() => {
     axios
       .get(`http://localhost:5000/clinic/info/${id}`)
@@ -39,6 +63,7 @@ export default function InfoClinic() {
         setClinicData(result.data);
         console.log(result.data);
       })
+        
       .catch((error) => {
         console.log(error);
       });
@@ -85,9 +110,14 @@ export default function InfoClinic() {
       })
       .then((result) => {
         console.log("from creating comment", result);
+        notifySuccess();
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
+        notifyError();
       });
   };
 
@@ -114,6 +144,7 @@ export default function InfoClinic() {
   return (
     <>
       <ScrollToTop smooth />
+      <ToastContainer />
       <section className="clinic-specialization">
         <div
           className="all-title-box"
@@ -144,7 +175,7 @@ export default function InfoClinic() {
                   <div className="card-body">
                     <div className="text-section">
                       <h5 className="card-title">
-                        Doctor {clinicData.doctor_name}
+                        Dr. {clinicData.doctor_name}
                       </h5>
                       <p className="card-text">
                         {clinicData.name_specialization}
