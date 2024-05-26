@@ -185,7 +185,7 @@ export default function admin() {
               }}
             >
               <ul className="nav flex-column sidebar-nav">
-                <li className="nav-item">
+                <li className="nav-item" style={{backgroundColor:"rgb(8, 184, 243)"}}>
                   <a className="nav-link active" href="#clinics">
                     <svg
                       className="bi bi-chevron-right"
@@ -202,9 +202,10 @@ export default function admin() {
                       />
                     </svg>
                     Clinics
+                    
                   </a>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item" style={{backgroundColor:"rgb(8, 184, 243)"}}>
                   <a className="nav-link" href="#users">
                     <svg
                       className="bi bi-chevron-right"
@@ -223,7 +224,7 @@ export default function admin() {
                     Users
                   </a>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item" style={{backgroundColor:"rgb(8, 184, 243)"}}>
                   <a className="nav-link" href="#Specialization">
                     <svg
                       className="bi bi-chevron-right"
@@ -371,12 +372,14 @@ export default function admin() {
                   placeholder="Specialization Name"
                   value={newSpecializationName}
                   onChange={(e) => setNewSpecializationName(e.target.value)}
+                  style={{borderRadius:"5px"}}
                 />
                 <input
                   type="text"
                   placeholder="Specialization Image URL"
                   value={newSpecializationImage}
                   onChange={(e) => setNewSpecializationImage(e.target.value)}
+                  style={{borderRadius:"5px"}}
                 />
                 <button
                   type="submit"
@@ -384,6 +387,7 @@ export default function admin() {
                     backgroundColor: "green",
                     padding: "0px",
                     height: "45px",
+                    borderRadius : "5px"
                   }}
                 >
                   Add Specialization
@@ -410,6 +414,7 @@ export default function admin() {
                             onChange={(e) =>
                               setNameSpecialization(e.target.value)
                             }
+                            style={{borderRadius:"5px"}}
                           />
                         ) : (
                           specialization.name_specialization
@@ -423,6 +428,7 @@ export default function admin() {
                             onChange={(e) =>
                               setImageSpecialization(e.target.value)
                             }
+                            style={{borderRadius:"5px"}}
                           />
                         ) : (
                           specialization.image_specialization
